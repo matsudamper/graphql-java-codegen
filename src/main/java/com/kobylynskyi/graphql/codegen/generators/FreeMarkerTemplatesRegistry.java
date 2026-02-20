@@ -52,7 +52,10 @@ class FreeMarkerTemplatesRegistry {
             throws IOException {
         EnumMap<FreeMarkerTemplateType, Template> templates = new EnumMap<>(FreeMarkerTemplateType.class);
         for (FreeMarkerTemplateType templateType : FreeMarkerTemplateType.values()) {
-            templates.put(templateType, configuration.getTemplate(buildTemplatePath(templateType, language)));
+            String templatePath = buildTemplatePath(templateType, language);
+            if (configuration.getTemplateLoader().findTemplateSource(templatePath) != null) {
+                templates.put(templateType, configuration.getTemplate(templatePath));
+            }
         }
         return templates;
     }

@@ -5,6 +5,7 @@ import com.kobylynskyi.graphql.codegen.generators.impl.FieldResolversGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.InputGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.InterfaceGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.JacksonTypeIdResolverGenerator;
+import com.kobylynskyi.graphql.codegen.generators.impl.NullableInputFieldWrapperGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.OperationsGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.ParametrizedInputGenerator;
 import com.kobylynskyi.graphql.codegen.generators.impl.RequestResponseGenerator;
@@ -46,6 +47,7 @@ public class FilesGeneratorsFactory {
         generators.add(new RequestResponseGenerator(context, dataModelMapperFactory));
         generators.add(new OperationsGenerator(context, dataModelMapperFactory));
         generators.add(new JacksonTypeIdResolverGenerator(context));
+        generators.add(new NullableInputFieldWrapperGenerator(context));
         return generators;
     }
 

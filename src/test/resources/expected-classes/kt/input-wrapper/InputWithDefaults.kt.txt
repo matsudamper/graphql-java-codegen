@@ -1,0 +1,22 @@
+/**
+ * This input has all possible types
+ */
+@javax.annotation.Generated(
+    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    date = "2020-12-31T23:59:59-0500"
+)
+data class InputWithDefaults(
+    val floatVal: GraphQlInputField<Double?> = GraphQlInputField.Defined(1.23),
+    val booleanVal: GraphQlInputField<Boolean?> = GraphQlInputField.Defined(false),
+    val intVal: GraphQlInputField<Int?> = GraphQlInputField.Defined(42),
+    val stringVal: GraphQlInputField<String?> = GraphQlInputField.Defined("my-default"),
+    val enumVal: GraphQlInputField<MyEnum?> = GraphQlInputField.Defined(MyEnum.ONE),
+    val nonNullEnumVal: MyEnum = MyEnum.TWO,
+    val objectWithNullDefault: GraphQlInputField<SomeObject?> = GraphQlInputField.Defined(null),
+    val objectWithNonNullDefault: GraphQlInputField<SomeObject?> = GraphQlInputField.Undefined,
+    val intList: List<Int?>? = listOf(1, 2, 3),
+    val intListEmptyDefault: List<Int?>? = emptyList(),
+    val objectListEmptyDefault: List<SomeObject?> = emptyList()
+) {
+
+}

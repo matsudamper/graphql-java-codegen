@@ -1,5 +1,6 @@
 package com.kobylynskyi.graphql.codegen.kotlin;
 
+import com.kobylynskyi.graphql.codegen.generators.impl.NullableInputFieldWrapperGenerator;
 import com.kobylynskyi.graphql.codegen.mapper.DataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.GraphQLTypeMapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
@@ -9,6 +10,7 @@ import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedFieldDefinition
 import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.InputValueDefinition;
+import graphql.language.NullValue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -192,13 +194,38 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     @Override
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                              String parentTypeName) {
-        return getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        String computedTypeName = namedDefinition.getJavaName();
+        if (Boolean.TRUE.equals(mappingContext.getUseWrapperForNullableInputTypes()) &&
+                mappingContext.getInputsName().contains(parentTypeName) &&
+                !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+            String innerType = computedTypeName.endsWith("?") ? computedTypeName : computedTypeName + "?";
+            return getGenericsString(mappingContext, getInputWrapperClass(mappingContext), innerType);
+        }
+        return getTypeConsideringPrimitive(mappingContext, namedDefinition, computedTypeName);
     }
 
     @Override
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
                                                 String parentTypeName) {
+        if (Boolean.TRUE.equals(mappingContext.getUseWrapperForNullableInputTypes()) &&
+                mappingContext.getInputsName().contains(parentTypeName) &&
+                !namedDefinition.isMandatory() && !namedDefinition.getJavaName().startsWith(KOTLIN_UTIL_LIST)) {
+            String wrapperClass = getInputWrapperClass(mappingContext);
+            if (defaultValue == null) {
+                return wrapperClass + ".Undefined";
+            } else if (inputValueDefinition.getDefaultValue() instanceof NullValue) {
+                return wrapperClass + ".Defined(null)";
+            } else {
+                return String.format(wrapperClass + ".Defined(%s)", defaultValue);
+            }
+        }
         return defaultValue;
+    }
+
+    private static String getInputWrapperClass(MappingContext mappingContext) {
+        String pkg = DataModelMapper.getModelPackageName(mappingContext);
+        String className = NullableInputFieldWrapperGenerator.CLASS_NAME_GRAPHQL_INPUT_FIELD;
+        return Utils.isNotBlank(pkg) ? pkg + "." + className : className;
     }
 }
