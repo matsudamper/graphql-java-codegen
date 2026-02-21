@@ -49,3 +49,19 @@ gradlePlugin {
         }
     }
 }
+
+publishing {
+    repositories {
+        def githubPackagesToken = System.getenv("GITHUB_TOKEN")
+        if (githubPackagesToken) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/matsudamper/graphql-java-codegen")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = githubPackagesToken
+                }
+            }
+        }
+    }
+}

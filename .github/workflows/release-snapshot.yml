@@ -29,13 +29,18 @@ jobs:
 
       - name: Compute snapshot version
         run: |
-          VERSION_POSTFIX="-SNAPSHOT-$(date +'%Y%m%d-%H%M%S')"
-          echo "VERSION_POSTFIX=VERSION_POSTFIX" >> "$GITHUB_ENV"
+          echo "VERSION_POSTFIX=-SNAPSHOT-$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_ENV"
 
-      - name: Publish snapshot to GitHub Packages
+      - name: Publish library snapshot to GitHub Packages
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_ACTOR: "${{ github.actor }}"
         run: |
-          ./gradlew publish \
-            -PsnapshotVersion="VERSION_POSTFIX" \
-            --warning-mode all
+          ./gradlew publishToMavenLocal publish --warning-mode all
+
+      - name: Publish Gradle plugin snapshot to GitHub Packages
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          GITHUB_ACTOR: "${{ github.actor }}"
+        run: |
+          ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publish --warning-mode all
