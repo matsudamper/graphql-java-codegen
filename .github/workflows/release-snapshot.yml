@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - main
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -29,7 +30,11 @@ jobs:
 
       - name: Compute snapshot version
         run: |
-          echo "VERSION_POSTFIX=-SNAPSHOT-$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_ENV"
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "VERSION_POSTFIX=-BUILD-$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          else
+            echo "VERSION_POSTFIX=-SNAPSHOT-$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_ENV"
+          fi
 
       - name: Publish library snapshot to GitHub Packages
         env:
