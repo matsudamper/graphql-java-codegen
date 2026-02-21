@@ -707,6 +707,8 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
     }
 
+    @Internal
+    @Override
     public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
         return kotlinNullableInputTypeWrapper;
     }
