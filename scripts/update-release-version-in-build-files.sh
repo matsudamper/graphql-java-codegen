@@ -12,8 +12,6 @@ set_version_in_file() {
 
 set_version_in_file "build.gradle" "def graphqlCodegenVersion = '"
 
-set_version_in_file "plugins/maven/graphql-java-codegen-maven-plugin/pom.xml" "<version.graphql-java-codegen>"
-
 set_version_in_file "plugins/gradle/graphql-java-codegen-gradle-plugin/build.gradle" "def graphqlCodegenGradlePluginVersion = '"
 
 set_version_in_file "plugins/gradle/example-server/build.gradle" "io.github.kobylynskyi.graphql.codegen\" version \""

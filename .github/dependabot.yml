@@ -16,14 +16,6 @@ updates:
     reviewers:
       - "kobylynskyi"
 
-  - package-ecosystem: "maven"
-    directory: "plugins/maven/graphql-java-codegen-maven-plugin/"
-    schedule:
-      interval: "monthly"
-    target-branch: "main"
-    reviewers:
-      - "kobylynskyi"
-
   - package-ecosystem: "gradle"
     directory: "plugins/gradle/example-client/"
     schedule:
@@ -42,22 +34,6 @@ updates:
 
   - package-ecosystem: "gradle"
     directory: "plugins/gradle/example-client-kotlin/"
-    schedule:
-      interval: "monthly"
-    target-branch: "main"
-    reviewers:
-      - "kobylynskyi"
-
-  - package-ecosystem: "maven"
-    directory: "plugins/maven/example-client/"
-    schedule:
-      interval: "monthly"
-    target-branch: "main"
-    reviewers:
-      - "kobylynskyi"
-
-  - package-ecosystem: "maven"
-    directory: "plugins/maven/example-server/"
     schedule:
       interval: "monthly"
     target-branch: "main"
