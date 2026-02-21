@@ -195,7 +195,8 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                              String parentTypeName) {
         KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
-        String computedTypeName = getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        String computedTypeName = getTypeConsideringPrimitive(
+                mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&
                 mappingContext.getInputsName().contains(parentTypeName) &&
                 !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
@@ -212,7 +213,8 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
                                                 String parentTypeName) {
         KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
-        String computedTypeName = getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        String computedTypeName = getTypeConsideringPrimitive(
+                mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&
                 mappingContext.getInputsName().contains(parentTypeName) &&
                 !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
