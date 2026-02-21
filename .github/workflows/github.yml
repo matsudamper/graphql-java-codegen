@@ -39,7 +39,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ivy2/cache
-          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
+          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.gradle*', '**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-ivy-
 
@@ -70,13 +70,6 @@ jobs:
       - name: Build gradle example-client-kotlin
         run: ./gradlew -p plugins/gradle/example-client-kotlin build --warning-mode all
 
-      - name: Build sbt plugin
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt compile publishLocal --debug
-
-      - name: Build sbt test
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt scripted
 
 
   sonar:
@@ -109,7 +102,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ivy2/cache
-          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
+          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.gradle*', '**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-ivy-
 
