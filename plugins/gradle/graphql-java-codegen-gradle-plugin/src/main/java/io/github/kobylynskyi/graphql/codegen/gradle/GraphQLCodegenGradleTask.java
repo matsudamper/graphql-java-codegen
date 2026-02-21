@@ -8,6 +8,7 @@ import com.kobylynskyi.graphql.codegen.model.ApiNamePrefixStrategy;
 import com.kobylynskyi.graphql.codegen.model.ApiRootInterfaceStrategy;
 import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
 import com.kobylynskyi.graphql.codegen.model.GraphQLCodegenConfiguration;
+import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
@@ -89,6 +90,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean useOptionalForNullableReturnTypes = MappingConfigConstants.DEFAULT_USE_OPTIONAL_FOR_NULLABLE_RETURN_TYPES;
     private Boolean useWrapperForNullableInputTypes =
             MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES;
+    private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
     private Boolean generateApisWithThrowsException = MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_THROWS_EXCEPTION;
     private Boolean generateApisWithSuspendFunctions =
             MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_SUSPEND_FUNCTIONS;
@@ -174,6 +176,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         mappingConfig.setGenerateToString(generateToString);
         mappingConfig.setUseOptionalForNullableReturnTypes(useOptionalForNullableReturnTypes);
         mappingConfig.setUseWrapperForNullableInputTypes(useWrapperForNullableInputTypes);
+        mappingConfig.setJavaNullableInputTypeWrapper(javaNullableInputTypeWrapper);
         mappingConfig.setGenerateApisWithThrowsException(generateApisWithThrowsException);
         mappingConfig.setGenerateApisWithSuspendFunctions(generateApisWithSuspendFunctions);
         mappingConfig.setGenerateJacksonTypeIdResolver(generateJacksonTypeIdResolver);
@@ -706,6 +709,16 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     public void setUseWrapperForNullableInputTypes(Boolean useWrapperForNullableInputTypes) {
         this.useWrapperForNullableInputTypes = useWrapperForNullableInputTypes;
+    }
+
+    @Internal
+    @Override
+    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+        return javaNullableInputTypeWrapper;
+    }
+
+    public void setJavaNullableInputTypeWrapper(JavaNullableInputTypeWrapper javaNullableInputTypeWrapper) {
+        this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
     }
 
     @Input

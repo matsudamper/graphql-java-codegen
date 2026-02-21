@@ -100,6 +100,7 @@ class GraphQLCodegenPlugin(configuration: Configuration, private[codegen] val co
     apiInterfaceStrategy                   := MappingConfigConstants.DEFAULT_API_INTERFACE_STRATEGY,
     useOptionalForNullableReturnTypes      := MappingConfigConstants.DEFAULT_USE_OPTIONAL_FOR_NULLABLE_RETURN_TYPES,
     useWrapperForNullableInputTypes        := MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES,
+    javaNullableInputTypeWrapper           := None,
     generateApisWithThrowsException        := MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_THROWS_EXCEPTION,
     addGeneratedAnnotation                 := MappingConfigConstants.DEFAULT_ADD_GENERATED_ANNOTATION,
     generatedAnnotation                    := None,
@@ -192,6 +193,9 @@ class GraphQLCodegenPlugin(configuration: Configuration, private[codegen] val co
     mappingConfig.setApiInterfaceStrategy((GraphQLCodegenConfig / apiInterfaceStrategy).value)
     mappingConfig.setUseOptionalForNullableReturnTypes((GraphQLCodegenConfig / useOptionalForNullableReturnTypes).value)
     mappingConfig.setUseWrapperForNullableInputTypes((GraphQLCodegenConfig / useWrapperForNullableInputTypes).value)
+    mappingConfig.setJavaNullableInputTypeWrapper(
+      (GraphQLCodegenConfig / javaNullableInputTypeWrapper).value.orNull
+    )
     mappingConfig.setGenerateApisWithThrowsException((GraphQLCodegenConfig / generateApisWithThrowsException).value)
     mappingConfig.setAddGeneratedAnnotation((GraphQLCodegenConfig / addGeneratedAnnotation).value)
     mappingConfig.setGeneratedAnnotation((GraphQLCodegenConfig / generatedAnnotation).value.orNull)

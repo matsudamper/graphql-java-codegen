@@ -91,6 +91,10 @@ public class MappingConfigDefaultValuesInitializer {
             mappingConfig.setUseWrapperForNullableInputTypes(
                     MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES);
         }
+        if (mappingConfig.getJavaNullableInputTypeWrapper() == null &&
+                Boolean.TRUE.equals(mappingConfig.getUseWrapperForNullableInputTypes())) {
+            mappingConfig.setJavaNullableInputTypeWrapper(new ArgumentValueJavaNullableInputTypeWrapper());
+        }
         if (mappingConfig.getApiNamePrefixStrategy() == null) {
             mappingConfig.setApiNamePrefixStrategy(MappingConfigConstants.DEFAULT_API_NAME_PREFIX_STRATEGY);
         }

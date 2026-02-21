@@ -135,6 +135,8 @@ trait GraphQLCodegenKeys {
 
   val useWrapperForNullableInputTypes = settingKey[Boolean]("useWrapperForNullableInputTypes")
 
+  val javaNullableInputTypeWrapper = settingKey[Option[JavaNullableInputTypeWrapper]]("javaNullableInputTypeWrapper")
+
   val generateApisWithThrowsException = settingKey[Boolean]("generateApisWithThrowsException")
 
   val graphqlQueryIntrospectionResultPath = settingKey[Option[String]]("graphqlQueryIntrospectionResultPath")

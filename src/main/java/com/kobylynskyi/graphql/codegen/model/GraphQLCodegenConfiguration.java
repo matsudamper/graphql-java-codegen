@@ -372,12 +372,27 @@ public interface GraphQLCodegenConfiguration {
     Boolean getUseOptionalForNullableReturnTypes();
 
     /**
-     * Specifies whether input types of generated input classes should be wrapped into
+     * Legacy compatibility toggle for nullable input wrapper generation.
+     *
+     * <p>When {@code true} and {@link #getJavaNullableInputTypeWrapper()} is not configured,
+     * nullable input types of generated Java input classes are wrapped into
      * <code>ArgumentValue</code>.
      *
-     * @return <b>true</b> if input types should be wrapped into <code>ArgumentValue</code>
+     * @return <b>true</b> if legacy nullable input wrapper compatibility is enabled
      */
     Boolean getUseWrapperForNullableInputTypes();
+
+    /**
+     * Specifies wrapper strategy for nullable parameters on Java input types.
+     *
+     * <p>When configured, this option is used instead of the legacy
+     * {@code useWrapperForNullableInputTypes} toggle.
+     *
+     * @return wrapper strategy for nullable Java input types, or {@code null} if disabled.
+     */
+    default JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+        return null;
+    }
 
     /**
      * Specifies whether client-side classes should be generated for each query, mutation and subscription.

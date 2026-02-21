@@ -8,6 +8,7 @@ import com.kobylynskyi.graphql.codegen.model.ApiNamePrefixStrategy;
 import com.kobylynskyi.graphql.codegen.model.ApiRootInterfaceStrategy;
 import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
 import com.kobylynskyi.graphql.codegen.model.GraphQLCodegenConfiguration;
+import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.RelayConfig;
@@ -156,6 +157,9 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
     @Parameter(defaultValue = MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES_STRING)
     private boolean useWrapperForNullableInputTypes;
 
+    @Parameter
+    private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+
     @Parameter(defaultValue = MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_THROWS_EXCEPTION_STRING)
     private boolean generateApisWithThrowsException;
 
@@ -298,6 +302,7 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
         mappingConfig.setGenerateModelsForRootTypes(generateModelsForRootTypes);
         mappingConfig.setUseOptionalForNullableReturnTypes(useOptionalForNullableReturnTypes);
         mappingConfig.setUseWrapperForNullableInputTypes(useWrapperForNullableInputTypes);
+        mappingConfig.setJavaNullableInputTypeWrapper(javaNullableInputTypeWrapper);
         mappingConfig.setGenerateApisWithThrowsException(generateApisWithThrowsException);
         mappingConfig.setGenerateApisWithSuspendFunctions(generateApisWithSuspendFunctions);
         mappingConfig.setGenerateJacksonTypeIdResolver(generateJacksonTypeIdResolver);
@@ -574,6 +579,11 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
     @Override
     public Boolean getUseWrapperForNullableInputTypes() {
         return useWrapperForNullableInputTypes;
+    }
+
+    @Override
+    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+        return javaNullableInputTypeWrapper;
     }
 
     @Override

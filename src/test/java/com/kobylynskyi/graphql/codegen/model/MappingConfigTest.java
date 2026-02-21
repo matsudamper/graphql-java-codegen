@@ -19,6 +19,49 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SuppressWarnings("unchecked")
 class MappingConfigTest {
 
+    private static final JavaNullableInputTypeWrapper WRAPPER_1 = new TestJavaNullableInputTypeWrapper(
+            "wrapper.Type1", "wrapper.Type1.null()", "wrapper.Type1.undefined()", "wrapper.Type1.value(%s)");
+    private static final JavaNullableInputTypeWrapper WRAPPER_2 = new TestJavaNullableInputTypeWrapper(
+            "wrapper.Type2", "wrapper.Type2.null()", "wrapper.Type2.undefined()", "wrapper.Type2.value(%s)");
+
+    private static class TestJavaNullableInputTypeWrapper implements JavaNullableInputTypeWrapper {
+
+        private final String wrapperClassName;
+        private final String nullValueExpression;
+        private final String undefinedValueExpression;
+        private final String valueExpression;
+
+        private TestJavaNullableInputTypeWrapper(String wrapperClassName,
+                                                 String nullValueExpression,
+                                                 String undefinedValueExpression,
+                                                 String valueExpression) {
+            this.wrapperClassName = wrapperClassName;
+            this.nullValueExpression = nullValueExpression;
+            this.undefinedValueExpression = undefinedValueExpression;
+            this.valueExpression = valueExpression;
+        }
+
+        @Override
+        public String getWrapperClassName() {
+            return wrapperClassName;
+        }
+
+        @Override
+        public String getNullValueExpression() {
+            return nullValueExpression;
+        }
+
+        @Override
+        public String getUndefinedValueExpression() {
+            return undefinedValueExpression;
+        }
+
+        @Override
+        public String getValueExpression(String value) {
+            return String.format(valueExpression, value);
+        }
+    }
+
     private static <T> Map<String, T> hashMap(AbstractMap.SimpleEntry<String, T>... entries) {
         return Arrays.stream(entries).collect(
                 Collectors.toMap(AbstractMap.SimpleEntry::getKey, AbstractMap.SimpleEntry::getValue, (a, b) -> b));
@@ -46,6 +89,7 @@ class MappingConfigTest {
         config.setGenerateParameterizedFieldsResolvers(true);
         config.setGenerateExtensionFieldsResolvers(true);
         config.setUseOptionalForNullableReturnTypes(true);
+        config.setJavaNullableInputTypeWrapper(WRAPPER_1);
         config.setApiInterfaceStrategy(ApiInterfaceStrategy.INTERFACE_PER_OPERATION);
         config.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX);
         config.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.SINGLE_INTERFACE);
@@ -94,6 +138,7 @@ class MappingConfigTest {
         config.setGenerateParameterizedFieldsResolvers(false);
         config.setGenerateExtensionFieldsResolvers(false);
         config.setUseOptionalForNullableReturnTypes(false);
+        config.setJavaNullableInputTypeWrapper(WRAPPER_2);
         config.setApiInterfaceStrategy(ApiInterfaceStrategy.DO_NOT_GENERATE);
         config.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FILE_NAME_AS_PREFIX);
         config.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.DO_NOT_GENERATE);
@@ -173,6 +218,8 @@ class MappingConfigTest {
         assertEquals(expectedMappingConfig.getTypeResolverSuffix(), mappingConfig.getTypeResolverSuffix());
         assertEquals(expectedMappingConfig.getUseOptionalForNullableReturnTypes(),
                 mappingConfig.getUseOptionalForNullableReturnTypes());
+        assertEquals(expectedMappingConfig.getJavaNullableInputTypeWrapper(),
+                mappingConfig.getJavaNullableInputTypeWrapper());
         assertEquals(expectedMappingConfig.getRelayConfig(), mappingConfig.getRelayConfig());
         assertEquals(expectedMappingConfig.getTypesAsInterfaces(), mappingConfig.getTypesAsInterfaces());
         assertEquals(expectedMappingConfig.getResolverArgumentAnnotations(),
@@ -222,6 +269,7 @@ class MappingConfigTest {
         assertTrue(mappingConfig.getGenerateParameterizedFieldsResolvers());
         assertTrue(mappingConfig.getGenerateExtensionFieldsResolvers());
         assertTrue(mappingConfig.getUseOptionalForNullableReturnTypes());
+        assertEquals(WRAPPER_1, mappingConfig.getJavaNullableInputTypeWrapper());
         assertEquals(ApiInterfaceStrategy.INTERFACE_PER_OPERATION, mappingConfig.getApiInterfaceStrategy());
         assertEquals(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX, mappingConfig.getApiNamePrefixStrategy());
         assertEquals(ApiRootInterfaceStrategy.SINGLE_INTERFACE, mappingConfig.getApiRootInterfaceStrategy());
@@ -269,6 +317,7 @@ class MappingConfigTest {
         assertTrue(mappingConfig.getGenerateParameterizedFieldsResolvers());
         assertTrue(mappingConfig.getGenerateExtensionFieldsResolvers());
         assertTrue(mappingConfig.getUseOptionalForNullableReturnTypes());
+        assertEquals(WRAPPER_1, mappingConfig.getJavaNullableInputTypeWrapper());
         assertEquals(ApiInterfaceStrategy.INTERFACE_PER_OPERATION, mappingConfig.getApiInterfaceStrategy());
         assertEquals(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX, mappingConfig.getApiNamePrefixStrategy());
         assertEquals(ApiRootInterfaceStrategy.SINGLE_INTERFACE, mappingConfig.getApiRootInterfaceStrategy());
@@ -322,6 +371,7 @@ class MappingConfigTest {
         assertFalse(mappingConfig.getGenerateParameterizedFieldsResolvers());
         assertFalse(mappingConfig.getGenerateExtensionFieldsResolvers());
         assertFalse(mappingConfig.getUseOptionalForNullableReturnTypes());
+        assertEquals(WRAPPER_2, mappingConfig.getJavaNullableInputTypeWrapper());
         assertEquals(ApiInterfaceStrategy.DO_NOT_GENERATE, mappingConfig.getApiInterfaceStrategy());
         assertEquals(ApiNamePrefixStrategy.FILE_NAME_AS_PREFIX, mappingConfig.getApiNamePrefixStrategy());
         assertEquals(ApiRootInterfaceStrategy.DO_NOT_GENERATE, mappingConfig.getApiRootInterfaceStrategy());
