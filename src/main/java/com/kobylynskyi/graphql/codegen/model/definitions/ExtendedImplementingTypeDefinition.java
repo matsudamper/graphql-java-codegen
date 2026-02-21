@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class ExtendedImplementingTypeDefinition<T extends ImplementingTypeDefinition<T>, E extends T>
         extends ExtendedDefinition<T, E> {
 
-    @SuppressWarnings({"rawtypes", "java:S3740"})
+    @SuppressWarnings("rawtypes")
     public List<Type> getImplements() {
         List<Type> definitionImplements = new ArrayList<>();
         if (definition != null) {

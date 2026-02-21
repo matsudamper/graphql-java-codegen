@@ -4,7 +4,7 @@ package com.kobylynskyi.graphql.codegen.model.graphql;
  * Possible types of GraphQL errors
  * Copied from graphql-java library
  */
-@SuppressWarnings({"java:S115"})
+@SuppressWarnings("checkstyle:TypeName")
 public enum GraphQLErrorType {
     InvalidSyntax,
     ValidationError,

@@ -138,7 +138,7 @@ public class ValueMapper {
         throw new IllegalArgumentException("Unexpected Enum value for list type");
     }
 
-    @SuppressWarnings({"rawtypes", "java:S3740"})
+    @SuppressWarnings("rawtypes")
     private String mapArray(MappingContext mappingContext, ArrayValue value, Type<?> graphQLType,
                             String formatter) {
         if (graphQLType == null || graphQLType instanceof ListType) {
