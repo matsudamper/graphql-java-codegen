@@ -1,7 +1,6 @@
 plugins {
     id "java"
     id "idea"
-    id "ivy-publish"
     id "jacoco"
     id "java-library"
     id "signing"
@@ -118,17 +117,6 @@ publishing {
                 }
             }
         }
-        ivy(IvyPublication) {
-            from components.java
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
-            }
-        }
     }
     repositories {
         maven {
@@ -136,14 +124,6 @@ publishing {
             credentials {
                 username sonatypeUsername
                 password sonatypePassword
-            }
-        }
-        ivy {
-            url "${System.properties['user.home']}/.ivy2/local"
-            patternLayout {
-                artifact '[organisation]/[module]/[revision]/[ext]s/[artifact](-[classifier])(.[ext])'
-                // for ci and local, must publish to ivy2 local
-                ivy '[organisation]/[module]/[revision]/[type]s/[artifact](.[ext])'
             }
         }
     }
