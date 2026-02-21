@@ -10,9 +10,10 @@ plugins {
 }
 
 def graphqlCodegenVersion = '5.10.1-SNAPSHOT' // This variable used in the automatic release process
+def snapshotVersion = findProperty('snapshotVersion')
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenVersion
+version = snapshotVersion ?: graphqlCodegenVersion
 
 repositories {
     mavenCentral()
@@ -41,6 +42,12 @@ task codeCoverageReport(type: JacocoReport) {
         html.required = false
         csv.required = false
         xml.destination = file("${buildDir}/reports/jacoco/report.xml")
+    }
+}
+
+tasks.register('printVersion') {
+    doLast {
+        println(project.version)
     }
 }
 
@@ -137,6 +144,16 @@ publishing {
             credentials {
                 username sonatypeUsername
                 password sonatypePassword
+            }
+        }
+        if (project.hasProperty("gpr.user") && project.hasProperty("gpr.key")) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/kobylynskyi/graphql-java-codegen")
+                credentials {
+                    username = project.findProperty("gpr.user")
+                    password = project.findProperty("gpr.key")
+                }
             }
         }
         ivy {
