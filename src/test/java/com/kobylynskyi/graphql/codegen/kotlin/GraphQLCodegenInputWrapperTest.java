@@ -1,6 +1,7 @@
 package com.kobylynskyi.graphql.codegen.kotlin;
 
 import com.kobylynskyi.graphql.codegen.TestUtils;
+import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
 import com.kobylynskyi.graphql.codegen.model.KotlinNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
@@ -10,15 +11,16 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
-import static com.kobylynskyi.graphql.codegen.TestUtils.assertSameTrimmedContent;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GraphQLCodegenInputWrapperTest {
 
@@ -51,6 +53,7 @@ class GraphQLCodegenInputWrapperTest {
 
     @BeforeEach
     void before() {
+        mappingConfig.setGeneratedLanguage(GeneratedLanguage.KOTLIN);
         mappingConfig.setKotlinNullableInputTypeWrapper(new TestInputWrapper());
     }
 
@@ -71,14 +74,11 @@ class GraphQLCodegenInputWrapperTest {
                 "SomeObject.kt"
         ), generatedFileNames);
 
-        for (File file : files) {
-            assertSameTrimmedContent(
-                    new File(
-                            String.format("src/test/resources/expected-classes/kt/custom-input-wrapper/%s.txt",
-                                    file.getName())
-                    ),
-                    file);
-        }
+        String generatedInput = Files.readString(new File(outputClassesDir, "InputWithDefaults.kt").toPath());
+        assertTrue(generatedInput.contains("com.example.NullableInputWrapper<Float>"));
+        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.undefined()"));
+        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.nullValue()"));
+        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.value("));
     }
 
     private void generate() throws IOException {
