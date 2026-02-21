@@ -7,10 +7,10 @@ plugins {
     id "io.github.kobylynskyi.graphql.codegen" version "5.10.1-SNAPSHOT"
 }
 
-def graphqlCodegenClientKotlinVersion = '5.10.1-SNAPSHOT' // Variable used in the automatic release process
+def graphqlCodegenClientKotlinVersion = '5.10.1' // Variable used in the automatic release process
 
 group = 'io.github.dreamylost'
-version = graphqlCodegenClientKotlinVersion
+version = graphqlCodegenClientKotlinVersion + System.getenv("VERSION_POSTFIX") ?: ""
 
 sourceSets {
     main.kotlin.srcDirs += "$buildDir/generated-server"

@@ -8,10 +8,10 @@ plugins {
     id "org.sonarqube" version "4.0.0.2929"
 }
 
-def graphqlCodegenVersion = '5.10.1-SNAPSHOT' // This variable used in the automatic release process
+def graphqlCodegenVersion = '5.10.1' // This variable used in the automatic release process
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenVersion
+version = graphqlCodegenVersion + System.getenv("VERSION_POSTFIX") ?: ""
 
 repositories {
     mavenCentral()
@@ -119,10 +119,11 @@ publishing {
     }
     repositories {
         maven {
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
+            name = "GitHubPackages"
+            url = uri("https://maven.pkg.github.com/matsudamper/graphql-java-codegen")
             credentials {
-                username sonatypeUsername
-                password sonatypePassword
+                username = "matsudamper"
+                password = System.getenv("GITHUB_TOKEN")
             }
         }
     }
