@@ -15,11 +15,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static com.kobylynskyi.graphql.codegen.TestUtils.assertSameTrimmedContent;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GraphQLCodegenInputWrapperTest {
 
@@ -73,12 +73,14 @@ class GraphQLCodegenInputWrapperTest {
                 "SomeObject.kt"
         ), generatedFileNames);
 
-        String generatedInput = Utils.getFileContent(
-                new File(outputClassesDir, "InputWithDefaults.kt").getPath());
-        assertTrue(generatedInput.contains("com.example.NullableInputWrapper<Double>"));
-        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.undefined()"));
-        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.nullValue()"));
-        assertTrue(generatedInput.contains("com.example.NullableInputWrapper.value("));
+        for (File file : files) {
+            assertSameTrimmedContent(
+                    new File(
+                            String.format("src/test/resources/expected-classes/kt/custom-input-wrapper/%s.txt",
+                                    file.getName())
+                    ),
+                    file);
+        }
     }
 
     private void generate() throws IOException {
