@@ -16,9 +16,10 @@ apply plugin: "idea"
 apply plugin: "maven-publish"
 
 def graphqlCodegenGradlePluginVersion = '5.10.1' // This variable used in the automatic release process
+def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenGradlePluginVersion + System.getenv("VERSION_POSTFIX") ?: ""
+version = graphqlCodegenGradlePluginVersion + versionPostfix
 description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {

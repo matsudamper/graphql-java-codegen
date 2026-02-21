@@ -8,9 +8,10 @@ plugins {
 }
 
 def graphqlCodegenClientKotlinVersion = '5.10.1' // Variable used in the automatic release process
+def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
 group = 'io.github.dreamylost'
-version = graphqlCodegenClientKotlinVersion + System.getenv("VERSION_POSTFIX") ?: ""
+version = graphqlCodegenClientKotlinVersion + versionPostfix
 
 sourceSets {
     main.kotlin.srcDirs += "$buildDir/generated-server"

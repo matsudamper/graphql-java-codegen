@@ -9,9 +9,10 @@ plugins {
 }
 
 def graphqlCodegenVersion = '5.10.1' // This variable used in the automatic release process
+def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenVersion + System.getenv("VERSION_POSTFIX") ?: ""
+version = graphqlCodegenVersion + versionPostfix
 
 repositories {
     mavenCentral()
