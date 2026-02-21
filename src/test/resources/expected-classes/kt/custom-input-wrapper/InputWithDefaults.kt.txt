@@ -6,96 +6,17 @@
     date = "2020-12-31T23:59:59-0500"
 )
 data class InputWithDefaults(
-    var floatVal: com.example.NullableInputWrapper<Double> = com.example.NullableInputWrapper.value(1.23),
-    var booleanVal: com.example.NullableInputWrapper<Boolean> = com.example.NullableInputWrapper.value(false),
-    var intVal: com.example.NullableInputWrapper<Int> = com.example.NullableInputWrapper.value(42),
-    var stringVal: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.value("my-default"),
-    var enumVal: com.example.NullableInputWrapper<MyEnum> = com.example.NullableInputWrapper.value(MyEnum.ONE),
-    var nonNullEnumVal: MyEnum = MyEnum.TWO,
-    var objectWithNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.nullValue(),
-    var objectWithNonNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.undefined(),
-    var intList: List<Int?>? = listOf(1, 2, 3),
-    var intListEmptyDefault: List<Int?>? = listOf(),
-    var objectListEmptyDefault: List<SomeObject?> = listOf()
+    val floatVal: com.example.NullableInputWrapper<Double> = com.example.NullableInputWrapper.value(1.23),
+    val booleanVal: com.example.NullableInputWrapper<Boolean> = com.example.NullableInputWrapper.value(false),
+    val intVal: com.example.NullableInputWrapper<Int> = com.example.NullableInputWrapper.value(42),
+    val stringVal: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.value("my-default"),
+    val enumVal: com.example.NullableInputWrapper<MyEnum> = com.example.NullableInputWrapper.value(MyEnum.ONE),
+    val nonNullEnumVal: MyEnum = MyEnum.TWO,
+    val objectWithNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.nullValue(),
+    val objectWithNonNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.undefined(),
+    val intList: List<Int?>? = listOf(1, 2, 3),
+    val intListEmptyDefault: List<Int?>? = emptyList(),
+    val objectListEmptyDefault: List<SomeObject?> = emptyList()
 ) {
 
-    companion object {
-        @JvmStatic fun builder(): Builder = Builder()
-    }
-
-    class Builder {
-
-        private var floatVal: com.example.NullableInputWrapper<Double> = com.example.NullableInputWrapper.value(1.23)
-        private var booleanVal: com.example.NullableInputWrapper<Boolean> = com.example.NullableInputWrapper.value(false)
-        private var intVal: com.example.NullableInputWrapper<Int> = com.example.NullableInputWrapper.value(42)
-        private var stringVal: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.value("my-default")
-        private var enumVal: com.example.NullableInputWrapper<MyEnum> = com.example.NullableInputWrapper.value(MyEnum.ONE)
-        private var nonNullEnumVal: MyEnum = MyEnum.TWO
-        private var objectWithNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.nullValue()
-        private var objectWithNonNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.undefined()
-        private var intList: List<Int?>? = listOf(1, 2, 3)
-        private var intListEmptyDefault: List<Int?>? = listOf()
-        private var objectListEmptyDefault: List<SomeObject?> = listOf()
-
-        fun setFloatVal(floatVal: com.example.NullableInputWrapper<Double>): Builder {
-            this.floatVal = floatVal
-            return this
-        }
-
-        fun setBooleanVal(booleanVal: com.example.NullableInputWrapper<Boolean>): Builder {
-            this.booleanVal = booleanVal
-            return this
-        }
-
-        fun setIntVal(intVal: com.example.NullableInputWrapper<Int>): Builder {
-            this.intVal = intVal
-            return this
-        }
-
-        fun setStringVal(stringVal: com.example.NullableInputWrapper<String>): Builder {
-            this.stringVal = stringVal
-            return this
-        }
-
-        fun setEnumVal(enumVal: com.example.NullableInputWrapper<MyEnum>): Builder {
-            this.enumVal = enumVal
-            return this
-        }
-
-        fun setNonNullEnumVal(nonNullEnumVal: MyEnum): Builder {
-            this.nonNullEnumVal = nonNullEnumVal
-            return this
-        }
-
-        fun setObjectWithNullDefault(objectWithNullDefault: com.example.NullableInputWrapper<SomeObject>): Builder {
-            this.objectWithNullDefault = objectWithNullDefault
-            return this
-        }
-
-        fun setObjectWithNonNullDefault(objectWithNonNullDefault: com.example.NullableInputWrapper<SomeObject>): Builder {
-            this.objectWithNonNullDefault = objectWithNonNullDefault
-            return this
-        }
-
-        fun setIntList(intList: List<Int?>?): Builder {
-            this.intList = intList
-            return this
-        }
-
-        fun setIntListEmptyDefault(intListEmptyDefault: List<Int?>?): Builder {
-            this.intListEmptyDefault = intListEmptyDefault
-            return this
-        }
-
-        fun setObjectListEmptyDefault(objectListEmptyDefault: List<SomeObject?>): Builder {
-            this.objectListEmptyDefault = objectListEmptyDefault
-            return this
-        }
-
-        fun build(): InputWithDefaults {
-            return InputWithDefaults(floatVal, booleanVal, intVal, stringVal, enumVal, nonNullEnumVal,
-                    objectWithNullDefault, objectWithNonNullDefault, intList, intListEmptyDefault,
-                    objectListEmptyDefault)
-        }
-    }
 }
