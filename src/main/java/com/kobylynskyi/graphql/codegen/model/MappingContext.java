@@ -264,6 +264,11 @@ public class MappingContext implements GraphQLCodegenConfiguration {
     }
 
     @Override
+    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+        return config.getJavaNullableInputTypeWrapper();
+    }
+
+    @Override
     public Set<String> getFieldsWithResolvers() {
         return config.getFieldsWithResolvers();
     }

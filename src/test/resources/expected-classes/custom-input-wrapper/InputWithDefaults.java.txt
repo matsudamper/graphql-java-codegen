@@ -1,0 +1,208 @@
+/**
+ * This input has all possible types
+ */
+@javax.annotation.Generated(
+    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    date = "2020-12-31T23:59:59-0500"
+)
+public class InputWithDefaults implements java.io.Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private com.example.NullableInputWrapper<Double> floatVal = com.example.NullableInputWrapper.value(1.23);
+    private com.example.NullableInputWrapper<Boolean> booleanVal = com.example.NullableInputWrapper.value(false);
+    private com.example.NullableInputWrapper<Integer> intVal = com.example.NullableInputWrapper.value(42);
+    private com.example.NullableInputWrapper<String> stringVal = com.example.NullableInputWrapper.value("my-default");
+    private com.example.NullableInputWrapper<MyEnum> enumVal = com.example.NullableInputWrapper.value(MyEnum.ONE);
+    @javax.validation.constraints.NotNull
+    private MyEnum nonNullEnumVal = MyEnum.TWO;
+    private com.example.NullableInputWrapper<SomeObject> objectWithNullDefault = com.example.NullableInputWrapper.nullValue();
+    private com.example.NullableInputWrapper<SomeObject> objectWithNonNullDefault = com.example.NullableInputWrapper.undefined();
+    private java.util.List<Integer> intList = java.util.Arrays.asList(1, 2, 3);
+    private java.util.List<Integer> intListEmptyDefault = java.util.Collections.emptyList();
+    @javax.validation.constraints.NotNull
+    private java.util.List<SomeObject> objectListEmptyDefault = java.util.Collections.emptyList();
+
+    public InputWithDefaults() {
+    }
+
+    public InputWithDefaults(com.example.NullableInputWrapper<Double> floatVal, com.example.NullableInputWrapper<Boolean> booleanVal, com.example.NullableInputWrapper<Integer> intVal, com.example.NullableInputWrapper<String> stringVal, com.example.NullableInputWrapper<MyEnum> enumVal, MyEnum nonNullEnumVal, com.example.NullableInputWrapper<SomeObject> objectWithNullDefault, com.example.NullableInputWrapper<SomeObject> objectWithNonNullDefault, java.util.List<Integer> intList, java.util.List<Integer> intListEmptyDefault, java.util.List<SomeObject> objectListEmptyDefault) {
+        this.floatVal = floatVal;
+        this.booleanVal = booleanVal;
+        this.intVal = intVal;
+        this.stringVal = stringVal;
+        this.enumVal = enumVal;
+        this.nonNullEnumVal = nonNullEnumVal;
+        this.objectWithNullDefault = objectWithNullDefault;
+        this.objectWithNonNullDefault = objectWithNonNullDefault;
+        this.intList = intList;
+        this.intListEmptyDefault = intListEmptyDefault;
+        this.objectListEmptyDefault = objectListEmptyDefault;
+    }
+
+    public com.example.NullableInputWrapper<Double> getFloatVal() {
+        return floatVal;
+    }
+    public void setFloatVal(com.example.NullableInputWrapper<Double> floatVal) {
+        this.floatVal = floatVal;
+    }
+
+    public com.example.NullableInputWrapper<Boolean> getBooleanVal() {
+        return booleanVal;
+    }
+    public void setBooleanVal(com.example.NullableInputWrapper<Boolean> booleanVal) {
+        this.booleanVal = booleanVal;
+    }
+
+    public com.example.NullableInputWrapper<Integer> getIntVal() {
+        return intVal;
+    }
+    public void setIntVal(com.example.NullableInputWrapper<Integer> intVal) {
+        this.intVal = intVal;
+    }
+
+    public com.example.NullableInputWrapper<String> getStringVal() {
+        return stringVal;
+    }
+    public void setStringVal(com.example.NullableInputWrapper<String> stringVal) {
+        this.stringVal = stringVal;
+    }
+
+    public com.example.NullableInputWrapper<MyEnum> getEnumVal() {
+        return enumVal;
+    }
+    public void setEnumVal(com.example.NullableInputWrapper<MyEnum> enumVal) {
+        this.enumVal = enumVal;
+    }
+
+    public MyEnum getNonNullEnumVal() {
+        return nonNullEnumVal;
+    }
+    public void setNonNullEnumVal(MyEnum nonNullEnumVal) {
+        this.nonNullEnumVal = nonNullEnumVal;
+    }
+
+    public com.example.NullableInputWrapper<SomeObject> getObjectWithNullDefault() {
+        return objectWithNullDefault;
+    }
+    public void setObjectWithNullDefault(com.example.NullableInputWrapper<SomeObject> objectWithNullDefault) {
+        this.objectWithNullDefault = objectWithNullDefault;
+    }
+
+    public com.example.NullableInputWrapper<SomeObject> getObjectWithNonNullDefault() {
+        return objectWithNonNullDefault;
+    }
+    public void setObjectWithNonNullDefault(com.example.NullableInputWrapper<SomeObject> objectWithNonNullDefault) {
+        this.objectWithNonNullDefault = objectWithNonNullDefault;
+    }
+
+    public java.util.List<Integer> getIntList() {
+        return intList;
+    }
+    public void setIntList(java.util.List<Integer> intList) {
+        this.intList = intList;
+    }
+
+    public java.util.List<Integer> getIntListEmptyDefault() {
+        return intListEmptyDefault;
+    }
+    public void setIntListEmptyDefault(java.util.List<Integer> intListEmptyDefault) {
+        this.intListEmptyDefault = intListEmptyDefault;
+    }
+
+    public java.util.List<SomeObject> getObjectListEmptyDefault() {
+        return objectListEmptyDefault;
+    }
+    public void setObjectListEmptyDefault(java.util.List<SomeObject> objectListEmptyDefault) {
+        this.objectListEmptyDefault = objectListEmptyDefault;
+    }
+
+
+
+    public static InputWithDefaults.Builder builder() {
+        return new InputWithDefaults.Builder();
+    }
+
+    @javax.annotation.Generated(
+        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        date = "2020-12-31T23:59:59-0500"
+    )
+    public static class Builder {
+
+        private com.example.NullableInputWrapper<Double> floatVal = com.example.NullableInputWrapper.value(1.23);
+        private com.example.NullableInputWrapper<Boolean> booleanVal = com.example.NullableInputWrapper.value(false);
+        private com.example.NullableInputWrapper<Integer> intVal = com.example.NullableInputWrapper.value(42);
+        private com.example.NullableInputWrapper<String> stringVal = com.example.NullableInputWrapper.value("my-default");
+        private com.example.NullableInputWrapper<MyEnum> enumVal = com.example.NullableInputWrapper.value(MyEnum.ONE);
+        private MyEnum nonNullEnumVal = MyEnum.TWO;
+        private com.example.NullableInputWrapper<SomeObject> objectWithNullDefault = com.example.NullableInputWrapper.nullValue();
+        private com.example.NullableInputWrapper<SomeObject> objectWithNonNullDefault = com.example.NullableInputWrapper.undefined();
+        private java.util.List<Integer> intList = java.util.Arrays.asList(1, 2, 3);
+        private java.util.List<Integer> intListEmptyDefault = java.util.Collections.emptyList();
+        private java.util.List<SomeObject> objectListEmptyDefault = java.util.Collections.emptyList();
+
+        public Builder() {
+        }
+
+        public Builder setFloatVal(com.example.NullableInputWrapper<Double> floatVal) {
+            this.floatVal = floatVal;
+            return this;
+        }
+
+        public Builder setBooleanVal(com.example.NullableInputWrapper<Boolean> booleanVal) {
+            this.booleanVal = booleanVal;
+            return this;
+        }
+
+        public Builder setIntVal(com.example.NullableInputWrapper<Integer> intVal) {
+            this.intVal = intVal;
+            return this;
+        }
+
+        public Builder setStringVal(com.example.NullableInputWrapper<String> stringVal) {
+            this.stringVal = stringVal;
+            return this;
+        }
+
+        public Builder setEnumVal(com.example.NullableInputWrapper<MyEnum> enumVal) {
+            this.enumVal = enumVal;
+            return this;
+        }
+
+        public Builder setNonNullEnumVal(MyEnum nonNullEnumVal) {
+            this.nonNullEnumVal = nonNullEnumVal;
+            return this;
+        }
+
+        public Builder setObjectWithNullDefault(com.example.NullableInputWrapper<SomeObject> objectWithNullDefault) {
+            this.objectWithNullDefault = objectWithNullDefault;
+            return this;
+        }
+
+        public Builder setObjectWithNonNullDefault(com.example.NullableInputWrapper<SomeObject> objectWithNonNullDefault) {
+            this.objectWithNonNullDefault = objectWithNonNullDefault;
+            return this;
+        }
+
+        public Builder setIntList(java.util.List<Integer> intList) {
+            this.intList = intList;
+            return this;
+        }
+
+        public Builder setIntListEmptyDefault(java.util.List<Integer> intListEmptyDefault) {
+            this.intListEmptyDefault = intListEmptyDefault;
+            return this;
+        }
+
+        public Builder setObjectListEmptyDefault(java.util.List<SomeObject> objectListEmptyDefault) {
+            this.objectListEmptyDefault = objectListEmptyDefault;
+            return this;
+        }
+
+
+        public InputWithDefaults build() {
+            return new InputWithDefaults(floatVal, booleanVal, intVal, stringVal, enumVal, nonNullEnumVal, objectWithNullDefault, objectWithNonNullDefault, intList, intListEmptyDefault, objectListEmptyDefault);
+        }
+
+    }
+}

@@ -1,6 +1,7 @@
 package com.kobylynskyi.graphql.codegen;
 
 import com.kobylynskyi.graphql.codegen.java.JavaGraphQLCodegen;
+import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
@@ -22,6 +23,29 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @ExtendWith(MaxQueryTokensExtension.class)
 class GraphQLCodegenInputWrapperTest {
+
+    private static class TestInputWrapper implements JavaNullableInputTypeWrapper {
+
+        @Override
+        public String getWrapperClassName() {
+            return "com.example.NullableInputWrapper";
+        }
+
+        @Override
+        public String getNullValueExpression() {
+            return "com.example.NullableInputWrapper.nullValue()";
+        }
+
+        @Override
+        public String getUndefinedValueExpression() {
+            return "com.example.NullableInputWrapper.undefined()";
+        }
+
+        @Override
+        public String getValueExpression(String value) {
+            return "com.example.NullableInputWrapper.value(" + value + ")";
+        }
+    }
 
     private final File outputBuildDir = new File("build/generated");
     private final File outputJavaClassesDir = new File("build/generated");
@@ -56,9 +80,31 @@ class GraphQLCodegenInputWrapperTest {
         }
     }
 
+    @Test
+    void generate_CheckFiles_CustomWrapperWhenLegacyFlagDisabled() throws Exception {
+        mappingConfig.setUseWrapperForNullableInputTypes(false);
+        mappingConfig.setJavaNullableInputTypeWrapper(new TestInputWrapper());
+        generate();
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(asList(
+                "InputWithDefaults.java",
+                "MyEnum.java",
+                "SomeObject.java"
+        ), generatedFileNames);
+
+        for (File file : files) {
+            assertSameTrimmedContent(
+                    new File(
+                            String.format("src/test/resources/expected-classes/custom-input-wrapper/%s.txt",
+                                    file.getName())
+                    ),
+                    file);
+        }
+    }
+
     private void generate() throws IOException {
         new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper.graphqls"),
                 outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
     }
-
 }
