@@ -533,7 +533,7 @@ public interface GraphQLCodegenConfiguration {
     /**
      * Generate code with lang
      *
-     * @return GeneratedLanguage.SCALA or GeneratedLanguage.JAVA
+     * @return Generated language, for example GeneratedLanguage.JAVA
      */
     GeneratedLanguage getGeneratedLanguage();
 

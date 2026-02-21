@@ -32,7 +32,6 @@ class FreeMarkerTemplatesRegistry {
         try {
             configuration = buildFreeMarkerTemplateConfiguration();
             templateMap.put(GeneratedLanguage.JAVA, getTemplates(configuration, GeneratedLanguage.JAVA));
-            templateMap.put(GeneratedLanguage.SCALA, getTemplates(configuration, GeneratedLanguage.SCALA));
             templateMap.put(GeneratedLanguage.KOTLIN, getTemplates(configuration, GeneratedLanguage.KOTLIN));
         } catch (IOException e) {
             throw new UnableToLoadFreeMarkerTemplateException(e);

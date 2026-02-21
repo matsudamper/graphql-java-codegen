@@ -11,7 +11,6 @@ import java.util.stream.Collectors;
 
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.ANNOTATIONS;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.ENUM_IMPORT_IT_SELF_IN_SCALA;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.FIELDS;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.GENERATED_ANNOTATION;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.GENERATED_INFO;
@@ -61,7 +60,6 @@ public class InterfaceDefinitionToDataModelMapper {
                 .mapFields(mappingContext, definition.getFieldDefinitions(), definition));
         dataModel.put(GENERATED_ANNOTATION, mappingContext.getAddGeneratedAnnotation());
         dataModel.put(GENERATED_INFO, mappingContext.getGeneratedInformation());
-        dataModel.put(ENUM_IMPORT_IT_SELF_IN_SCALA, mappingContext.getEnumImportItSelfInScala());
         dataModel.put(IMMUTABLE_MODELS, mappingContext.getGenerateImmutableModels());
         dataModel.put(PARENT_INTERFACE_PROPERTIES, mappingContext.getParentInterfaceProperties());
         dataModel.put(GENERATE_SEALED_INTERFACES, mappingContext.isGenerateSealedInterfaces());

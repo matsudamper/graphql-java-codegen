@@ -1,7 +1,6 @@
 plugins {
     id "java"
     id "idea"
-    id "ivy-publish"
     id "jacoco"
     id "java-library"
     id "signing"
@@ -9,10 +8,11 @@ plugins {
     id "org.sonarqube" version "4.0.0.2929"
 }
 
-def graphqlCodegenVersion = '5.10.1-SNAPSHOT' // This variable used in the automatic release process
+def graphqlCodegenVersion = '5.10.1' // This variable used in the automatic release process
+def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenVersion
+version = graphqlCodegenVersion + versionPostfix
 
 repositories {
     mavenCentral()
@@ -22,7 +22,6 @@ dependencies {
     compileOnly "org.freemarker:freemarker:2.3.32"
     compileOnly "com.graphql-java:graphql-java:20.2"
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.15.3"
-    compileOnly "com.typesafe:config:1.4.3"
 
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.2"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.10.2"
@@ -89,62 +88,46 @@ publishing {
             pom {
                 name = "GraphQL Java CodeGen"
                 description = "Java Code Generator based on GraphQL schema"
-                url = "https://github.com/kobylynskyi/graphql-java-codegen"
+                url = "https://github.com/matsudamper/graphql-java-codegen"
                 organization {
                     name = "io.github.kobylynskyi"
-                    url = "https://github.com/kobylynskyi"
+                    url = "https://github.com/matsudamper"
                 }
                 issueManagement {
                     system = "GitHub"
-                    url = "https://github.com/kobylynskyi/graphql-java-codegen/issues"
+                    url = "https://github.com/matsudamper/graphql-java-codegen/issues"
                 }
                 licenses {
                     license {
                         name = "MIT License"
-                        url = "https://github.com/kobylynskyi/graphql-java-codegen/blob/main/LICENSE"
+                        url = "https://github.com/matsudamper/graphql-java-codegen/blob/main/LICENSE"
                         distribution = "repo"
                     }
                 }
                 scm {
-                    url = "https://github.com/kobylynskyi/graphql-java-codegen"
-                    connection = "scm:git:git://github.com/kobylynskyi/graphql-java-codegen.git"
-                    developerConnection = "scm:git:ssh://git@github.com:kobylynskyi/graphql-java-codegen.git"
+                    url = "https://github.com/matsudamper/graphql-java-codegen"
+                    connection = "scm:git:git://github.com/matsudamper/graphql-java-codegen.git"
+                    developerConnection = "scm:git:ssh://git@github.com:matsudamper/graphql-java-codegen.git"
                 }
                 developers {
                     developer {
-                        id = "kobylynskyi"
-                        name = "Bogdan Kobylynskyi"
-                        email = "92bogdan@gmail.com"
+                        id = "matsudamper"
+                        name = "matsudamper"
                     }
-                }
-            }
-        }
-        ivy(IvyPublication) {
-            from components.java
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
                 }
             }
         }
     }
     repositories {
-        maven {
-            url "https://oss.sonatype.org/service/local/staging/deploy/maven2"
-            credentials {
-                username sonatypeUsername
-                password sonatypePassword
-            }
-        }
-        ivy {
-            url "${System.properties['user.home']}/.ivy2/local"
-            patternLayout {
-                artifact '[organisation]/[module]/[revision]/[ext]s/[artifact](-[classifier])(.[ext])'
-                // for ci and local, must publish to ivy2 local, can be used for sbt plugin
-                ivy '[organisation]/[module]/[revision]/[type]s/[artifact](.[ext])'
+        def githubPackagesToken = System.getenv("GITHUB_TOKEN")
+        if (githubPackagesToken) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/matsudamper/graphql-java-codegen")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR") ?: "matsudamper"
+                    password = githubPackagesToken
+                }
             }
         }
     }

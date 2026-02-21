@@ -15,7 +15,6 @@ import graphql.language.StringValue;
 public class DeprecatedDefinitionBuilder {
 
     private static final String REASON = "reason";
-    private static final String SCALA_ANNOTATION = "deprecated";
     private static final String JAVA_ANNOTATION = "Deprecated";
     private static final String KOTLIN_ANNOTATION = "Deprecated";
 
@@ -51,8 +50,6 @@ public class DeprecatedDefinitionBuilder {
         switch (generatedLanguage) {
             case KOTLIN:
                 return new DeprecatedDefinition(KOTLIN_ANNOTATION, getMessage(directive));
-            case SCALA:
-                return new DeprecatedDefinition(SCALA_ANNOTATION, getMessage(directive));
             case JAVA:
             default:
                 return new DeprecatedDefinition(JAVA_ANNOTATION); // message is ignored

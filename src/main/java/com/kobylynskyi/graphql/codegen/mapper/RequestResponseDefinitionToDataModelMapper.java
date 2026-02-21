@@ -23,7 +23,6 @@ import static com.kobylynskyi.graphql.codegen.model.DataModelFields.ANNOTATIONS;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.BUILDER;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.CLASS_NAME;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.DEPRECATED;
-import static com.kobylynskyi.graphql.codegen.model.DataModelFields.ENUM_IMPORT_IT_SELF_IN_SCALA;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.EQUALS_AND_HASH_CODE;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.FIELDS;
 import static com.kobylynskyi.graphql.codegen.model.DataModelFields.GENERATED_ANNOTATION;
@@ -154,7 +153,6 @@ public class RequestResponseDefinitionToDataModelMapper {
         dataModel.put(EQUALS_AND_HASH_CODE, mappingContext.getGenerateEqualsAndHashCode());
         dataModel.put(GENERATED_ANNOTATION, mappingContext.getAddGeneratedAnnotation());
         dataModel.put(GENERATED_INFO, mappingContext.getGeneratedInformation());
-        dataModel.put(ENUM_IMPORT_IT_SELF_IN_SCALA, mappingContext.getEnumImportItSelfInScala());
         dataModel.put(GENERATE_NOARGS_CONSTRUCTOR_ONLY, mappingContext.isGenerateNoArgsConstructorOnly());
         // dataModel.put(TO_STRING, mappingConfig.getGenerateToString()); always generated for serialization purposes
         return dataModel;
@@ -225,7 +223,6 @@ public class RequestResponseDefinitionToDataModelMapper {
         dataModel.put(TO_STRING_FOR_REQUEST, mappingContext.getGenerateClient());
         dataModel.put(GENERATED_ANNOTATION, mappingContext.getAddGeneratedAnnotation());
         dataModel.put(GENERATED_INFO, mappingContext.getGeneratedInformation());
-        dataModel.put(ENUM_IMPORT_IT_SELF_IN_SCALA, mappingContext.getEnumImportItSelfInScala());
         return dataModel;
     }
 

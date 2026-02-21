@@ -12,9 +12,6 @@ import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
-import com.kobylynskyi.graphql.codegen.scala.ScalaGraphQLCodegen;
-import com.kobylynskyi.graphql.codegen.supplier.MappingConfigSupplier;
-import com.kobylynskyi.graphql.codegen.supplier.MergeableMappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
 import graphql.parser.ParserOptions;
 import org.gradle.api.Action;
@@ -41,7 +38,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * Gradle task for GraphQL code generation
@@ -119,7 +115,6 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Set<String> useObjectMapperForRequestSerialization = new HashSet<>();
 
     private final ParentInterfacesConfig parentInterfaces = new ParentInterfacesConfig();
-    private List<String> configurationFiles;
     private GeneratedLanguage generatedLanguage = MappingConfigConstants.DEFAULT_GENERATED_LANGUAGE;
     private Boolean generateModelOpenClasses = MappingConfigConstants.DEFAULT_GENERATE_MODEL_OPEN_CLASSES;
     private Boolean initializeNullableTypes = MappingConfigConstants.DEFAULT_INITIALIZE_NULLABLE_TYPES;
@@ -238,10 +233,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     }
 
     private GraphQLCodegen instantiateCodegen(MappingConfig mappingConfig) throws IOException {
-        java.util.Optional<MappingConfigSupplier> mappingConfigSupplier = buildJsonSupplier();
-        GeneratedLanguage language = mappingConfigSupplier.map(Supplier::get)
-                .map(MappingConfig::getGeneratedLanguage)
-                .orElse(generatedLanguage);
+        GeneratedLanguage language = generatedLanguage;
 
         if (skipSchemaSizeLimit) {
             ParserOptions.Builder parserOptionBuilder = ParserOptions.newParserOptions()
@@ -254,13 +246,10 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         switch (language) {
             case JAVA:
                 return new JavaGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
-            case SCALA:
-                return new ScalaGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
+                        outputDir, mappingConfig, null);
             case KOTLIN:
                 return new KotlinGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
+                        outputDir, mappingConfig, null);
             default:
                 throw new LanguageNotSupportedException(language);
         }
@@ -312,12 +301,6 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
                 .map(File::toPath);
     }
 
-    private java.util.Optional<MappingConfigSupplier> buildJsonSupplier() {
-        if (configurationFiles != null && !configurationFiles.isEmpty()) {
-            return java.util.Optional.of(new MergeableMappingConfigSupplier(configurationFiles));
-        }
-        return java.util.Optional.empty();
-    }
 
     @InputFiles
     @Optional
@@ -1008,15 +991,6 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         return parentInterfaces.getResolver();
     }
 
-    @InputFiles
-    @Optional
-    public List<String> getConfigurationFiles() {
-        return configurationFiles;
-    }
-
-    public void setConfigurationFiles(List<String> configurationFiles) {
-        this.configurationFiles = configurationFiles;
-    }
 
     @Input
     @Optional

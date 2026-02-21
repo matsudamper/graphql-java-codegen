@@ -42,8 +42,6 @@ Following classes can be generated based on your GraphQL schema:
 ## Supported plugins
 
 * Gradle plugin: [graphql-java-codegen-gradle-plugin](plugins/gradle)
-* Maven plugin: [grapqhl-java-codegen-maven-plugin](plugins/maven) 
-* SBT plugin: [grapqhl-java-codegen-sbt-plugin](plugins/sbt) 
 
 
 ## Contributing

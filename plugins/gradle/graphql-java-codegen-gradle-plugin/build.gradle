@@ -15,10 +15,11 @@ apply plugin: "java"
 apply plugin: "idea"
 apply plugin: "maven-publish"
 
-def graphqlCodegenGradlePluginVersion = '5.10.1-SNAPSHOT' // This variable used in the automatic release process
+def graphqlCodegenGradlePluginVersion = '5.10.1' // This variable used in the automatic release process
+def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
 group = "io.github.kobylynskyi"
-version = graphqlCodegenGradlePluginVersion
+version = graphqlCodegenGradlePluginVersion + versionPostfix
 description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {
@@ -36,8 +37,8 @@ dependencies {
 }
 
 gradlePlugin {
-    website = 'https://github.com/kobylynskyi/graphql-java-codegen/tree/main/plugins/gradle/graphql-java-codegen-gradle-plugin'
-    vcsUrl = 'https://github.com/kobylynskyi/graphql-java-codegen'
+    website = 'https://github.com/matsudamper/graphql-java-codegen/tree/main/plugins/gradle/graphql-java-codegen-gradle-plugin'
+    vcsUrl = 'https://github.com/matsudamper/graphql-java-codegen'
     plugins {
         graphqlCodegen {
             id = 'io.github.kobylynskyi.graphql.codegen'
@@ -45,6 +46,22 @@ gradlePlugin {
             description = 'Gradle plugin for GraphQL Java code generation'
             implementationClass = 'io.github.kobylynskyi.graphql.codegen.gradle.GraphQLCodegenGradlePlugin'
             tags.set(['graphql', 'graphql-java', 'graphql-java-codegen', 'graphql-codegen'])
+        }
+    }
+}
+
+publishing {
+    repositories {
+        def githubPackagesToken = System.getenv("GITHUB_TOKEN")
+        if (githubPackagesToken) {
+            maven {
+                name = "GitHubPackages"
+                url = uri("https://maven.pkg.github.com/matsudamper/graphql-java-codegen")
+                credentials {
+                    username = System.getenv("GITHUB_ACTOR")
+                    password = githubPackagesToken
+                }
+            }
         }
     }
 }
