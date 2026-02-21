@@ -7,8 +7,6 @@ public enum GeneratedLanguage {
 
     JAVA(".java"),
 
-    SCALA(".scala"),
-
     KOTLIN(".kt");
 
     private final String fileExtension;

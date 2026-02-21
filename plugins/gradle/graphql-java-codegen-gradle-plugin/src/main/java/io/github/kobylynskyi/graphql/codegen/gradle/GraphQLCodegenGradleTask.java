@@ -11,7 +11,6 @@ import com.kobylynskyi.graphql.codegen.model.GraphQLCodegenConfiguration;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
-import com.kobylynskyi.graphql.codegen.scala.ScalaGraphQLCodegen;
 import com.kobylynskyi.graphql.codegen.supplier.MappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.MergeableMappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
@@ -251,9 +250,6 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         switch (language) {
             case JAVA:
                 return new JavaGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
-            case SCALA:
-                return new ScalaGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,
                         outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
             case KOTLIN:
                 return new KotlinGraphQLCodegen(getActualSchemaPaths(), graphqlQueryIntrospectionResultPath,

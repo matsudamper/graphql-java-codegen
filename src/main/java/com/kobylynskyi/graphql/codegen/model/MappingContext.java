@@ -35,7 +35,6 @@ public class MappingContext implements GraphQLCodegenConfiguration {
     private final Map<String, Set<String>> interfaceChildren;
     private final GeneratedInformation generatedInformation;
     private final DataModelMapperFactory dataModelMapperFactory;
-    private Set<String> enumImportItSelfInScala;
     private Map<String, Set<String>> parentInterfaceProperties;
     private Set<String> fieldNamesWithResolvers;
 
@@ -420,27 +419,16 @@ public class MappingContext implements GraphQLCodegenConfiguration {
         return outputDirectory;
     }
 
-    public Set<String> getEnumImportItSelfInScala() {
-        // Only for scala
-        if (GeneratedLanguage.SCALA.equals(this.config.getGeneratedLanguage()) && enumImportItSelfInScala == null) {
-            enumImportItSelfInScala = this.document.getEnumDefinitions().stream()
-                    .map(this::getModelClassNameWithPrefixAndSuffix)
-                    .collect(Collectors.toSet());
-        }
-        return enumImportItSelfInScala;
-    }
-
     /**
      * Get a list of fields for each interface
-     * This method is used only for Scala and Kotlin
+     * This method is used only for Kotlin
      *
      * @return a map of interface name to a list of fields
      */
     public Map<String, Set<String>> getParentInterfaceProperties() {
         // In this way, we no longer need to rely on the order in which files are created
-        // Only for scala/kotlin
-        if ((GeneratedLanguage.SCALA.equals(this.config.getGeneratedLanguage()) ||
-             GeneratedLanguage.KOTLIN.equals(this.config.getGeneratedLanguage())) &&
+        // Only for kotlin
+        if (GeneratedLanguage.KOTLIN.equals(this.config.getGeneratedLanguage()) &&
             parentInterfaceProperties == null) {
             parentInterfaceProperties = new HashMap<>();
             for (ExtendedInterfaceTypeDefinition interfaceDef : this.document.getInterfaceDefinitions()) {

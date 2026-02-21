@@ -12,7 +12,6 @@ import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.RelayConfig;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
-import com.kobylynskyi.graphql.codegen.scala.ScalaGraphQLCodegen;
 import com.kobylynskyi.graphql.codegen.supplier.MappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.MergeableMappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
@@ -367,9 +366,6 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
         switch (language) {
             case JAVA:
                 return new JavaGraphQLCodegen(getSchemas(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
-            case SCALA:
-                return new ScalaGraphQLCodegen(getSchemas(), graphqlQueryIntrospectionResultPath,
                         outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
             case KOTLIN:
                 return new KotlinGraphQLCodegen(getSchemas(), graphqlQueryIntrospectionResultPath,
