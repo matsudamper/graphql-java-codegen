@@ -75,7 +75,7 @@ class GraphQLCodegenInputWrapperTest {
 
         String generatedInput = Utils.getFileContent(
                 new File(outputClassesDir, "InputWithDefaults.kt").getPath());
-        assertTrue(generatedInput.contains("com.example.NullableInputWrapper<Float>"));
+        assertTrue(generatedInput.contains("com.example.NullableInputWrapper<Double>"));
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper.undefined()"));
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper.nullValue()"));
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper.value("));
