@@ -11,7 +11,6 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
@@ -74,7 +73,8 @@ class GraphQLCodegenInputWrapperTest {
                 "SomeObject.kt"
         ), generatedFileNames);
 
-        String generatedInput = Files.readString(new File(outputClassesDir, "InputWithDefaults.kt").toPath());
+        String generatedInput = Utils.getFileContent(
+                new File(outputClassesDir, "InputWithDefaults.kt").getPath());
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper<Float>"));
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper.undefined()"));
         assertTrue(generatedInput.contains("com.example.NullableInputWrapper.nullValue()"));
