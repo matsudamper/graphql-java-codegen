@@ -40,10 +40,10 @@ public abstract class GraphQLResponseProjection {
         }
     }
 
-    @SuppressWarnings({"checkstyle:MethodName", "java:S100"})
+    @SuppressWarnings("checkstyle:MethodName")
     public abstract GraphQLResponseProjection deepCopy$();
 
-    @SuppressWarnings({"checkstyle:MethodName", "java:S100", "java:S3824"})
+    @SuppressWarnings("checkstyle:MethodName")
     protected void add$(GraphQLResponseField responseField) {
         Pair<String, String> nameAndAlias = new Pair<>(responseField.getName(), responseField.getAlias());
         GraphQLResponseField existingResponseField = fields.get(nameAndAlias);

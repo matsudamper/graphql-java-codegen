@@ -154,7 +154,6 @@ public class GraphQLRequestSerializer {
      *                        otherwise use toString
      * @return serialized object
      */
-    @SuppressWarnings("java:S1872")
     public static String getEntry(Object input, boolean useObjectMapper) {
         if (input == null) {
             return null;

@@ -6,10 +6,6 @@
 [![Discussions](https://img.shields.io/badge/github-discussions-green)](https://github.com/kobylynskyi/graphql-java-codegen/discussions)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
-[![Sonarcloud Status](https://sonarcloud.io/api/project_badges/measure?project=kobylynskyi_graphql-java-codegen&metric=alert_status)](https://sonarcloud.io/dashboard?id=kobylynskyi_graphql-java-codegen) 
-[![SonarCloud Coverage](https://sonarcloud.io/api/project_badges/measure?project=kobylynskyi_graphql-java-codegen&metric=coverage)](https://sonarcloud.io/component_measures/metric/coverage/list?id=kobylynskyi_graphql-java-codegen)
-[![SonarCloud Bugs](https://sonarcloud.io/api/project_badges/measure?project=kobylynskyi_graphql-java-codegen&metric=bugs)](https://sonarcloud.io/component_measures/metric/reliability_rating/list?id=kobylynskyi_graphql-java-codegen)
-[![SonarCloud Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=kobylynskyi_graphql-java-codegen&metric=vulnerabilities)](https://sonarcloud.io/component_measures/metric/security_rating/list?id=kobylynskyi_graphql-java-codegen)
 
 
 GraphQL Java Codegen makes it easy to make your Java application to follow a schema-first approach whether it is a server or client application.
