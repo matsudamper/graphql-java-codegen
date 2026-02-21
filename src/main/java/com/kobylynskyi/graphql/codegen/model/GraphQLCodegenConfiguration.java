@@ -395,6 +395,17 @@ public interface GraphQLCodegenConfiguration {
     }
 
     /**
+     * Specifies wrapper strategy for nullable parameters on Kotlin input types.
+     *
+     * <p>When configured, this option is used for Kotlin generated input models.
+     *
+     * @return wrapper strategy for nullable Kotlin input types, or {@code null} if disabled.
+     */
+    default KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+        return null;
+    }
+
+    /**
      * Specifies whether client-side classes should be generated for each query, mutation and subscription.
      * This includes: `Request` class (contains input data) and `ResponseProjection` class (contains response fields).
      *

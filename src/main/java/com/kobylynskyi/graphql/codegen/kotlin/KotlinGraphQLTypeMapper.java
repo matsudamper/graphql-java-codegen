@@ -2,6 +2,7 @@ package com.kobylynskyi.graphql.codegen.kotlin;
 
 import com.kobylynskyi.graphql.codegen.mapper.DataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.GraphQLTypeMapper;
+import com.kobylynskyi.graphql.codegen.model.KotlinNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.MappingContext;
 import com.kobylynskyi.graphql.codegen.model.NamedDefinition;
@@ -9,6 +10,7 @@ import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedFieldDefinition
 import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import graphql.language.InputValueDefinition;
+import graphql.language.NullValue;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -192,13 +194,36 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     @Override
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                              String parentTypeName) {
-        return getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
+        String computedTypeName = getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        if (wrapper != null &&
+                mappingContext.getInputsName().contains(parentTypeName) &&
+                !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+            String nullableType = computedTypeName.endsWith(KOTLIN_UTIL_NULLABLE)
+                    ? computedTypeName.substring(0, computedTypeName.length() - 1)
+                    : computedTypeName;
+            return getGenericsString(mappingContext, wrapper.getWrapperClassName(), nullableType);
+        }
+        return computedTypeName;
     }
 
     @Override
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
                                                 String parentTypeName) {
+        KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
+        String computedTypeName = getTypeConsideringPrimitive(mappingContext, namedDefinition, namedDefinition.getJavaName());
+        if (wrapper != null &&
+                mappingContext.getInputsName().contains(parentTypeName) &&
+                !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+            if (defaultValue == null) {
+                return wrapper.getUndefinedValueExpression();
+            } else if (inputValueDefinition.getDefaultValue() instanceof NullValue) {
+                return wrapper.getNullValueExpression();
+            } else {
+                return wrapper.getValueExpression(defaultValue);
+            }
+        }
         return defaultValue;
     }
 }

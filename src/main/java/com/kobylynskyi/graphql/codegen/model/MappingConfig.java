@@ -54,6 +54,7 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     private Boolean useOptionalForNullableReturnTypes;
     private Boolean useWrapperForNullableInputTypes;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+    private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
     private Boolean generateApisWithThrowsException;
     private Boolean generateApisWithSuspendFunctions;
     private Boolean addGeneratedAnnotation;
@@ -174,6 +175,8 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
                 GraphQLCodegenConfiguration::getUseWrapperForNullableInputTypes);
         javaNullableInputTypeWrapper = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getJavaNullableInputTypeWrapper);
+        kotlinNullableInputTypeWrapper = getValueOrDefaultToThis(source,
+                GraphQLCodegenConfiguration::getKotlinNullableInputTypeWrapper);
         generateApisWithThrowsException = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getGenerateApisWithThrowsException);
         generateApisWithSuspendFunctions = getValueOrDefaultToThis(source,
@@ -607,6 +610,15 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
 
     public void setJavaNullableInputTypeWrapper(JavaNullableInputTypeWrapper javaNullableInputTypeWrapper) {
         this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
+    }
+
+    @Override
+    public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+        return kotlinNullableInputTypeWrapper;
+    }
+
+    public void setKotlinNullableInputTypeWrapper(KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper) {
+        this.kotlinNullableInputTypeWrapper = kotlinNullableInputTypeWrapper;
     }
 
     @Override
