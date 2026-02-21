@@ -1,0 +1,22 @@
+/**
+ * This input has all possible types
+ */
+@javax.annotation.Generated(
+    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    date = "2020-12-31T23:59:59-0500"
+)
+data class InputWithDefaults(
+    val floatVal: com.example.NullableInputWrapper<Double> = com.example.NullableInputWrapper.value(1.23),
+    val booleanVal: com.example.NullableInputWrapper<Boolean> = com.example.NullableInputWrapper.value(false),
+    val intVal: com.example.NullableInputWrapper<Int> = com.example.NullableInputWrapper.value(42),
+    val stringVal: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.value("my-default"),
+    val enumVal: com.example.NullableInputWrapper<MyEnum> = com.example.NullableInputWrapper.value(MyEnum.ONE),
+    val nonNullEnumVal: MyEnum = MyEnum.TWO,
+    val objectWithNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.nullValue(),
+    val objectWithNonNullDefault: com.example.NullableInputWrapper<SomeObject> = com.example.NullableInputWrapper.undefined(),
+    val intList: List<Int?>? = listOf(1, 2, 3),
+    val intListEmptyDefault: List<Int?>? = emptyList(),
+    val objectListEmptyDefault: List<SomeObject?> = emptyList()
+) {
+
+}
