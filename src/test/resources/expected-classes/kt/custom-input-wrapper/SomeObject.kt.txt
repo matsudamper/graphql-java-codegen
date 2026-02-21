@@ -3,31 +3,8 @@
     date = "2020-12-31T23:59:59-0500"
 )
 data class SomeObject(
-    var name: String,
-    var description: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.undefined()
+    val name: String,
+    val description: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.undefined()
 ) {
 
-    companion object {
-        @JvmStatic fun builder(): Builder = Builder()
-    }
-
-    class Builder {
-
-        private lateinit var name: String
-        private var description: com.example.NullableInputWrapper<String> = com.example.NullableInputWrapper.undefined()
-
-        fun setName(name: String): Builder {
-            this.name = name
-            return this
-        }
-
-        fun setDescription(description: com.example.NullableInputWrapper<String>): Builder {
-            this.description = description
-            return this
-        }
-
-        fun build(): SomeObject {
-            return SomeObject(name, description)
-        }
-    }
 }
