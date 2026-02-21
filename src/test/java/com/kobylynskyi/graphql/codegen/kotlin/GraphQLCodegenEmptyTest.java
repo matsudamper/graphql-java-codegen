@@ -4,7 +4,6 @@ import com.kobylynskyi.graphql.codegen.TestUtils;
 import com.kobylynskyi.graphql.codegen.java.JavaGraphQLCodegen;
 import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
-import com.kobylynskyi.graphql.codegen.scala.ScalaGraphQLCodegen;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
@@ -44,7 +43,7 @@ class GraphQLCodegenEmptyTest {
 
     @Test
     void generateServerSideClasses() throws Exception {
-        new ScalaGraphQLCodegen(schemaFinder.findSchemas(), outputBuildDir, mappingConfig,
+        new KotlinGraphQLCodegen(schemaFinder.findSchemas(), outputBuildDir, mappingConfig,
                 TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
 
         File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());

@@ -23,10 +23,6 @@ on:
         description: 'Publish Maven Plugin'
         default: 'Y'
         required: true
-      publish_sbt_plugin:
-        description: 'Publish SBT Plugin'
-        default: 'Y'
-        required: true
 
 jobs:
   release:
@@ -58,7 +54,7 @@ jobs:
         uses: actions/cache@v4
         with:
           path: ~/.ivy2/cache
-          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.sbt') }}
+          key: ${{ runner.os }}-ivy-${{ hashFiles('**/*.gradle*', '**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-ivy-
 
@@ -139,15 +135,6 @@ jobs:
         if: github.event.inputs.publish_gradle_plugin == 'Y'
         run: ./gradlew -p plugins/gradle/example-client-kotlin build --warning-mode all
 
-      - name: Build sbt plugin
-        if: github.event.inputs.publish_sbt_plugin == 'Y'
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt compile publishLocal --debug
-
-      - name: Build sbt test
-        if: github.event.inputs.publish_sbt_plugin == 'Y'
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt scripted
 
       #
       # BUILD OF RELEASE VERSION COMPLETED
@@ -202,15 +189,6 @@ jobs:
           SONATYPE_USER: ${{ secrets.OSSRH_USERNAME }}
           SONATYPE_PASSWORD: ${{ secrets.OSSRH_PASSWORD }}
 
-      - name: Release SBT plugin
-        if: github.event.inputs.publish_sbt_plugin == 'Y'
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt ci-release
-        env:
-          PGP_PASSPHRASE: ${{ secrets.PGP_PASSPHRASE }}
-          PGP_SECRET: ${{ secrets.PGP_SECRET }}
-          SONATYPE_PASSWORD: ${{ secrets.SONATYPE_PASSWORD }}
-          SONATYPE_USERNAME: ${{ secrets.SONATYPE_USERNAME }}
 
       #
       # PUBLISH OF RELEASE VERSION COMPLETED

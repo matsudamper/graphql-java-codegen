@@ -14,12 +14,6 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
-      # brew install sbt; cd graphql-java-codegen-sbt-plugin; sbt fmt or sbt check
-      - name: Check Scala Code Style
-        working-directory: plugins/sbt/graphql-java-codegen-sbt-plugin
-        run: sbt check 
-        
       - name: Check Code Style
         env:
           WORKDIR: ./

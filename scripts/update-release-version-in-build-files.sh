@@ -25,16 +25,9 @@ set_version_in_file "plugins/gradle/example-client-kotlin/build.gradle" "id \"io
 set_version_in_file "plugins/gradle/example-client-kotlin/build.gradle" "def graphqlCodegenClientKotlinVersion = '"
 set_version_in_file "plugins/gradle/example-client-kotlin/build.gradle" "implementation \"io.github.kobylynskyi:graphql-java-codegen:"
 
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/version.sbt" "version in ThisBuild := \""
 
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/example-client/version.sbt" "version in ThisBuild := \""
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/example-client/project/plugins.sbt" "graphql-codegen-sbt-plugin\" % \""
 
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/example-client-scala/version.sbt" "version in ThisBuild := \""
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/example-client-scala/project/plugins.sbt" "graphql-codegen-sbt-plugin\" % \""
 
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/simple/version.sbt" "version in ThisBuild := \""
-set_version_in_file "plugins/sbt/graphql-java-codegen-sbt-plugin/src/sbt-test/graphql-codegen-sbt-plugin/simple/project/plugins.sbt" "plugin.version\").orElse(Some(\""
 
 # Exit clean
 exit 0
