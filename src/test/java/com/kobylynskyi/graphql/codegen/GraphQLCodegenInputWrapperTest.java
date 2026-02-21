@@ -94,8 +94,11 @@ class GraphQLCodegenInputWrapperTest {
         ), generatedFileNames);
 
         for (File file : files) {
-            assertSameTrimmedContent(new File(
-                            String.format("src/test/resources/expected-classes/custom-input-wrapper/%s.txt", file.getName())),
+            assertSameTrimmedContent(
+                    new File(
+                            String.format("src/test/resources/expected-classes/custom-input-wrapper/%s.txt",
+                                    file.getName())
+                    ),
                     file);
         }
     }
@@ -104,5 +107,4 @@ class GraphQLCodegenInputWrapperTest {
         new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper.graphqls"),
                 outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
     }
-
 }
