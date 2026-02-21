@@ -6,7 +6,6 @@
 |                   `graphqlSchemas`                    |           *See<br>[graphqlSchemas](#option-graphqlschemas)*           |     All<br>`.graphqls`/`.graphql`<br>files in<br>resources     | Block to define the input GraphQL schemas, when exact paths are too cumbersome. See table below for a list of options. *See [graphqlSchemas](#option-graphqlschemas)*                                                                                                                                                                                                          |
 |      `graphqlQueryIntrospectionResu`<br>`ltPath`      |                                String                                 |                              None                              | Path to GraphQL Introspection Query result in json format (with root object `__schema` or `data.__schema`). Sample: [sample-introspection-query-result.json](../src/test/resources/introspection-result/sample-introspection-query-result.json)                                                                                                                                |
 |                      `outputDir`                      |                                String                                 |                              None                              | The output target directory into which code will be generated.                                                                                                                                                                                                                                                                                                                 |
-|                 `configurationFiles`                  |                             List(String)                              |                             Empty                              | Paths to the files with mapping configurations. Supported formats. JSON, HOCON. Order of specified configuration files matters, so the default configuration should be placed at the end.                                                                                                                                                                                      |
 |                     `packageName`                     |                                String                                 |                             Empty                              | Java package for generated classes.                                                                                                                                                                                                                                                                                                                                            |
 |                   `apiPackageName`                    |                                String                                 |                             Empty                              | Java package for generated api classes (Query, Mutation, Subscription).                                                                                                                                                                                                                                                                                                        |
 |                  `modelPackageName`                   |                                String                                 |                             Empty                              | Java package for generated model classes (type, input, interface, enum, union).                                                                                                                                                                                                                                                                                                |
@@ -197,49 +196,4 @@ will result in generating the interface with the following method:
 
 ```
 graphql.relay.Connection<User> users(Integer first, String after) throws Exception;
-```
-
-### External mapping configuration
-
-Provide a path to external file via property `configurationFiles`
-Sample content of the file:
-
-JSON:
-
-```json
-{
-  "generateApis": true,
-  "packageName": "com.kobylynskyi.graphql.testconfigjson",
-  "customTypesMapping": {
-    "Price.amount": "java.math.BigDecimal"
-  }
-}
-```
-
-[HOCON](https://en.wikipedia.org/wiki/HOCON):
-
-```
-generateClient=true
-generateApis=true
-generateBuilder=true
-generateImmutableModels=true
-generateToString=true
-generateEqualsAndHashCode=true
-apiPackageName="io.github.graphql.j.resolver"
-modelPackageName="io.github.graphql.j.model"
-modelNameSuffix="TO"
-apiInterfaceStrategy="DO_NOT_GENERATE"
-apiRootInterfaceStrategy="SINGLE_INTERFACE"
-generateModelsForRootTypes=true
-apiNamePrefix="GitHub"
-addGeneratedAnnotation=false
-generatedLanguage="KOTLIN"
-customTypesMapping={
-    Long="Long",
-    Object="org.json.JSONObject"
-}
-customAnnotationsMapping={
-    "QuestionNode.metaData"=["com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.github.dreamylost.JsonObjectDeserializer::class)"]
-    "QuestionNode.envInfo"=["com.fasterxml.jackson.databind.annotation.JsonDeserialize(using = com.github.dreamylost.JsonObjectDeserializer::class)"]
-} 
 ```

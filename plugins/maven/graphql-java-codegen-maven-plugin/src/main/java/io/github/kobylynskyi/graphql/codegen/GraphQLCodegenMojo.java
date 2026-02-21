@@ -12,8 +12,6 @@ import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.RelayConfig;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
-import com.kobylynskyi.graphql.codegen.supplier.MappingConfigSupplier;
-import com.kobylynskyi.graphql.codegen.supplier.MergeableMappingConfigSupplier;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
 import graphql.parser.ParserOptions;
 import org.apache.maven.model.Resource;
@@ -39,7 +37,6 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.Properties;
 import java.util.Set;
-import java.util.function.Supplier;
 
 /**
  * GraphQL Codegen MOJO implementation
@@ -230,9 +227,6 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
     @Parameter(defaultValue = MappingConfigConstants.DEFAULT_GENERATED_LANGUAGE_STRING)
     private GeneratedLanguage generatedLanguage;
 
-    @Parameter
-    private String[] configurationFiles;
-
     @Parameter(defaultValue = MappingConfigConstants.DEFAULT_SUPPORT_UNKNOWN_FIELDS_STRING)
     private boolean supportUnknownFields;
 
@@ -349,10 +343,7 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
     }
 
     private GraphQLCodegen instantiateCodegen(MappingConfig mappingConfig) throws IOException {
-        java.util.Optional<MappingConfigSupplier> mappingConfigSupplier = buildJsonSupplier(configurationFiles);
-        GeneratedLanguage language = mappingConfigSupplier.map(Supplier::get)
-                .map(MappingConfig::getGeneratedLanguage)
-                .orElse(generatedLanguage);
+        GeneratedLanguage language = generatedLanguage;
 
         if (skipSchemaSizeLimit) {
             ParserOptions.Builder parserOptionBuilder = ParserOptions.newParserOptions()
@@ -366,10 +357,10 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
         switch (language) {
             case JAVA:
                 return new JavaGraphQLCodegen(getSchemas(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
+                        outputDir, mappingConfig, null);
             case KOTLIN:
                 return new KotlinGraphQLCodegen(getSchemas(), graphqlQueryIntrospectionResultPath,
-                        outputDir, mappingConfig, mappingConfigSupplier.orElse(null));
+                        outputDir, mappingConfig, null);
             default:
                 throw new LanguageNotSupportedException(language);
         }
@@ -403,12 +394,6 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
         return project.getResources().stream().findFirst().map(Resource::getDirectory).map(Paths::get);
     }
 
-    private java.util.Optional<MappingConfigSupplier> buildJsonSupplier(String[] configurationFiles) {
-        if (configurationFiles != null && configurationFiles.length != 0) {
-            return java.util.Optional.of(new MergeableMappingConfigSupplier(Arrays.asList(configurationFiles.clone())));
-        }
-        return java.util.Optional.empty();
-    }
 
     private void addCompileSourceRootIfConfigured() {
         String path = outputDir.getPath();
@@ -750,11 +735,6 @@ public class GraphQLCodegenMojo extends AbstractMojo implements GraphQLCodegenCo
     public ParentInterfacesConfig getParentInterfaces() {
         return parentInterfaces;
     }
-
-    public String[] getConfigurationFiles() {
-        return configurationFiles;
-    }
-
     private static Map<String, List<String>> convertToListsMap(Map<String, Properties> sourceMap) {
         if (sourceMap == null) {
             return new HashMap<>();
