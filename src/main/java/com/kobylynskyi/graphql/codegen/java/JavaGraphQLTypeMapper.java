@@ -142,7 +142,8 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
         String computedTypeName = namedDefinition.getJavaName();
         JavaNullableInputTypeWrapper wrapper = mappingContext.getJavaNullableInputTypeWrapper();
         if (wrapper != null &&
-                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition, computedTypeName, directives)) {
+                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition,
+                        computedTypeName, directives)) {
             return getGenericsString(mappingContext, wrapper.getWrapperClassName(), computedTypeName);
         }
 

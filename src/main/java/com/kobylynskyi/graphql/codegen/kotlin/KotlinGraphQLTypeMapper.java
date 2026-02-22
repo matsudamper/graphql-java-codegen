@@ -231,6 +231,7 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
         }
         return defaultValue;
     }
+
     private boolean shouldWrapNullableInputType(MappingContext mappingContext,
                                                 String parentTypeName,
                                                 NamedDefinition namedDefinition,

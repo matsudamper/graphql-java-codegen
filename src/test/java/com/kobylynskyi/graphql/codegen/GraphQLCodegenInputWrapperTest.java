@@ -119,7 +119,8 @@ class GraphQLCodegenInputWrapperTest {
 
         File generatedFile = new File(outputJavaClassesDir, "InputWithDirective.java");
         assertSameTrimmedContent(
-                new File("src/test/resources/expected-classes/custom-input-wrapper-directives/InputWithDirective.java.txt"),
+                new File("src/test/resources/expected-classes/custom-input-wrapper-directives/"
+                        + "InputWithDirective.java.txt"),
                 generatedFile);
     }
 
@@ -129,7 +130,8 @@ class GraphQLCodegenInputWrapperTest {
         mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                () -> new JavaGraphQLCodegen(
+                        singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                         outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate());
         assertTrue(ex.getMessage().contains("nullableInputTypeWrapperForDirectives"));
     }
