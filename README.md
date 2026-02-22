@@ -40,11 +40,6 @@ Following classes can be generated based on your GraphQL schema:
 * Gradle plugin: [graphql-java-codegen-gradle-plugin](plugins/gradle)
 
 
-## Contributing
-
-Please see [CONTRIBUTING.md](CONTRIBUTING.md).
-
-
 ## Inspired by
 
 [swagger-codegen](https://github.com/swagger-api/swagger-codegen)
