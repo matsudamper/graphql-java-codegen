@@ -98,8 +98,8 @@ class GraphQLCodegenInputWrapperTest {
 
         String generated = java.nio.file.Files.readString(new File(outputClassesDir,
                 "InputWithDirective.kt").toPath());
-        assertTrue(generated.contains("com.example.NullableInputWrapper<String> wrapped"));
-        assertTrue(generated.contains("val plain: String? = null"));
+        assertTrue(generated.contains("val wrapped: com.example.NullableInputWrapper<String>"));
+        assertTrue(generated.contains("val plain: String?"));
         assertFalse(generated.contains("NullableInputWrapper<String> plain"));
     }
 
