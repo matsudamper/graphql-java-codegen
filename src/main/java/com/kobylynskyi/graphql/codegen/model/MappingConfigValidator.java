@@ -49,17 +49,21 @@ public class MappingConfigValidator {
     }
 
     private static void validateNullableInputTypeWrapperDirectiveConfig(MappingConfig mappingConfig) {
-        if ((mappingConfig.getJavaNullableInputTypeWrapperForDirectives() != null &&
-                !mappingConfig.getJavaNullableInputTypeWrapperForDirectives().isEmpty()) &&
-                mappingConfig.getJavaNullableInputTypeWrapper() == null) {
-            throw new IllegalArgumentException("javaNullableInputTypeWrapperForDirectives is configured, " +
-                    "but javaNullableInputTypeWrapper is not set");
+        if (mappingConfig.getNullableInputTypeWrapperForDirectives() == null ||
+                mappingConfig.getNullableInputTypeWrapperForDirectives().isEmpty()) {
+            return;
         }
-        if ((mappingConfig.getKotlinNullableInputTypeWrapperForDirectives() != null &&
-                !mappingConfig.getKotlinNullableInputTypeWrapperForDirectives().isEmpty()) &&
+
+        if (mappingConfig.getGeneratedLanguage() == GeneratedLanguage.KOTLIN &&
                 mappingConfig.getKotlinNullableInputTypeWrapper() == null) {
-            throw new IllegalArgumentException("kotlinNullableInputTypeWrapperForDirectives is configured, " +
+            throw new IllegalArgumentException("nullableInputTypeWrapperForDirectives is configured, " +
                     "but kotlinNullableInputTypeWrapper is not set");
+        }
+
+        if (mappingConfig.getGeneratedLanguage() != GeneratedLanguage.KOTLIN &&
+                mappingConfig.getJavaNullableInputTypeWrapper() == null) {
+            throw new IllegalArgumentException("nullableInputTypeWrapperForDirectives is configured, " +
+                    "but javaNullableInputTypeWrapper is not set");
         }
     }
 

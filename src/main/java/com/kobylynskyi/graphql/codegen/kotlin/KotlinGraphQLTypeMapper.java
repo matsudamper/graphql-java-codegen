@@ -9,10 +9,12 @@ import com.kobylynskyi.graphql.codegen.model.NamedDefinition;
 import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedFieldDefinition;
 import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
+import graphql.language.Directive;
 import graphql.language.InputValueDefinition;
 import graphql.language.NullValue;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.regex.Matcher;
@@ -239,7 +241,7 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
                 computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
             return false;
         }
-        Set<String> configuredDirectives = mappingContext.getKotlinNullableInputTypeWrapperForDirectives();
+        Set<String> configuredDirectives = mappingContext.getNullableInputTypeWrapperForDirectives();
         if (configuredDirectives == null || configuredDirectives.isEmpty()) {
             return true;
         }

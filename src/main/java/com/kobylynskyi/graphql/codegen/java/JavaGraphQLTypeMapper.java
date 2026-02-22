@@ -180,7 +180,7 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
                 computedTypeName.startsWith(JAVA_UTIL_LIST)) {
             return false;
         }
-        Set<String> configuredDirectives = mappingContext.getJavaNullableInputTypeWrapperForDirectives();
+        Set<String> configuredDirectives = mappingContext.getNullableInputTypeWrapperForDirectives();
         if (configuredDirectives == null || configuredDirectives.isEmpty()) {
             return true;
         }

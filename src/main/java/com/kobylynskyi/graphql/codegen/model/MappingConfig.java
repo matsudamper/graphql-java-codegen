@@ -54,9 +54,8 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     private Boolean useOptionalForNullableReturnTypes;
     private Boolean useWrapperForNullableInputTypes;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
-    private Set<String> javaNullableInputTypeWrapperForDirectives = new HashSet<>();
+    private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
     private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
-    private Set<String> kotlinNullableInputTypeWrapperForDirectives = new HashSet<>();
     private Boolean generateApisWithThrowsException;
     private Boolean generateApisWithSuspendFunctions;
     private Boolean addGeneratedAnnotation;
@@ -177,12 +176,10 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
                 GraphQLCodegenConfiguration::getUseWrapperForNullableInputTypes);
         javaNullableInputTypeWrapper = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getJavaNullableInputTypeWrapper);
-        javaNullableInputTypeWrapperForDirectives = combineSet(javaNullableInputTypeWrapperForDirectives,
-                source.javaNullableInputTypeWrapperForDirectives);
+        nullableInputTypeWrapperForDirectives = combineSet(nullableInputTypeWrapperForDirectives,
+                source.nullableInputTypeWrapperForDirectives);
         kotlinNullableInputTypeWrapper = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getKotlinNullableInputTypeWrapper);
-        kotlinNullableInputTypeWrapperForDirectives = combineSet(kotlinNullableInputTypeWrapperForDirectives,
-                source.kotlinNullableInputTypeWrapperForDirectives);
         generateApisWithThrowsException = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getGenerateApisWithThrowsException);
         generateApisWithSuspendFunctions = getValueOrDefaultToThis(source,
@@ -619,12 +616,12 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     }
 
     @Override
-    public Set<String> getJavaNullableInputTypeWrapperForDirectives() {
-        return javaNullableInputTypeWrapperForDirectives;
+    public Set<String> getNullableInputTypeWrapperForDirectives() {
+        return nullableInputTypeWrapperForDirectives;
     }
 
-    public void setJavaNullableInputTypeWrapperForDirectives(Set<String> javaNullableInputTypeWrapperForDirectives) {
-        this.javaNullableInputTypeWrapperForDirectives = javaNullableInputTypeWrapperForDirectives;
+    public void setNullableInputTypeWrapperForDirectives(Set<String> nullableInputTypeWrapperForDirectives) {
+        this.nullableInputTypeWrapperForDirectives = nullableInputTypeWrapperForDirectives;
     }
 
     @Override
@@ -636,16 +633,7 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
         this.kotlinNullableInputTypeWrapper = kotlinNullableInputTypeWrapper;
     }
 
-    @Override
-    public Set<String> getKotlinNullableInputTypeWrapperForDirectives() {
-        return kotlinNullableInputTypeWrapperForDirectives;
-    }
-
-    public void setKotlinNullableInputTypeWrapperForDirectives(
-            Set<String> kotlinNullableInputTypeWrapperForDirectives) {
-        this.kotlinNullableInputTypeWrapperForDirectives = kotlinNullableInputTypeWrapperForDirectives;
-    }
-
+    
     @Override
     public Set<String> getFieldsWithResolvers() {
         return fieldsWithResolvers;

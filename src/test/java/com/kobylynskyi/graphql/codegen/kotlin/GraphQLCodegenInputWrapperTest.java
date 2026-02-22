@@ -91,7 +91,7 @@ class GraphQLCodegenInputWrapperTest {
 
     @Test
     void generate_CheckFiles_CustomWrapperWithDirectiveFilter() throws Exception {
-        mappingConfig.setKotlinNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+        mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
 
         new KotlinGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                 outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
@@ -106,12 +106,12 @@ class GraphQLCodegenInputWrapperTest {
     @Test
     void generate_ThrowsWhenDirectiveFilterConfiguredWithoutWrapper() {
         mappingConfig.setKotlinNullableInputTypeWrapper(null);
-        mappingConfig.setKotlinNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+        mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
                 () -> new KotlinGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                         outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate());
-        assertTrue(ex.getMessage().contains("kotlinNullableInputTypeWrapperForDirectives"));
+        assertTrue(ex.getMessage().contains("nullableInputTypeWrapperForDirectives"));
     }
 
     private void generate() throws IOException {
