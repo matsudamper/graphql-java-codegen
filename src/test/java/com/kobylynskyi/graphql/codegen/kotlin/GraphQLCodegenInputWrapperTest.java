@@ -109,7 +109,8 @@ class GraphQLCodegenInputWrapperTest {
         mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
 
         IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
-                () -> new KotlinGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                () -> new KotlinGraphQLCodegen(
+                        singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                         outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate());
         assertTrue(ex.getMessage().contains("nullableInputTypeWrapperForDirectives"));
     }
