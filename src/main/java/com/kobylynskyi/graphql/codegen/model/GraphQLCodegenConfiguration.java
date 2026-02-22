@@ -395,6 +395,19 @@ public interface GraphQLCodegenConfiguration {
     }
 
     /**
+     * Specifies directives that should trigger Java nullable input wrapper usage.
+     *
+     * <p>When empty, wrapper is applied to all nullable non-list input fields.
+     * When set, wrapper is only applied to input fields that have one of these directives.
+     * Directive values can be provided with or without the {@code @} prefix.
+     *
+     * @return set of directive names for Java nullable wrapper filtering, or {@code null}/empty if disabled.
+     */
+    default Set<String> getJavaNullableInputTypeWrapperForDirectives() {
+        return null;
+    }
+
+    /**
      * Specifies wrapper strategy for nullable parameters on Kotlin input types.
      *
      * <p>When configured, this option is used for Kotlin generated input models.
@@ -402,6 +415,19 @@ public interface GraphQLCodegenConfiguration {
      * @return wrapper strategy for nullable Kotlin input types, or {@code null} if disabled.
      */
     default KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+        return null;
+    }
+
+    /**
+     * Specifies directives that should trigger Kotlin nullable input wrapper usage.
+     *
+     * <p>When empty, wrapper is applied to all nullable non-list input fields.
+     * When set, wrapper is only applied to input fields that have one of these directives.
+     * Directive values can be provided with or without the {@code @} prefix.
+     *
+     * @return set of directive names for Kotlin nullable wrapper filtering, or {@code null}/empty if disabled.
+     */
+    default Set<String> getKotlinNullableInputTypeWrapperForDirectives() {
         return null;
     }
 

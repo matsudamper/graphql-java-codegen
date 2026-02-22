@@ -1,0 +1,7 @@
+directive @nullableWrapper on INPUT_FIELD_DEFINITION
+
+input InputWithDirective {
+    wrapped: String @nullableWrapper
+    plain: String
+    listPlain: [String]
+}

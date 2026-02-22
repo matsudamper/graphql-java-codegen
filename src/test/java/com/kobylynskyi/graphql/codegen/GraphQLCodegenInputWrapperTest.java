@@ -15,11 +15,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Collections.singleton;
+
 import static com.kobylynskyi.graphql.codegen.TestUtils.assertSameTrimmedContent;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @ExtendWith(MaxQueryTokensExtension.class)
 class GraphQLCodegenInputWrapperTest {
@@ -101,6 +106,34 @@ class GraphQLCodegenInputWrapperTest {
                     ),
                     file);
         }
+    }
+
+
+    @Test
+    void generate_CheckFiles_CustomWrapperWithDirectiveFilter() throws Exception {
+        mappingConfig.setUseWrapperForNullableInputTypes(false);
+        mappingConfig.setJavaNullableInputTypeWrapper(new TestInputWrapper());
+        mappingConfig.setJavaNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+
+        new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
+
+        String generated = java.nio.file.Files.readString(new File(outputJavaClassesDir,
+                "InputWithDirective.java").toPath());
+        assertTrue(generated.contains("com.example.NullableInputWrapper<String> wrapped"));
+        assertTrue(generated.contains("private String plain;"));
+        assertFalse(generated.contains("NullableInputWrapper<String> plain"));
+    }
+
+    @Test
+    void generate_ThrowsWhenDirectiveFilterConfiguredWithoutWrapper() {
+        mappingConfig.setUseWrapperForNullableInputTypes(false);
+        mappingConfig.setJavaNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                        outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate());
+        assertTrue(ex.getMessage().contains("javaNullableInputTypeWrapperForDirectives"));
     }
 
     private void generate() throws IOException {

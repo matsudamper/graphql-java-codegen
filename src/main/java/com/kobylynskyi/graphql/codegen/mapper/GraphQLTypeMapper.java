@@ -137,7 +137,7 @@ public abstract class GraphQLTypeMapper {
      * @return Java type wrapped into ArgumentValue
      */
     public abstract String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
-                                                      String parentTypeName);
+                                                      String parentTypeName, List<Directive> directives);
 
     /**
      * Wraps type into ArgumentValue, if required.
@@ -166,7 +166,7 @@ public abstract class GraphQLTypeMapper {
      */
     public abstract String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                          InputValueDefinition inputValueDefinition, String defaultValue,
-                                                         String parentTypeName);
+                                                         String parentTypeName, List<Directive> directives);
 
     /**
      * Check if the time is primitive.

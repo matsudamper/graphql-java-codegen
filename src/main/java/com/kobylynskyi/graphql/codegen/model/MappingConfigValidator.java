@@ -45,6 +45,22 @@ public class MappingConfigValidator {
                         "set different Prefix/Suffix for API classes and type resolver classes");
             }
         }
+        validateNullableInputTypeWrapperDirectiveConfig(mappingConfig);
+    }
+
+    private static void validateNullableInputTypeWrapperDirectiveConfig(MappingConfig mappingConfig) {
+        if ((mappingConfig.getJavaNullableInputTypeWrapperForDirectives() != null &&
+                !mappingConfig.getJavaNullableInputTypeWrapperForDirectives().isEmpty()) &&
+                mappingConfig.getJavaNullableInputTypeWrapper() == null) {
+            throw new IllegalArgumentException("javaNullableInputTypeWrapperForDirectives is configured, " +
+                    "but javaNullableInputTypeWrapper is not set");
+        }
+        if ((mappingConfig.getKotlinNullableInputTypeWrapperForDirectives() != null &&
+                !mappingConfig.getKotlinNullableInputTypeWrapperForDirectives().isEmpty()) &&
+                mappingConfig.getKotlinNullableInputTypeWrapper() == null) {
+            throw new IllegalArgumentException("kotlinNullableInputTypeWrapperForDirectives is configured, " +
+                    "but kotlinNullableInputTypeWrapper is not set");
+        }
     }
 
 }
