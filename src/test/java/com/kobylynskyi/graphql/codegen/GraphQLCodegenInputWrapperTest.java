@@ -22,7 +22,6 @@ import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -118,11 +117,10 @@ class GraphQLCodegenInputWrapperTest {
         new JavaGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                 outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
 
-        String generated = java.nio.file.Files.readString(new File(outputJavaClassesDir,
-                "InputWithDirective.java").toPath());
-        assertTrue(generated.contains("com.example.NullableInputWrapper<String> wrapped"));
-        assertTrue(generated.contains("private String plain;"));
-        assertFalse(generated.contains("NullableInputWrapper<String> plain"));
+        File generatedFile = new File(outputJavaClassesDir, "InputWithDirective.java");
+        assertSameTrimmedContent(
+                new File("src/test/resources/expected-classes/custom-input-wrapper-directives/InputWithDirective.java.txt"),
+                generatedFile);
     }
 
     @Test
