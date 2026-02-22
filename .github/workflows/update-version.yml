@@ -11,7 +11,7 @@ jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@692973e3d937129bcbf40652eb9f2f61becf3332 # v4.1.7
 
       - name: Update versions of all Gradle/SBT sub-projects
         run: scripts/update-release-version-in-build-files.sh ${{ github.event.inputs.new_version }}
