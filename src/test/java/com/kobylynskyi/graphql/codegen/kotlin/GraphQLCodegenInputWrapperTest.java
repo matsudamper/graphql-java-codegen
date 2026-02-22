@@ -96,8 +96,8 @@ class GraphQLCodegenInputWrapperTest {
         new KotlinGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
                 outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
 
-        String generated = java.nio.file.Files.readString(new File(outputClassesDir,
-                "InputWithDirective.kt").toPath());
+        String generated = new String(java.nio.file.Files.readAllBytes(new File(outputClassesDir,
+                "InputWithDirective.kt").toPath()), java.nio.charset.StandardCharsets.UTF_8);
         assertTrue(generated.contains("val wrapped: com.example.NullableInputWrapper<String>"));
         assertTrue(generated.contains("val plain: String?"));
         assertFalse(generated.contains("NullableInputWrapper<String> plain"));
