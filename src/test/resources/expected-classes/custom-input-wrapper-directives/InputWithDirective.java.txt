@@ -1,0 +1,83 @@
+@javax.annotation.Generated(
+    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    date = "2020-12-31T23:59:59-0500"
+)
+public class InputWithDirective implements java.io.Serializable {
+
+    private static final long serialVersionUID = 1L;
+
+    private com.example.NullableInputWrapper<String> wrapped = com.example.NullableInputWrapper.undefined();
+    private String plain;
+    private java.util.List<String> listPlain;
+
+    public InputWithDirective() {
+    }
+
+    public InputWithDirective(com.example.NullableInputWrapper<String> wrapped, String plain, java.util.List<String> listPlain) {
+        this.wrapped = wrapped;
+        this.plain = plain;
+        this.listPlain = listPlain;
+    }
+
+    public com.example.NullableInputWrapper<String> getWrapped() {
+        return wrapped;
+    }
+    public void setWrapped(com.example.NullableInputWrapper<String> wrapped) {
+        this.wrapped = wrapped;
+    }
+
+    public String getPlain() {
+        return plain;
+    }
+    public void setPlain(String plain) {
+        this.plain = plain;
+    }
+
+    public java.util.List<String> getListPlain() {
+        return listPlain;
+    }
+    public void setListPlain(java.util.List<String> listPlain) {
+        this.listPlain = listPlain;
+    }
+
+
+
+    public static InputWithDirective.Builder builder() {
+        return new InputWithDirective.Builder();
+    }
+
+    @javax.annotation.Generated(
+        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        date = "2020-12-31T23:59:59-0500"
+    )
+    public static class Builder {
+
+        private com.example.NullableInputWrapper<String> wrapped = com.example.NullableInputWrapper.undefined();
+        private String plain;
+        private java.util.List<String> listPlain;
+
+        public Builder() {
+        }
+
+        public Builder setWrapped(com.example.NullableInputWrapper<String> wrapped) {
+            this.wrapped = wrapped;
+            return this;
+        }
+
+        public Builder setPlain(String plain) {
+            this.plain = plain;
+            return this;
+        }
+
+        public Builder setListPlain(java.util.List<String> listPlain) {
+            this.listPlain = listPlain;
+            return this;
+        }
+
+
+        public InputWithDirective build() {
+            return new InputWithDirective(wrapped, plain, listPlain);
+        }
+
+    }
+}

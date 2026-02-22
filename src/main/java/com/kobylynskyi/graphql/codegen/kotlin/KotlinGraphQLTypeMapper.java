@@ -9,11 +9,14 @@ import com.kobylynskyi.graphql.codegen.model.NamedDefinition;
 import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedFieldDefinition;
 import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
+import graphql.language.Directive;
 import graphql.language.InputValueDefinition;
 import graphql.language.NullValue;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -193,13 +196,13 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
 
     @Override
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
-                                             String parentTypeName) {
+                                             String parentTypeName, List<Directive> directives) {
         KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
         String computedTypeName = getTypeConsideringPrimitive(
                 mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&
-                mappingContext.getInputsName().contains(parentTypeName) &&
-                !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition, computedTypeName,
+                        directives)) {
             String nullableType = computedTypeName.endsWith(KOTLIN_UTIL_NULLABLE)
                     ? computedTypeName.substring(0, computedTypeName.length() - 1)
                     : computedTypeName;
@@ -211,13 +214,13 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     @Override
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
-                                                String parentTypeName) {
+                                                String parentTypeName, List<Directive> directives) {
         KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
         String computedTypeName = getTypeConsideringPrimitive(
                 mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&
-                mappingContext.getInputsName().contains(parentTypeName) &&
-                !namedDefinition.isMandatory() && !computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition, computedTypeName,
+                        directives)) {
             if (defaultValue == null) {
                 return wrapper.getUndefinedValueExpression();
             } else if (inputValueDefinition.getDefaultValue() instanceof NullValue) {
@@ -228,4 +231,35 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
         }
         return defaultValue;
     }
+
+    private boolean shouldWrapNullableInputType(MappingContext mappingContext,
+                                                String parentTypeName,
+                                                NamedDefinition namedDefinition,
+                                                String computedTypeName,
+                                                List<Directive> directives) {
+        if (!mappingContext.getInputsName().contains(parentTypeName) ||
+                namedDefinition.isMandatory() ||
+                computedTypeName.startsWith(KOTLIN_UTIL_LIST)) {
+            return false;
+        }
+        Set<String> configuredDirectives = mappingContext.getNullableInputTypeWrapperForDirectives();
+        if (configuredDirectives == null || configuredDirectives.isEmpty()) {
+            return true;
+        }
+        Set<String> normalizedConfiguredDirectives = configuredDirectives.stream()
+                .map(this::normalizeDirectiveName)
+                .collect(Collectors.toSet());
+        return directives.stream()
+                .map(Directive::getName)
+                .map(this::normalizeDirectiveName)
+                .anyMatch(normalizedConfiguredDirectives::contains);
+    }
+
+    private String normalizeDirectiveName(String directiveName) {
+        if (directiveName == null) {
+            return null;
+        }
+        return directiveName.startsWith("@") ? directiveName.substring(1) : directiveName;
+    }
+
 }

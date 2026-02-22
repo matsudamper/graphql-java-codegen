@@ -88,6 +88,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean useWrapperForNullableInputTypes =
             MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+    private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
     private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
     private Boolean generateApisWithThrowsException = MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_THROWS_EXCEPTION;
     private Boolean generateApisWithSuspendFunctions =
@@ -174,6 +175,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         mappingConfig.setUseOptionalForNullableReturnTypes(useOptionalForNullableReturnTypes);
         mappingConfig.setUseWrapperForNullableInputTypes(useWrapperForNullableInputTypes);
         mappingConfig.setJavaNullableInputTypeWrapper(javaNullableInputTypeWrapper);
+        mappingConfig.setNullableInputTypeWrapperForDirectives(nullableInputTypeWrapperForDirectives);
         mappingConfig.setKotlinNullableInputTypeWrapper(kotlinNullableInputTypeWrapper);
         mappingConfig.setGenerateApisWithThrowsException(generateApisWithThrowsException);
         mappingConfig.setGenerateApisWithSuspendFunctions(generateApisWithSuspendFunctions);
@@ -705,6 +707,17 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     public void setJavaNullableInputTypeWrapper(JavaNullableInputTypeWrapper javaNullableInputTypeWrapper) {
         this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
+    }
+
+    @Input
+    @Optional
+    @Override
+    public Set<String> getNullableInputTypeWrapperForDirectives() {
+        return nullableInputTypeWrapperForDirectives;
+    }
+
+    public void setNullableInputTypeWrapperForDirectives(Set<String> nullableInputTypeWrapperForDirectives) {
+        this.nullableInputTypeWrapperForDirectives = nullableInputTypeWrapperForDirectives;
     }
 
     @Internal

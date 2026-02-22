@@ -15,11 +15,16 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import static java.util.Collections.singleton;
+
 import static com.kobylynskyi.graphql.codegen.TestUtils.assertSameTrimmedContent;
 import static java.util.Arrays.asList;
 import static java.util.Collections.singletonList;
 import static java.util.stream.Collectors.toList;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GraphQLCodegenInputWrapperTest {
 
@@ -81,6 +86,33 @@ class GraphQLCodegenInputWrapperTest {
                     ),
                     file);
         }
+    }
+
+
+    @Test
+    void generate_CheckFiles_CustomWrapperWithDirectiveFilter() throws Exception {
+        mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+
+        new KotlinGraphQLCodegen(singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
+
+        String generated = new String(java.nio.file.Files.readAllBytes(new File(outputClassesDir,
+                "InputWithDirective.kt").toPath()), java.nio.charset.StandardCharsets.UTF_8);
+        assertTrue(generated.contains("val wrapped: com.example.NullableInputWrapper<String>"));
+        assertTrue(generated.contains("val plain: String?"));
+        assertFalse(generated.contains("NullableInputWrapper<String> plain"));
+    }
+
+    @Test
+    void generate_ThrowsWhenDirectiveFilterConfiguredWithoutWrapper() {
+        mappingConfig.setKotlinNullableInputTypeWrapper(null);
+        mappingConfig.setNullableInputTypeWrapperForDirectives(singleton("nullableWrapper"));
+
+        IllegalArgumentException ex = assertThrows(IllegalArgumentException.class,
+                () -> new KotlinGraphQLCodegen(
+                        singletonList("src/test/resources/schemas/input-wrapper-directives.graphqls"),
+                        outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate());
+        assertTrue(ex.getMessage().contains("nullableInputTypeWrapperForDirectives"));
     }
 
     private void generate() throws IOException {

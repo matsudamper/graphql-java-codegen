@@ -54,6 +54,7 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     private Boolean useOptionalForNullableReturnTypes;
     private Boolean useWrapperForNullableInputTypes;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+    private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
     private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
     private Boolean generateApisWithThrowsException;
     private Boolean generateApisWithSuspendFunctions;
@@ -175,6 +176,8 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
                 GraphQLCodegenConfiguration::getUseWrapperForNullableInputTypes);
         javaNullableInputTypeWrapper = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getJavaNullableInputTypeWrapper);
+        nullableInputTypeWrapperForDirectives = combineSet(nullableInputTypeWrapperForDirectives,
+                source.nullableInputTypeWrapperForDirectives);
         kotlinNullableInputTypeWrapper = getValueOrDefaultToThis(source,
                 GraphQLCodegenConfiguration::getKotlinNullableInputTypeWrapper);
         generateApisWithThrowsException = getValueOrDefaultToThis(source,
@@ -613,6 +616,15 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     }
 
     @Override
+    public Set<String> getNullableInputTypeWrapperForDirectives() {
+        return nullableInputTypeWrapperForDirectives;
+    }
+
+    public void setNullableInputTypeWrapperForDirectives(Set<String> nullableInputTypeWrapperForDirectives) {
+        this.nullableInputTypeWrapperForDirectives = nullableInputTypeWrapperForDirectives;
+    }
+
+    @Override
     public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
         return kotlinNullableInputTypeWrapper;
     }
@@ -621,6 +633,7 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
         this.kotlinNullableInputTypeWrapper = kotlinNullableInputTypeWrapper;
     }
 
+    
     @Override
     public Set<String> getFieldsWithResolvers() {
         return fieldsWithResolvers;

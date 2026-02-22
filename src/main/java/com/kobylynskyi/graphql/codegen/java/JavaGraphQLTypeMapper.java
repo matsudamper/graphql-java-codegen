@@ -138,12 +138,12 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
 
     @Override
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
-                                             String parentTypeName) {
+                                             String parentTypeName, List<Directive> directives) {
         String computedTypeName = namedDefinition.getJavaName();
         JavaNullableInputTypeWrapper wrapper = mappingContext.getJavaNullableInputTypeWrapper();
         if (wrapper != null &&
-                mappingContext.getInputsName().contains(parentTypeName) &&
-                !namedDefinition.isMandatory() && !computedTypeName.startsWith(JAVA_UTIL_LIST)) {
+                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition,
+                        computedTypeName, directives)) {
             return getGenericsString(mappingContext, wrapper.getWrapperClassName(), computedTypeName);
         }
 
@@ -153,11 +153,11 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
     @Override
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
-                                                String parentTypeName) {
+                                                String parentTypeName, List<Directive> directives) {
         JavaNullableInputTypeWrapper wrapper = mappingContext.getJavaNullableInputTypeWrapper();
         if (wrapper != null &&
-                mappingContext.getInputsName().contains(parentTypeName) &&
-                !namedDefinition.isMandatory() && !namedDefinition.getJavaName().startsWith(JAVA_UTIL_LIST)) {
+                shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition,
+                        namedDefinition.getJavaName(), directives)) {
             if (defaultValue == null) {
                 return wrapper.getUndefinedValueExpression();
             } else if (inputValueDefinition.getDefaultValue() instanceof NullValue) {
@@ -170,6 +170,36 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
         }
     }
 
+
+    private boolean shouldWrapNullableInputType(MappingContext mappingContext,
+                                                String parentTypeName,
+                                                NamedDefinition namedDefinition,
+                                                String computedTypeName,
+                                                List<Directive> directives) {
+        if (!mappingContext.getInputsName().contains(parentTypeName) ||
+                namedDefinition.isMandatory() ||
+                computedTypeName.startsWith(JAVA_UTIL_LIST)) {
+            return false;
+        }
+        Set<String> configuredDirectives = mappingContext.getNullableInputTypeWrapperForDirectives();
+        if (configuredDirectives == null || configuredDirectives.isEmpty()) {
+            return true;
+        }
+        Set<String> normalizedConfiguredDirectives = configuredDirectives.stream()
+                .map(this::normalizeDirectiveName)
+                .collect(Collectors.toSet());
+        return directives.stream()
+                .map(Directive::getName)
+                .map(this::normalizeDirectiveName)
+                .anyMatch(normalizedConfiguredDirectives::contains);
+    }
+
+    private String normalizeDirectiveName(String directiveName) {
+        if (directiveName == null) {
+            return null;
+        }
+        return directiveName.startsWith("@") ? directiveName.substring(1) : directiveName;
+    }
     private String wrapWithDataFetcherResultIfRequired(MappingContext mappingContext,
                                                        List<Directive> directives,
                                                        String langTypeName,

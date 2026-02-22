@@ -269,6 +269,11 @@ public class MappingContext implements GraphQLCodegenConfiguration {
     }
 
     @Override
+    public Set<String> getNullableInputTypeWrapperForDirectives() {
+        return config.getNullableInputTypeWrapperForDirectives();
+    }
+
+    @Override
     public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
         return config.getKotlinNullableInputTypeWrapper();
     }

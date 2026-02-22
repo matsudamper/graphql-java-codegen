@@ -62,7 +62,7 @@ public class InputValueDefinitionToParameterMapper {
         parameter.setName(dataModelMapper.capitalizeIfRestricted(mappingContext, inputValueDefinition.getName()));
         parameter.setOriginalName(inputValueDefinition.getName());
         parameter.setType(graphQLTypeMapper.wrapApiInputTypeIfRequired(mappingContext, namedDefinition,
-                parentTypeName));
+                parentTypeName, inputValueDefinition.getDirectives()));
         parameter.setDefaultValue(getDefaultValue(mappingContext, inputValueDefinition, parentTypeName,
                 namedDefinition));
         parameter.setVisibility(Utils.getFieldVisibility(mappingContext));
@@ -81,7 +81,7 @@ public class InputValueDefinitionToParameterMapper {
         String value = valueMapper.map(mappingContext, inputValueDefinition.getDefaultValue(),
                 inputValueDefinition.getType());
         return graphQLTypeMapper.wrapApiDefaultValueIfRequired(mappingContext, namedDefinition, inputValueDefinition,
-                value, parentTypeName);
+                value, parentTypeName, inputValueDefinition.getDirectives());
     }
 
 }
