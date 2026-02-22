@@ -52,6 +52,7 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     private Boolean generateDataFetchingEnvironmentArgumentInApis;
     private Boolean generateModelsForRootTypes;
     private Boolean useOptionalForNullableReturnTypes;
+    @Deprecated
     private Boolean useWrapperForNullableInputTypes;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
     private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
@@ -597,11 +598,13 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
         this.useOptionalForNullableReturnTypes = useOptionalForNullableReturnTypes;
     }
 
+    @Deprecated
     @Override
     public Boolean getUseWrapperForNullableInputTypes() {
         return useWrapperForNullableInputTypes;
     }
 
+    @Deprecated
     public void setUseWrapperForNullableInputTypes(Boolean useWrapperForNullableInputTypes) {
         this.useWrapperForNullableInputTypes = useWrapperForNullableInputTypes;
     }

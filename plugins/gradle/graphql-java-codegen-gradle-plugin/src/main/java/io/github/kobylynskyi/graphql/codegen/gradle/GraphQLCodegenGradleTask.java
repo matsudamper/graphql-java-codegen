@@ -85,6 +85,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean generateDataFetchingEnvironmentArgumentInApis = MappingConfigConstants.DEFAULT_GENERATE_DATA_FETCHING_ENV;
     private Boolean generateModelsForRootTypes = MappingConfigConstants.DEFAULT_GENERATE_MODELS_FOR_ROOT_TYPES;
     private Boolean useOptionalForNullableReturnTypes = MappingConfigConstants.DEFAULT_USE_OPTIONAL_FOR_NULLABLE_RETURN_TYPES;
+    @Deprecated
     private Boolean useWrapperForNullableInputTypes =
             MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES;
     private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
@@ -688,6 +689,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.useOptionalForNullableReturnTypes = useOptionalForNullableReturnTypes;
     }
 
+    @Deprecated
     @Input
     @Optional
     @Override
@@ -695,6 +697,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         return useWrapperForNullableInputTypes;
     }
 
+    @Deprecated
     public void setUseWrapperForNullableInputTypes(Boolean useWrapperForNullableInputTypes) {
         this.useWrapperForNullableInputTypes = useWrapperForNullableInputTypes;
     }

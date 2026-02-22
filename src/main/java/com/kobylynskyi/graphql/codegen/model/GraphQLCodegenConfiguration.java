@@ -379,7 +379,9 @@ public interface GraphQLCodegenConfiguration {
      * <code>ArgumentValue</code>.
      *
      * @return <b>true</b> if legacy nullable input wrapper compatibility is enabled
+     * @deprecated This is a Java-only legacy setting. Use {@link #getJavaNullableInputTypeWrapper()} directly instead.
      */
+    @Deprecated
     Boolean getUseWrapperForNullableInputTypes();
 
     /**
