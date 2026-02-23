@@ -264,7 +264,7 @@ public class MappingContext implements GraphQLCodegenConfiguration {
     }
 
     @Override
-    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getJavaNullableInputTypeWrapper() {
         return config.getJavaNullableInputTypeWrapper();
     }
 
@@ -274,7 +274,7 @@ public class MappingContext implements GraphQLCodegenConfiguration {
     }
 
     @Override
-    public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getKotlinNullableInputTypeWrapper() {
         return config.getKotlinNullableInputTypeWrapper();
     }
 

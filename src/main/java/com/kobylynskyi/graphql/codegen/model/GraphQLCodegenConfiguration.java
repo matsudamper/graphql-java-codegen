@@ -392,7 +392,7 @@ public interface GraphQLCodegenConfiguration {
      *
      * @return wrapper strategy for nullable Java input types, or {@code null} if disabled.
      */
-    default JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+    default NullableInputTypeWrapperConfig getJavaNullableInputTypeWrapper() {
         return null;
     }
 
@@ -416,7 +416,7 @@ public interface GraphQLCodegenConfiguration {
      *
      * @return wrapper strategy for nullable Kotlin input types, or {@code null} if disabled.
      */
-    default KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+    default NullableInputTypeWrapperConfig getKotlinNullableInputTypeWrapper() {
         return null;
     }
 

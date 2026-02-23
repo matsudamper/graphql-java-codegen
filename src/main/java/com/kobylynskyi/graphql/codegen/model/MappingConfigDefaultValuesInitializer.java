@@ -93,7 +93,11 @@ public class MappingConfigDefaultValuesInitializer {
         }
         if (mappingConfig.getJavaNullableInputTypeWrapper() == null &&
                 Boolean.TRUE.equals(mappingConfig.getUseWrapperForNullableInputTypes())) {
-            mappingConfig.setJavaNullableInputTypeWrapper(new ArgumentValueJavaNullableInputTypeWrapper());
+            mappingConfig.setJavaNullableInputTypeWrapper(new NullableInputTypeWrapperConfig(
+                    "org.springframework.graphql.data.ArgumentValue",
+                    "org.springframework.graphql.data.ArgumentValue.ofNullable(null)",
+                    "org.springframework.graphql.data.ArgumentValue.omitted()",
+                    "org.springframework.graphql.data.ArgumentValue.ofNullable(%s)"));
         }
         if (mappingConfig.getApiNamePrefixStrategy() == null) {
             mappingConfig.setApiNamePrefixStrategy(MappingConfigConstants.DEFAULT_API_NAME_PREFIX_STRATEGY);
