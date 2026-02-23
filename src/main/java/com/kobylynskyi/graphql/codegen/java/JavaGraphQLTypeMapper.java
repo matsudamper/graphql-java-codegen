@@ -2,8 +2,8 @@ package com.kobylynskyi.graphql.codegen.java;
 
 import com.kobylynskyi.graphql.codegen.mapper.DataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.GraphQLTypeMapper;
-import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
+import com.kobylynskyi.graphql.codegen.model.NullableInputTypeWrapperConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingContext;
 import com.kobylynskyi.graphql.codegen.model.NamedDefinition;
 import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
@@ -140,7 +140,7 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                              String parentTypeName, List<Directive> directives) {
         String computedTypeName = namedDefinition.getJavaName();
-        JavaNullableInputTypeWrapper wrapper = mappingContext.getJavaNullableInputTypeWrapper();
+        NullableInputTypeWrapperConfig wrapper = mappingContext.getJavaNullableInputTypeWrapper();
         if (wrapper != null &&
                 shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition,
                         computedTypeName, directives)) {
@@ -154,7 +154,7 @@ public class JavaGraphQLTypeMapper extends GraphQLTypeMapper {
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
                                                 String parentTypeName, List<Directive> directives) {
-        JavaNullableInputTypeWrapper wrapper = mappingContext.getJavaNullableInputTypeWrapper();
+        NullableInputTypeWrapperConfig wrapper = mappingContext.getJavaNullableInputTypeWrapper();
         if (wrapper != null &&
                 shouldWrapNullableInputType(mappingContext, parentTypeName, namedDefinition,
                         namedDefinition.getJavaName(), directives)) {

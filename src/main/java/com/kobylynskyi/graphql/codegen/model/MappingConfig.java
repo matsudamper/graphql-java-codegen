@@ -52,10 +52,11 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     private Boolean generateDataFetchingEnvironmentArgumentInApis;
     private Boolean generateModelsForRootTypes;
     private Boolean useOptionalForNullableReturnTypes;
+    @Deprecated
     private Boolean useWrapperForNullableInputTypes;
-    private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+    private NullableInputTypeWrapperConfig javaNullableInputTypeWrapper;
     private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
-    private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
+    private NullableInputTypeWrapperConfig kotlinNullableInputTypeWrapper;
     private Boolean generateApisWithThrowsException;
     private Boolean generateApisWithSuspendFunctions;
     private Boolean addGeneratedAnnotation;
@@ -597,21 +598,23 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
         this.useOptionalForNullableReturnTypes = useOptionalForNullableReturnTypes;
     }
 
+    @Deprecated
     @Override
     public Boolean getUseWrapperForNullableInputTypes() {
         return useWrapperForNullableInputTypes;
     }
 
+    @Deprecated
     public void setUseWrapperForNullableInputTypes(Boolean useWrapperForNullableInputTypes) {
         this.useWrapperForNullableInputTypes = useWrapperForNullableInputTypes;
     }
 
     @Override
-    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getJavaNullableInputTypeWrapper() {
         return javaNullableInputTypeWrapper;
     }
 
-    public void setJavaNullableInputTypeWrapper(JavaNullableInputTypeWrapper javaNullableInputTypeWrapper) {
+    public void setJavaNullableInputTypeWrapper(NullableInputTypeWrapperConfig javaNullableInputTypeWrapper) {
         this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
     }
 
@@ -625,11 +628,11 @@ public class MappingConfig implements GraphQLCodegenConfiguration, Combinable<Ma
     }
 
     @Override
-    public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getKotlinNullableInputTypeWrapper() {
         return kotlinNullableInputTypeWrapper;
     }
 
-    public void setKotlinNullableInputTypeWrapper(KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper) {
+    public void setKotlinNullableInputTypeWrapper(NullableInputTypeWrapperConfig kotlinNullableInputTypeWrapper) {
         this.kotlinNullableInputTypeWrapper = kotlinNullableInputTypeWrapper;
     }
 

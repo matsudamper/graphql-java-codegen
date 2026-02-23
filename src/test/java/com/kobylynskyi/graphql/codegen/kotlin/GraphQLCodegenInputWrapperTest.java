@@ -2,8 +2,8 @@ package com.kobylynskyi.graphql.codegen.kotlin;
 
 import com.kobylynskyi.graphql.codegen.TestUtils;
 import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
-import com.kobylynskyi.graphql.codegen.model.KotlinNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
+import com.kobylynskyi.graphql.codegen.model.NullableInputTypeWrapperConfig;
 import com.kobylynskyi.graphql.codegen.utils.Utils;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -28,28 +28,11 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class GraphQLCodegenInputWrapperTest {
 
-    private static class TestInputWrapper implements KotlinNullableInputTypeWrapper {
-
-        @Override
-        public String getWrapperClassName() {
-            return "com.example.NullableInputWrapper";
-        }
-
-        @Override
-        public String getNullValueExpression() {
-            return "com.example.NullableInputWrapper.nullValue()";
-        }
-
-        @Override
-        public String getUndefinedValueExpression() {
-            return "com.example.NullableInputWrapper.undefined()";
-        }
-
-        @Override
-        public String getValueExpression(String value) {
-            return "com.example.NullableInputWrapper.value(" + value + ")";
-        }
-    }
+    private static final NullableInputTypeWrapperConfig TEST_WRAPPER = new NullableInputTypeWrapperConfig(
+            "com.example.NullableInputWrapper",
+            "com.example.NullableInputWrapper.nullValue()",
+            "com.example.NullableInputWrapper.undefined()",
+            "com.example.NullableInputWrapper.value(%s)");
 
     private final File outputBuildDir = new File("build/generated");
     private final File outputClassesDir = new File("build/generated");
@@ -58,7 +41,7 @@ class GraphQLCodegenInputWrapperTest {
     @BeforeEach
     void before() {
         mappingConfig.setGeneratedLanguage(GeneratedLanguage.KOTLIN);
-        mappingConfig.setKotlinNullableInputTypeWrapper(new TestInputWrapper());
+        mappingConfig.setKotlinNullableInputTypeWrapper(TEST_WRAPPER);
     }
 
     @AfterEach

@@ -2,8 +2,8 @@ package com.kobylynskyi.graphql.codegen.kotlin;
 
 import com.kobylynskyi.graphql.codegen.mapper.DataModelMapper;
 import com.kobylynskyi.graphql.codegen.mapper.GraphQLTypeMapper;
-import com.kobylynskyi.graphql.codegen.model.KotlinNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
+import com.kobylynskyi.graphql.codegen.model.NullableInputTypeWrapperConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingContext;
 import com.kobylynskyi.graphql.codegen.model.NamedDefinition;
 import com.kobylynskyi.graphql.codegen.model.definitions.ExtendedFieldDefinition;
@@ -197,7 +197,7 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     @Override
     public String wrapApiInputTypeIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                              String parentTypeName, List<Directive> directives) {
-        KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
+        NullableInputTypeWrapperConfig wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
         String computedTypeName = getTypeConsideringPrimitive(
                 mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&
@@ -215,7 +215,7 @@ public class KotlinGraphQLTypeMapper extends GraphQLTypeMapper {
     public String wrapApiDefaultValueIfRequired(MappingContext mappingContext, NamedDefinition namedDefinition,
                                                 InputValueDefinition inputValueDefinition, String defaultValue,
                                                 String parentTypeName, List<Directive> directives) {
-        KotlinNullableInputTypeWrapper wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
+        NullableInputTypeWrapperConfig wrapper = mappingContext.getKotlinNullableInputTypeWrapper();
         String computedTypeName = getTypeConsideringPrimitive(
                 mappingContext, namedDefinition, namedDefinition.getJavaName());
         if (wrapper != null &&

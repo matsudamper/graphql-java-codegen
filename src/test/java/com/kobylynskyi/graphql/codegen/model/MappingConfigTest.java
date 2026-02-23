@@ -19,92 +19,15 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 @SuppressWarnings("unchecked")
 class MappingConfigTest {
 
-    private static final JavaNullableInputTypeWrapper WRAPPER_1 = new TestJavaNullableInputTypeWrapper(
+    private static final NullableInputTypeWrapperConfig WRAPPER_1 = new NullableInputTypeWrapperConfig(
             "wrapper.Type1", "wrapper.Type1.null()", "wrapper.Type1.undefined()", "wrapper.Type1.value(%s)");
-    private static final JavaNullableInputTypeWrapper WRAPPER_2 = new TestJavaNullableInputTypeWrapper(
+    private static final NullableInputTypeWrapperConfig WRAPPER_2 = new NullableInputTypeWrapperConfig(
             "wrapper.Type2", "wrapper.Type2.null()", "wrapper.Type2.undefined()", "wrapper.Type2.value(%s)");
 
-    private static final KotlinNullableInputTypeWrapper KOTLIN_WRAPPER_1 = new TestKotlinNullableInputTypeWrapper(
+    private static final NullableInputTypeWrapperConfig KOTLIN_WRAPPER_1 = new NullableInputTypeWrapperConfig(
             "wrapper.KType1", "wrapper.KType1.null()", "wrapper.KType1.undefined()", "wrapper.KType1.value(%s)");
-    private static final KotlinNullableInputTypeWrapper KOTLIN_WRAPPER_2 = new TestKotlinNullableInputTypeWrapper(
+    private static final NullableInputTypeWrapperConfig KOTLIN_WRAPPER_2 = new NullableInputTypeWrapperConfig(
             "wrapper.KType2", "wrapper.KType2.null()", "wrapper.KType2.undefined()", "wrapper.KType2.value(%s)");
-
-    private static class TestJavaNullableInputTypeWrapper implements JavaNullableInputTypeWrapper {
-
-        private final String wrapperClassName;
-        private final String nullValueExpression;
-        private final String undefinedValueExpression;
-        private final String valueExpression;
-
-        private TestJavaNullableInputTypeWrapper(String wrapperClassName,
-                                                 String nullValueExpression,
-                                                 String undefinedValueExpression,
-                                                 String valueExpression) {
-            this.wrapperClassName = wrapperClassName;
-            this.nullValueExpression = nullValueExpression;
-            this.undefinedValueExpression = undefinedValueExpression;
-            this.valueExpression = valueExpression;
-        }
-
-        @Override
-        public String getWrapperClassName() {
-            return wrapperClassName;
-        }
-
-        @Override
-        public String getNullValueExpression() {
-            return nullValueExpression;
-        }
-
-        @Override
-        public String getUndefinedValueExpression() {
-            return undefinedValueExpression;
-        }
-
-        @Override
-        public String getValueExpression(String value) {
-            return String.format(valueExpression, value);
-        }
-    }
-
-
-    private static class TestKotlinNullableInputTypeWrapper implements KotlinNullableInputTypeWrapper {
-
-        private final String wrapperClassName;
-        private final String nullValueExpression;
-        private final String undefinedValueExpression;
-        private final String valueExpression;
-
-        private TestKotlinNullableInputTypeWrapper(String wrapperClassName,
-                                                   String nullValueExpression,
-                                                   String undefinedValueExpression,
-                                                   String valueExpression) {
-            this.wrapperClassName = wrapperClassName;
-            this.nullValueExpression = nullValueExpression;
-            this.undefinedValueExpression = undefinedValueExpression;
-            this.valueExpression = valueExpression;
-        }
-
-        @Override
-        public String getWrapperClassName() {
-            return wrapperClassName;
-        }
-
-        @Override
-        public String getNullValueExpression() {
-            return nullValueExpression;
-        }
-
-        @Override
-        public String getUndefinedValueExpression() {
-            return undefinedValueExpression;
-        }
-
-        @Override
-        public String getValueExpression(String value) {
-            return String.format(valueExpression, value);
-        }
-    }
 
     private static <T> Map<String, T> hashMap(AbstractMap.SimpleEntry<String, T>... entries) {
         return Arrays.stream(entries).collect(

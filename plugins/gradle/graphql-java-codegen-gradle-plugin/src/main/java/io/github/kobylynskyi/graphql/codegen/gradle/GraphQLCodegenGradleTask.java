@@ -8,8 +8,6 @@ import com.kobylynskyi.graphql.codegen.model.ApiNamePrefixStrategy;
 import com.kobylynskyi.graphql.codegen.model.ApiRootInterfaceStrategy;
 import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage;
 import com.kobylynskyi.graphql.codegen.model.GraphQLCodegenConfiguration;
-import com.kobylynskyi.graphql.codegen.model.JavaNullableInputTypeWrapper;
-import com.kobylynskyi.graphql.codegen.model.KotlinNullableInputTypeWrapper;
 import com.kobylynskyi.graphql.codegen.model.MappingConfig;
 import com.kobylynskyi.graphql.codegen.model.MappingConfigConstants;
 import com.kobylynskyi.graphql.codegen.model.exception.LanguageNotSupportedException;
@@ -85,11 +83,12 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     private Boolean generateDataFetchingEnvironmentArgumentInApis = MappingConfigConstants.DEFAULT_GENERATE_DATA_FETCHING_ENV;
     private Boolean generateModelsForRootTypes = MappingConfigConstants.DEFAULT_GENERATE_MODELS_FOR_ROOT_TYPES;
     private Boolean useOptionalForNullableReturnTypes = MappingConfigConstants.DEFAULT_USE_OPTIONAL_FOR_NULLABLE_RETURN_TYPES;
+    @Deprecated
     private Boolean useWrapperForNullableInputTypes =
             MappingConfigConstants.DEFAULT_USE_WRAPPER_FOR_NULLABLE_INPUT_TYPES;
-    private JavaNullableInputTypeWrapper javaNullableInputTypeWrapper;
+    private final NullableInputTypeWrapperConfig javaNullableInputTypeWrapper = new NullableInputTypeWrapperConfig();
     private Set<String> nullableInputTypeWrapperForDirectives = new HashSet<>();
-    private KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper;
+    private final NullableInputTypeWrapperConfig kotlinNullableInputTypeWrapper = new NullableInputTypeWrapperConfig();
     private Boolean generateApisWithThrowsException = MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_THROWS_EXCEPTION;
     private Boolean generateApisWithSuspendFunctions =
             MappingConfigConstants.DEFAULT_GENERATE_APIS_WITH_SUSPEND_FUNCTIONS;
@@ -174,9 +173,11 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         mappingConfig.setGenerateToString(generateToString);
         mappingConfig.setUseOptionalForNullableReturnTypes(useOptionalForNullableReturnTypes);
         mappingConfig.setUseWrapperForNullableInputTypes(useWrapperForNullableInputTypes);
-        mappingConfig.setJavaNullableInputTypeWrapper(javaNullableInputTypeWrapper);
+        mappingConfig.setJavaNullableInputTypeWrapper(
+                javaNullableInputTypeWrapper.getWrapperClassName() != null ? javaNullableInputTypeWrapper : null);
         mappingConfig.setNullableInputTypeWrapperForDirectives(nullableInputTypeWrapperForDirectives);
-        mappingConfig.setKotlinNullableInputTypeWrapper(kotlinNullableInputTypeWrapper);
+        mappingConfig.setKotlinNullableInputTypeWrapper(
+                kotlinNullableInputTypeWrapper.getWrapperClassName() != null ? kotlinNullableInputTypeWrapper : null);
         mappingConfig.setGenerateApisWithThrowsException(generateApisWithThrowsException);
         mappingConfig.setGenerateApisWithSuspendFunctions(generateApisWithSuspendFunctions);
         mappingConfig.setGenerateJacksonTypeIdResolver(generateJacksonTypeIdResolver);
@@ -688,6 +689,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.useOptionalForNullableReturnTypes = useOptionalForNullableReturnTypes;
     }
 
+    @Deprecated
     @Input
     @Optional
     @Override
@@ -695,18 +697,20 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         return useWrapperForNullableInputTypes;
     }
 
+    @Deprecated
     public void setUseWrapperForNullableInputTypes(Boolean useWrapperForNullableInputTypes) {
         this.useWrapperForNullableInputTypes = useWrapperForNullableInputTypes;
     }
 
-    @Internal
+    @Nested
+    @Optional
     @Override
-    public JavaNullableInputTypeWrapper getJavaNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getJavaNullableInputTypeWrapper() {
         return javaNullableInputTypeWrapper;
     }
 
-    public void setJavaNullableInputTypeWrapper(JavaNullableInputTypeWrapper javaNullableInputTypeWrapper) {
-        this.javaNullableInputTypeWrapper = javaNullableInputTypeWrapper;
+    public void javaNullableInputTypeWrapper(Action<? super NullableInputTypeWrapperConfig> action) {
+        action.execute(javaNullableInputTypeWrapper);
     }
 
     @Input
@@ -720,14 +724,15 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
         this.nullableInputTypeWrapperForDirectives = nullableInputTypeWrapperForDirectives;
     }
 
-    @Internal
+    @Nested
+    @Optional
     @Override
-    public KotlinNullableInputTypeWrapper getKotlinNullableInputTypeWrapper() {
+    public NullableInputTypeWrapperConfig getKotlinNullableInputTypeWrapper() {
         return kotlinNullableInputTypeWrapper;
     }
 
-    public void setKotlinNullableInputTypeWrapper(KotlinNullableInputTypeWrapper kotlinNullableInputTypeWrapper) {
-        this.kotlinNullableInputTypeWrapper = kotlinNullableInputTypeWrapper;
+    public void kotlinNullableInputTypeWrapper(Action<? super NullableInputTypeWrapperConfig> action) {
+        action.execute(kotlinNullableInputTypeWrapper);
     }
 
     @Input
