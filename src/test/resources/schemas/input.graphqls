@@ -7,6 +7,9 @@ type Query {
 }
 
 input ReproInput {
+    """
+    Repro bar comment
+    """
     reproField: [String!]!
 }
 
