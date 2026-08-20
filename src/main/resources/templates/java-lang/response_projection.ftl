@@ -2,8 +2,8 @@
 package ${package};
 
 </#if>
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseField;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseProjection;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseField;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseProjection;
 <#if fields?has_content && generateAllMethodInProjection>
 import java.util.HashMap;
 import java.util.Map;
@@ -22,7 +22,7 @@ import java.util.Objects;
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>

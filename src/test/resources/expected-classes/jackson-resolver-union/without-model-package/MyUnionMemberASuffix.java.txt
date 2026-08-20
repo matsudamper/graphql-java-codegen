@@ -1,5 +1,5 @@
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class MyUnionMemberASuffix implements java.io.Serializable, MyUnionToResolveSuffix {
@@ -29,7 +29,7 @@ public class MyUnionMemberASuffix implements java.io.Serializable, MyUnionToReso
     }
 
     @javax.annotation.Generated(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "2020-12-31T23:59:59-0500"
     )
     public static class Builder {

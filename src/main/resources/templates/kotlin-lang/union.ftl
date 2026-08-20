@@ -12,7 +12,7 @@ package ${package}
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    value = ["net.matsudamper.graphql.codegen.GraphQLCodegen"],
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>

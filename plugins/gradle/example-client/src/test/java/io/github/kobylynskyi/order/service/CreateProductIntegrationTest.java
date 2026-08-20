@@ -1,7 +1,7 @@
 package io.github.kobylynskyi.order.service;
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequest;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResult;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResult;
 import io.github.kobylynskyi.product.graphql.model.CreateMutationRequest;
 import io.github.kobylynskyi.product.graphql.model.ProductInputTO;
 import io.github.kobylynskyi.product.graphql.model.ProductResponseProjection;

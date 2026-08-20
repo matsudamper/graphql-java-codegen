@@ -1,11 +1,11 @@
 package com.kobylynskyi.graphql.test1
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperation
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest
 import java.util.Objects
 
 @javax.annotation.Generated(
-    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    value = ["net.matsudamper.graphql.codegen.GraphQLCodegen"],
     date = "2020-12-31T23:59:59-0500"
 )
 open class QueryINeedQueryRequest(private val alias: String?) : GraphQLOperationRequest {

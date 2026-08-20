@@ -1,0 +1,87 @@
+package net.matsudamper.graphql.codegen;
+
+import net.matsudamper.graphql.codegen.java.JavaGraphQLCodegen;
+import net.matsudamper.graphql.codegen.model.ApiNamePrefixStrategy;
+import net.matsudamper.graphql.codegen.model.ApiRootInterfaceStrategy;
+import net.matsudamper.graphql.codegen.model.MappingConfig;
+import net.matsudamper.graphql.codegen.utils.Utils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import static net.matsudamper.graphql.codegen.TestUtils.assertSameTrimmedContent;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class GraphQLCodegenIntrospectionResultTest {
+
+    private final File outputBuildDir = new File("build/generated");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/test1");
+
+    private MappingConfig mappingConfig;
+
+    @BeforeEach
+    void init() {
+        mappingConfig = new MappingConfig();
+        mappingConfig.setPackageName("com.kobylynskyi.graphql.test1");
+        mappingConfig.setGenerateClient(true);
+    }
+
+    @AfterEach
+    void cleanup() {
+        Utils.deleteDir(outputBuildDir);
+    }
+
+    @Test
+    void generateClientFromIntrospectionResult() throws Exception {
+        generate("src/test/resources/introspection-result/sample-introspection-query-result.json");
+
+        checkGeneratedFiles();
+    }
+
+    @Test
+    void generateClientFromIntrospectionResultWrappedInData() throws Exception {
+        generate("src/test/resources/introspection-result/sample-introspection-query-result-wrapped.json");
+
+        checkGeneratedFiles();
+    }
+
+    @Test
+    void generateClientFromIntrospectionResult_SetApiStrategies() throws Exception {
+        mappingConfig.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.INTERFACE_PER_SCHEMA);
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX);
+
+        generate("src/test/resources/introspection-result/sample-introspection-query-result.json");
+
+        checkGeneratedFiles();
+    }
+
+    private void generate(String path) throws IOException {
+        new JavaGraphQLCodegen(path,
+                outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
+    }
+
+    private void checkGeneratedFiles() throws IOException {
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(Arrays.asList("CreateMutationRequest.java", "CreateMutationResolver.java",
+                "CreateMutationResponse.java", "MutationResolver.java", "Product.java", "ProductByIdQueryRequest.java",
+                "ProductByIdQueryResolver.java", "ProductByIdQueryResponse.java", "ProductInput.java",
+                "ProductResponseProjection.java", "ProductsByIdsQueryRequest.java", "ProductsByIdsQueryResolver.java",
+                "ProductsByIdsQueryResponse.java", "ProductsQueryRequest.java", "ProductsQueryResolver.java",
+                "ProductsQueryResponse.java", "QueryResolver.java", "StockStatus.java"), generatedFileNames);
+
+        for (File file : files) {
+            File expected = new File(String.format(
+                    "src/test/resources/expected-classes/from-introspection-result/%s.txt", file.getName()));
+            assertSameTrimmedContent(expected, file);
+        }
+    }
+
+}

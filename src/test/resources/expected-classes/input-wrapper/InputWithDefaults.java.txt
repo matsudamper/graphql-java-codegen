@@ -3,7 +3,7 @@
  * This input has all possible types
  */
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class InputWithDefaults implements java.io.Serializable {
@@ -125,7 +125,7 @@ public class InputWithDefaults implements java.io.Serializable {
     }
 
     @javax.annotation.Generated(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "2020-12-31T23:59:59-0500"
     )
     public static class Builder {

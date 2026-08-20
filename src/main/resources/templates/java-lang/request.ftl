@@ -2,8 +2,8 @@
 package ${package};
 
 </#if>
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperation;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -21,7 +21,7 @@ import java.util.Set;
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>
@@ -124,7 +124,7 @@ public class ${className} implements GraphQLOperationRequest {
 
     <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
     @${generatedInfo.getGeneratedType()}(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "${generatedInfo.getDateTime()}"
     )
     </#if>

@@ -1,0 +1,179 @@
+package net.matsudamper.graphql.codegen;
+
+import net.matsudamper.graphql.codegen.java.JavaGraphQLCodegen;
+import net.matsudamper.graphql.codegen.model.ApiInterfaceStrategy;
+import net.matsudamper.graphql.codegen.model.ApiNamePrefixStrategy;
+import net.matsudamper.graphql.codegen.model.ApiRootInterfaceStrategy;
+import net.matsudamper.graphql.codegen.model.GeneratedInformation;
+import net.matsudamper.graphql.codegen.model.MappingConfig;
+import net.matsudamper.graphql.codegen.supplier.SchemaFinder;
+import net.matsudamper.graphql.codegen.utils.Utils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+
+import static net.matsudamper.graphql.codegen.TestUtils.assertSameTrimmedContent;
+import static net.matsudamper.graphql.codegen.TestUtils.getFileByName;
+import static java.util.Arrays.asList;
+import static java.util.stream.Collectors.toList;
+import static java.util.stream.Collectors.toSet;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+
+@ExtendWith(MaxQueryTokensExtension.class)
+class GraphQLCodegenApisTest {
+
+    private final File outputBuildDir = new File("build/generated");
+    private final File outputJavaClassesDir = new File("build/generated");
+    private final MappingConfig mappingConfig = new MappingConfig();
+    private final SchemaFinder schemaFinder = new SchemaFinder(Paths.get("src/test/resources"));
+
+    @AfterEach
+    void cleanup() {
+        Utils.deleteDir(outputBuildDir);
+    }
+
+    @Test
+    void generate_FileNameAsPrefix() throws Exception {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FILE_NAME_AS_PREFIX);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        Set<String> generatedFileNames = Arrays.stream(files).map(File::getName).collect(toSet());
+        assertEquals(new HashSet<>(asList("SubSchema1PingQueryResolver.java", "SubSchema2PongQueryResolver.java",
+                "QueryResolver.java")), generatedFileNames);
+    }
+
+    @Test
+    void generate_FolderNameAsPrefix() throws Exception {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        Set<String> generatedFileNames = Arrays.stream(files).map(File::getName).collect(toSet());
+        assertEquals(new HashSet<>(asList("SubProj1PingQueryResolver.java", "SubProj2PongQueryResolver.java",
+                "QueryResolver.java")), generatedFileNames);
+    }
+
+    @Test
+    void generate_Constant() throws Exception {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.CONSTANT);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        Set<String> generatedFileNames = Arrays.stream(files).map(File::getName).collect(toSet());
+        assertEquals(new HashSet<>(asList("PingQueryResolver.java", "PongQueryResolver.java",
+                "QueryResolver.java")), generatedFileNames);
+    }
+
+    @Test
+    void generate_InterfacePerSchemaAndFolderNameAsPrefix() throws Exception {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FOLDER_NAME_AS_PREFIX);
+        mappingConfig.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.INTERFACE_PER_SCHEMA);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        Set<String> generatedFileNames = Arrays.stream(files).map(File::getName).collect(toSet());
+        assertEquals(new HashSet<>(asList("SubProj1PingQueryResolver.java", "SubProj2PongQueryResolver.java",
+                        "SubProj1QueryResolver.java", "SubProj2QueryResolver.java")),
+                generatedFileNames);
+    }
+
+    @Test
+    void generate_InterfacePerSchemaAndFileNameAsPrefix() throws Exception {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.FILE_NAME_AS_PREFIX);
+        mappingConfig.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.INTERFACE_PER_SCHEMA);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        Set<String> generatedFileNames = Arrays.stream(files).map(File::getName).collect(toSet());
+        assertEquals(new HashSet<>(asList("SubSchema1PingQueryResolver.java", "SubSchema2PongQueryResolver.java",
+                        "SubSchema1QueryResolver.java", "SubSchema2QueryResolver.java")),
+                generatedFileNames);
+    }
+
+    @Test
+    void generate_InterfacePerSchemaAndConstantPrefix() throws IOException {
+        schemaFinder.setIncludePattern("sub-schema.*\\.graphqls");
+        mappingConfig.setApiNamePrefixStrategy(ApiNamePrefixStrategy.CONSTANT);
+        mappingConfig.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.INTERFACE_PER_SCHEMA);
+        GeneratedInformation generatedInformation = TestUtils.getStaticGeneratedInfo(mappingConfig);
+        List<String> schemas = schemaFinder.findSchemas();
+        assertThrows(IllegalArgumentException.class,
+                () -> new JavaGraphQLCodegen(schemas, outputBuildDir, mappingConfig,
+                        generatedInformation));
+    }
+
+    @Test
+    void generate_DoNotGenerateApiInterfaceForOperations() throws IOException {
+        schemaFinder.setIncludePattern("test.*\\.graphqls");
+        mappingConfig.setApiInterfaceStrategy(ApiInterfaceStrategy.DO_NOT_GENERATE);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        assertEquals(Arrays.asList(
+                        "Event.java", "EventProperty.java", "EventPropertyResolver.java", "EventStatus.java",
+                        "MutationResolver.java", "QueryResolver.java", "SubscriptionResolver.java", "User.java"),
+                Arrays.stream(files).map(File::getName).sorted().collect(toList()));
+    }
+
+    @Test
+    void generate_DoNotGenerateRootApiInterfaces() throws IOException {
+        schemaFinder.setIncludePattern("test.*\\.graphqls");
+        mappingConfig.setApiRootInterfaceStrategy(ApiRootInterfaceStrategy.DO_NOT_GENERATE);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        assertEquals(Arrays.asList(
+                        "CreateEventMutationResolver.java", "Event.java", "EventByIdQueryResolver.java",
+                        "EventProperty.java", "EventPropertyResolver.java", "EventStatus.java",
+                        "EventsByCategoryAndStatusQueryResolver.java", "EventsByIdsQueryResolver.java",
+                        "EventsCreatedSubscriptionResolver.java", "User.java", "VersionQueryResolver.java"),
+                Arrays.stream(files).map(File::getName).sorted().collect(toList()));
+    }
+
+    @Test
+    void generate_WithoutThrowsException() throws IOException {
+        schemaFinder.setIncludePattern("github.*\\.graphqls");
+        mappingConfig.setGenerateApisWithThrowsException(false);
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+
+        assertSameTrimmedContent(new File("src/test/resources/expected-classes/apis/" +
+                        "CodeOfConductQueryResolver_withoutThrowsException.java.txt"),
+                getFileByName(files, "CodeOfConductQueryResolver.java"));
+        assertSameTrimmedContent(new File("src/test/resources/expected-classes/apis/" +
+                        "MutationResolver_withoutThrowsException.java.txt"),
+                getFileByName(files, "MutationResolver.java"));
+    }
+
+    private void generate() throws IOException {
+        new JavaGraphQLCodegen(schemaFinder.findSchemas(), outputBuildDir, mappingConfig,
+                TestUtils.getStaticGeneratedInfo(mappingConfig))
+                .generate();
+    }
+
+}

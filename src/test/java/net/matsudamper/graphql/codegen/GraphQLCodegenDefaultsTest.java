@@ -1,0 +1,108 @@
+package net.matsudamper.graphql.codegen;
+
+import net.matsudamper.graphql.codegen.java.JavaGraphQLCodegen;
+import net.matsudamper.graphql.codegen.model.MappingConfig;
+import net.matsudamper.graphql.codegen.utils.Utils;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Objects;
+
+import static net.matsudamper.graphql.codegen.TestUtils.assertSameTrimmedContent;
+import static java.util.Arrays.asList;
+import static java.util.Collections.singletonList;
+import static java.util.Collections.singletonMap;
+import static java.util.stream.Collectors.toList;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
+class GraphQLCodegenDefaultsTest {
+
+    private final MappingConfig mappingConfig = new MappingConfig();
+
+    private final File outputBuildDir = new File("build/generated");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/testdefaults");
+
+    @BeforeEach
+    void init() {
+        mappingConfig.setPackageName("com.kobylynskyi.graphql.testdefaults");
+    }
+
+    @AfterEach
+    void cleanup() {
+        Utils.deleteDir(outputBuildDir);
+    }
+
+    @Test
+    void generate_CheckFiles() throws Exception {
+        generate("src/test/resources/schemas/defaults.graphqls");
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(asList("InputWithDefaults.java", "MyEnum.java", "SomeObject.java"), generatedFileNames);
+
+        for (File file : files) {
+            assertSameTrimmedContent(new File(String.format("src/test/resources/expected-classes/defaults/%s.txt",
+                    file.getName())), file);
+        }
+    }
+
+    @Test
+    void generate_UnknownFields() throws Exception {
+        mappingConfig.setSupportUnknownFields(true);
+        mappingConfig.setUnknownFieldsPropertyName("userDefinedFields");
+
+        generate("src/test/resources/schemas/defaults.graphqls");
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(asList("InputWithDefaults.java", "MyEnum.java", "SomeObject.java"), generatedFileNames);
+
+        for (File file : files) {
+            assertSameTrimmedContent(new File(String.format("src/test/resources/expected-classes/unknown-fields/%s.txt",
+                    file.getName())), file);
+        }
+    }
+
+    @Test
+    void generate_CheckFiles_WithPrefixSuffix() throws Exception {
+        mappingConfig.setModelNameSuffix("TO");
+
+        generate("src/test/resources/schemas/defaults.graphqls");
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(asList("InputWithDefaultsTO.java", "MyEnumTO.java", "SomeObjectTO.java"), generatedFileNames);
+
+        for (File file : files) {
+            assertSameTrimmedContent(new File(String.format("src/test/resources/expected-classes/defaults/%s.txt",
+                    file.getName())), file);
+        }
+    }
+
+    @Test
+    void generate_CheckFiles_OnLongDefault() throws Exception {
+        mappingConfig.setCustomTypesMapping(singletonMap("Long", "java.lang.Long"));
+        mappingConfig.setModelNameSuffix("DTO");
+
+        generate("src/test/resources/schemas/defaults-with-Long.graphqls");
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
+        assertEquals(asList("InputWithDefaultsDTO.java", "MyEnumDTO.java", "SomeObjectDTO.java"), generatedFileNames);
+
+        for (File file : files) {
+            assertSameTrimmedContent(new File(String.format("src/test/resources/expected-classes/defaults/%s.txt",
+                    file.getName())), file);
+        }
+    }
+
+    private void generate(String path) throws IOException {
+        new JavaGraphQLCodegen(singletonList(path),
+                outputBuildDir, mappingConfig, TestUtils.getStaticGeneratedInfo(mappingConfig)).generate();
+    }
+}

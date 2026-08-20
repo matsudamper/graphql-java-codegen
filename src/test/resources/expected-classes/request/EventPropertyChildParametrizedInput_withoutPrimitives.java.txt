@@ -1,7 +1,7 @@
 package com.github.graphql;
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLParametrizedInput;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequestSerializer;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLParametrizedInput;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequestSerializer;
 import java.util.StringJoiner;
 import java.util.Objects;
 
@@ -9,7 +9,7 @@ import java.util.Objects;
  * Parametrized input for field child in type EventProperty
  */
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class EventPropertyChildParametrizedInput implements GraphQLParametrizedInput {

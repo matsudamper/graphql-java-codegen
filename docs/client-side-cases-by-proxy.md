@@ -19,8 +19,8 @@ Here is only to provide a way, the specific implementation for reference only, n
 
 ```java
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseProjection;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseProjection;
 
 import java.lang.reflect.*;
 import java.util.Arrays;
@@ -200,8 +200,8 @@ final public class DynamicProxy implements InvocationHandler, ExecutionGraphql {
 
 ```java
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseProjection;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseProjection;
 
 import java.lang.reflect.Proxy;
 

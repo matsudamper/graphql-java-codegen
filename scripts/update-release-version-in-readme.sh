@@ -9,8 +9,8 @@ set_version_in_file() {
   grep --color -e "" /tmp/sed.done
 }
 
-set_version_in_file "plugins/gradle/README.md" "id \"io.github.kobylynskyi.graphql.codegen\" version \""
-set_version_in_file "plugins/gradle/README.md" "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:"
+set_version_in_file "plugins/gradle/README.md" "id \"net.matsudamper.graphql.codegen\" version \""
+set_version_in_file "plugins/gradle/README.md" "net.matsudamper.graphql.codegen:graphql-codegen-gradle-plugin:"
 
 # Exit clean
 exit 0

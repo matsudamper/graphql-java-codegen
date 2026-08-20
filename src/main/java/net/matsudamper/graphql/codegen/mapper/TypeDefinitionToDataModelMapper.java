@@ -1,0 +1,168 @@
+package net.matsudamper.graphql.codegen.mapper;
+
+import net.matsudamper.graphql.codegen.model.MappingContext;
+import net.matsudamper.graphql.codegen.model.ParameterDefinition;
+import net.matsudamper.graphql.codegen.model.builders.JavaDocBuilder;
+import net.matsudamper.graphql.codegen.model.definitions.ExtendedDocument;
+import net.matsudamper.graphql.codegen.model.definitions.ExtendedObjectTypeDefinition;
+import net.matsudamper.graphql.codegen.model.definitions.ExtendedUnionTypeDefinition;
+import net.matsudamper.graphql.codegen.utils.Utils;
+
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+import static net.matsudamper.graphql.codegen.model.DataModelFields.ANNOTATIONS;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.BUILDER;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.CLASS_NAME;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.EQUALS_AND_HASH_CODE;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.FIELDS;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.GENERATED_ANNOTATION;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.GENERATED_INFO;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.GENERATE_MODEL_OPEN_CLASSES;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.GENERATE_NOARGS_CONSTRUCTOR_ONLY;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.GENERATE_SEALED_INTERFACES;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.IMMUTABLE_MODELS;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.IMPLEMENTS;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.INITIALIZE_NULLABLE_TYPES;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.JAVA_DOC;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.PACKAGE;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.PARENT_INTERFACE_PROPERTIES;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.SUPPORT_UNKNOWN_FIELDS;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.TO_STRING;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.TO_STRING_FOR_REQUEST;
+import static net.matsudamper.graphql.codegen.model.DataModelFields.UNKNOWN_FIELDS_PROPERTY_NAME;
+
+/**
+ * Map type definition to a Freemarker data model
+ *
+ * @author kobylynskyi
+ */
+public class TypeDefinitionToDataModelMapper implements UnknownFieldsSupport {
+
+    private final GraphQLTypeMapper graphQLTypeMapper;
+    private final AnnotationsMapper annotationsMapper;
+    private final DataModelMapper dataModelMapper;
+    private final FieldDefinitionToParameterMapper fieldDefinitionToParameterMapper;
+
+    public TypeDefinitionToDataModelMapper(MapperFactory mapperFactory,
+                                           FieldDefinitionToParameterMapper fieldDefinitionToParameterMapper) {
+        this.graphQLTypeMapper = mapperFactory.getGraphQLTypeMapper();
+        this.annotationsMapper = mapperFactory.getAnnotationsMapper();
+        this.dataModelMapper = mapperFactory.getDataModelMapper();
+        this.fieldDefinitionToParameterMapper = fieldDefinitionToParameterMapper;
+    }
+
+    /**
+     * Merge parameter definition data from the type and interface
+     * Annotations from the type have higher precedence
+     *
+     * @param typeDef      Definition of the same parameter from the type
+     * @param interfaceDef Definition of the same parameter from the interface
+     * @return merged parameter definition
+     */
+    private static ParameterDefinition merge(ParameterDefinition typeDef, ParameterDefinition interfaceDef) {
+        typeDef.setDefinitionInParentType(interfaceDef);
+        if (Utils.isEmpty(typeDef.getAnnotations())) {
+            typeDef.setAnnotations(interfaceDef.getAnnotations());
+        }
+        if (Utils.isEmpty(typeDef.getJavaDoc())) {
+            typeDef.setJavaDoc(interfaceDef.getJavaDoc());
+        }
+        return typeDef;
+    }
+
+    /**
+     * Map type definition to a Freemarker data model
+     *
+     * @param mappingContext Global mapping context
+     * @param definition     Definition of object type including base definition and its extensions
+     * @return Freemarker data model of the GraphQL type
+     */
+    public Map<String, Object> map(MappingContext mappingContext,
+                                   ExtendedObjectTypeDefinition definition) {
+        ExtendedDocument document = mappingContext.getDocument();
+
+        Map<String, Object> dataModel = new HashMap<>();
+        // type/enum/input/interface/union classes do not require any imports
+        dataModel.put(PACKAGE, DataModelMapper.getModelPackageName(mappingContext));
+        dataModel.put(CLASS_NAME, dataModelMapper.getModelClassNameWithPrefixAndSuffix(mappingContext, definition));
+        dataModel.put(JAVA_DOC, JavaDocBuilder.build(definition));
+        dataModel.put(IMPLEMENTS, getInterfaces(mappingContext, definition));
+        dataModel.put(ANNOTATIONS, annotationsMapper.getAnnotations(mappingContext, definition));
+        dataModel.put(FIELDS, getFields(mappingContext, definition, document));
+        dataModel.put(BUILDER, mappingContext.getGenerateBuilder());
+        dataModel.put(EQUALS_AND_HASH_CODE, mappingContext.getGenerateEqualsAndHashCode());
+        dataModel.put(IMMUTABLE_MODELS, mappingContext.getGenerateImmutableModels());
+        dataModel.put(TO_STRING, mappingContext.getGenerateToString());
+        dataModel.put(TO_STRING_FOR_REQUEST, mappingContext.getGenerateClient());
+        dataModel.put(GENERATED_ANNOTATION, mappingContext.getAddGeneratedAnnotation());
+        dataModel.put(GENERATED_INFO, mappingContext.getGeneratedInformation());
+        dataModel.put(PARENT_INTERFACE_PROPERTIES, mappingContext.getParentInterfaceProperties());
+        dataModel.put(GENERATE_MODEL_OPEN_CLASSES, mappingContext.isGenerateModelOpenClasses());
+        dataModel.put(INITIALIZE_NULLABLE_TYPES, mappingContext.isInitializeNullableTypes());
+        dataModel.put(GENERATE_SEALED_INTERFACES, mappingContext.isGenerateSealedInterfaces());
+        dataModel.put(SUPPORT_UNKNOWN_FIELDS, mappingContext.isSupportUnknownFields());
+        dataModel.put(UNKNOWN_FIELDS_PROPERTY_NAME, mappingContext.getUnknownFieldsPropertyName());
+        dataModel.put(GENERATE_NOARGS_CONSTRUCTOR_ONLY, mappingContext.isGenerateNoArgsConstructorOnly());
+        return dataModel;
+    }
+
+    /**
+     * Get merged attributes from the type and attributes from the interface.
+     *
+     * @param mappingContext Global mapping context
+     * @param typeDefinition GraphQL type definition
+     * @param document       Parent GraphQL document
+     * @return Freemarker data model of the GraphQL type
+     */
+    private Collection<ParameterDefinition> getFields(MappingContext mappingContext,
+                                                      ExtendedObjectTypeDefinition typeDefinition,
+                                                      ExtendedDocument document) {
+        // using the map to exclude duplicate fields from the type and interfaces
+        Map<String, ParameterDefinition> allParameters = new LinkedHashMap<>();
+
+        // includes parameters from the base definition and extensions
+        fieldDefinitionToParameterMapper.mapFields(mappingContext, typeDefinition.getFieldDefinitions(), typeDefinition)
+                .forEach(p -> allParameters.put(p.getName(), p));
+        // includes parameters from the interface
+        DataModelMapper.getInterfacesOfType(typeDefinition, document).stream()
+                .map(i -> fieldDefinitionToParameterMapper.mapFields(mappingContext, i.getFieldDefinitions(), i))
+                .flatMap(Collection::stream)
+                .forEach(paramDef -> allParameters
+                        .merge(paramDef.getName(), paramDef, TypeDefinitionToDataModelMapper::merge));
+
+
+        createUnknownFields(mappingContext).ifPresent(
+                unknownFields -> allParameters.put(mappingContext.getUnknownFieldsPropertyName(), unknownFields)
+        );
+
+        return allParameters.values();
+    }
+
+    private Set<String> getInterfaces(MappingContext mappingContext,
+                                      ExtendedObjectTypeDefinition definition) {
+        List<String> unionsNames = mappingContext.getDocument().getUnionDefinitions()
+                .stream()
+                .filter(union -> union.isDefinitionPartOfUnion(definition))
+                .map(ExtendedUnionTypeDefinition::getName)
+                .map(unionName -> DataModelMapper
+                        .getModelClassNameWithPrefixAndSuffix(mappingContext, unionName))
+                .collect(Collectors.toList());
+        Set<String> interfaceNames = definition.getImplements()
+                .stream()
+                .map(anImplement -> graphQLTypeMapper.getLanguageType(mappingContext, anImplement))
+                .collect(Collectors.toSet());
+
+        Set<String> allInterfaces = new LinkedHashSet<>();
+        allInterfaces.addAll(unionsNames);
+        allInterfaces.addAll(interfaceNames);
+        return allInterfaces;
+    }
+
+}

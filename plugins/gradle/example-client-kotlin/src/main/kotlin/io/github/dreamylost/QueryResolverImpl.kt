@@ -5,7 +5,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.module.kotlin.jsonMapper
 import com.fasterxml.jackson.module.kotlin.kotlinModule
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequest
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequest
 import io.github.dreamylost.api.QueryResolver
 import io.github.dreamylost.model.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull

@@ -1,10 +1,10 @@
-import com.kobylynskyi.graphql.codegen.model.GeneratedLanguage
-import io.github.kobylynskyi.graphql.codegen.gradle.GraphQLCodegenGradleTask
+import net.matsudamper.graphql.codegen.model.GeneratedLanguage
+import net.matsudamper.graphql.codegen.gradle.GraphQLCodegenGradleTask
 
 plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "1.9.25"
-    id "io.github.kobylynskyi.graphql.codegen" version "5.10.1-SNAPSHOT"
+    id "net.matsudamper.graphql.codegen" version "5.10.1-SNAPSHOT"
 }
 
 def graphqlCodegenClientKotlinVersion = '5.10.1' // Variable used in the automatic release process
@@ -29,7 +29,7 @@ repositories {
 dependencies {
     // use the latest available version:
     // https://search.maven.org/artifact/io.github.kobylynskyi/graphql-java-codegen
-    implementation "io.github.kobylynskyi:graphql-java-codegen:5.10.1-SNAPSHOT"
+    implementation "net.matsudamper:graphql-java-codegen:5.10.1-SNAPSHOT"
 
     implementation "javax.validation:validation-api:2.0.1.Final"
     implementation "com.squareup.okhttp3:okhttp:4.11.0"

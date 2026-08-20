@@ -1,10 +1,10 @@
-<#assign MapperUtil=statics["com.kobylynskyi.graphql.codegen.kotlin.KotlinGraphQLTypeMapper"]>
+<#assign MapperUtil=statics["net.matsudamper.graphql.codegen.kotlin.KotlinGraphQLTypeMapper"]>
 <#if package?has_content>
 package ${package}
 
 </#if>
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperation
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest
 <#if toString || equalsAndHashCode>
 import java.util.Objects
 </#if>
@@ -18,7 +18,7 @@ import java.util.Objects
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    value = ["net.matsudamper.graphql.codegen.GraphQLCodegen"],
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>

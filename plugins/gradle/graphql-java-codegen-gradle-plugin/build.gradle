@@ -18,14 +18,14 @@ apply plugin: "maven-publish"
 def graphqlCodegenGradlePluginVersion = '5.10.1' // This variable used in the automatic release process
 def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
-group = "io.github.kobylynskyi"
+group = "net.matsudamper"
 version = graphqlCodegenGradlePluginVersion + versionPostfix
 description = "Provides a task for generating Java code based on GraphQL schema"
 
 dependencies {
     implementation gradleApi()
 
-    implementation "io.github.kobylynskyi:graphql-java-codegen:${version}"
+    implementation "net.matsudamper:graphql-java-codegen:${version}"
 
     implementation "org.freemarker:freemarker:2.3.34"
     implementation "com.graphql-java:graphql-java:20.2"
@@ -41,10 +41,10 @@ gradlePlugin {
     vcsUrl = 'https://github.com/matsudamper/graphql-java-codegen'
     plugins {
         graphqlCodegen {
-            id = 'io.github.kobylynskyi.graphql.codegen'
+            id = 'net.matsudamper.graphql.codegen'
             displayName = 'GraphQL Java Codegen'
             description = 'Gradle plugin for GraphQL Java code generation'
-            implementationClass = 'io.github.kobylynskyi.graphql.codegen.gradle.GraphQLCodegenGradlePlugin'
+            implementationClass = 'net.matsudamper.graphql.codegen.gradle.GraphQLCodegenGradlePlugin'
             tags.set(['graphql', 'graphql-java', 'graphql-java-codegen', 'graphql-codegen'])
         }
     }

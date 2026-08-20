@@ -1,0 +1,50 @@
+package net.matsudamper.graphql.codegen.kotlin;
+
+import net.matsudamper.graphql.codegen.mapper.DataModelMapper;
+import net.matsudamper.graphql.codegen.model.MappingContext;
+import net.matsudamper.graphql.codegen.utils.Utils;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+import static net.matsudamper.graphql.codegen.utils.Utils.wrapString;
+
+/**
+ * Data model mapper for KOTLIN generated classes
+ *
+ * @author 梦境迷离
+ * @since 2020/12/09
+ */
+public class KotlinDataModelMapper extends DataModelMapper {
+
+    private static final String RESTRICTED_KEYWORDS_WRAP_WITH = "`";
+    private static final Set<String> KOTLIN_RESTRICTED_KEYWORDS = new HashSet<>(
+            Arrays.asList("package", "interface", "class", "object", "super", "null", "this", "typealias", "as", "as?",
+                    "if", "else", "true", "false", "while", "do", "for", "when", "break", "continue", "return",
+                    "fun", "in", "!in", "is", "!is", "throw", "try", "val", "var", "typeof"));
+
+    //TODO maybe have others
+    private static final Set<String> KOTLIN_RESTRICTED_METHOD_NAMES = new HashSet<>(
+            Arrays.asList("notify", "notifyAll", "wait"));
+
+    @Override
+    public String capitalizeIfRestricted(MappingContext mappingContext, String fieldName) {
+        if (KOTLIN_RESTRICTED_KEYWORDS.contains(fieldName)) {
+            return wrapString(fieldName, RESTRICTED_KEYWORDS_WRAP_WITH);
+        }
+        return fieldName;
+    }
+
+    @Override
+    public String capitalizeMethodNameIfRestricted(MappingContext mappingContext, String methodName) {
+        if (KOTLIN_RESTRICTED_KEYWORDS.contains(methodName)) {
+            return wrapString(methodName, RESTRICTED_KEYWORDS_WRAP_WITH);
+        }
+        if (KOTLIN_RESTRICTED_METHOD_NAMES.contains(methodName)) {
+            return Utils.capitalize(methodName);
+        }
+        return methodName;
+    }
+
+}

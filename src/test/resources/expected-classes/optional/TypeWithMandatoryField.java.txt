@@ -2,7 +2,7 @@ import java.util.Objects;
 import java.util.StringJoiner;
 
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class TypeWithMandatoryField implements java.io.Serializable, InterfaceWithOptionalField {
@@ -54,7 +54,7 @@ public class TypeWithMandatoryField implements java.io.Serializable, InterfaceWi
     }
 
     @javax.annotation.Generated(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "2020-12-31T23:59:59-0500"
     )
     public static class Builder {

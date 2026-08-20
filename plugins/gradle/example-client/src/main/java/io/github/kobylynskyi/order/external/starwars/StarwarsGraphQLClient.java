@@ -1,6 +1,6 @@
 package io.github.kobylynskyi.order.external.starwars;
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequest;
 import io.github.kobylynskyi.starwars.graphql.Character;
 import io.github.kobylynskyi.starwars.graphql.CharacterResponseProjection;
 import io.github.kobylynskyi.starwars.graphql.DroidResponseProjection;

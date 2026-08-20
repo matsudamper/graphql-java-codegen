@@ -5,7 +5,7 @@ package com.kobylynskyi.graphql.interfaces;
  * Version of the application.
  */
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public interface VersionQueryResolver extends graphql.kickstart.tools.GraphQLQueryResolver {

@@ -1,4 +1,4 @@
-<#assign MapperUtil=statics["com.kobylynskyi.graphql.codegen.java.JavaGraphQLTypeMapper"]>
+<#assign MapperUtil=statics["net.matsudamper.graphql.codegen.java.JavaGraphQLTypeMapper"]>
 <#if package?has_content>
 package ${package};
 
@@ -9,7 +9,7 @@ import ${import}.*;
     </#list>
 </#if>
 <#if toStringForRequest>
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequestSerializer;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequestSerializer;
 </#if>
 <#if equalsAndHashCode>
 import java.util.Objects;
@@ -27,7 +27,7 @@ import java.util.StringJoiner;
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>
@@ -166,7 +166,7 @@ public class ${className} implements java.io.Serializable<#if implements?has_con
 
     <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
     @${generatedInfo.getGeneratedType()}(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "${generatedInfo.getDateTime()}"
     )
     </#if>

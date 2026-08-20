@@ -1,7 +1,7 @@
 package com.github.graphql;
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperation;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLOperationRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperation;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLOperationRequest;
 import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.Map;
@@ -12,7 +12,7 @@ import java.util.Set;
  * Events by IDs.
  */
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class EventsByIdsQueryRequest implements GraphQLOperationRequest {
@@ -88,7 +88,7 @@ public class EventsByIdsQueryRequest implements GraphQLOperationRequest {
     }
 
     @javax.annotation.Generated(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "2020-12-31T23:59:59-0500"
     )
     public static class Builder {

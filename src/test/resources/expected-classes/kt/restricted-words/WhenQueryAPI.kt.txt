@@ -1,8 +1,8 @@
-package com.kobylynskyi.graphql.codegen.prot
+package net.matsudamper.graphql.codegen.prot
 
 
 @javax.annotation.Generated(
-    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    value = ["net.matsudamper.graphql.codegen.GraphQLCodegen"],
     date = "2020-12-31T23:59:59-0500"
 )
 interface WhenQueryAPI {

@@ -1,6 +1,6 @@
 package com.github.graphql;
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequestSerializer;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequestSerializer;
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -8,7 +8,7 @@ import java.util.StringJoiner;
  * An event that describes a thing that happens
  */
 @javax.annotation.Generated(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "2020-12-31T23:59:59-0500"
 )
 public class Event implements java.io.Serializable {
@@ -153,7 +153,7 @@ public class Event implements java.io.Serializable {
     }
 
     @javax.annotation.Generated(
-        value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+        value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
         date = "2020-12-31T23:59:59-0500"
     )
     public static class Builder {

@@ -1,9 +1,9 @@
 package io.github.kobylynskyi.order.external.product;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequest;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLRequests;
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponse;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequest;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLRequests;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponse;
 import io.github.kobylynskyi.order.model.Product;
 import io.github.kobylynskyi.order.model.UnableToCreateProductException;
 import io.github.kobylynskyi.order.model.UnableToRetrieveProductException;

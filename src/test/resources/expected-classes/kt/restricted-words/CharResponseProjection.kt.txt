@@ -1,14 +1,14 @@
-package com.kobylynskyi.graphql.codegen.prot
+package net.matsudamper.graphql.codegen.prot
 
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseField
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResponseProjection
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseField
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResponseProjection
 import java.util.Objects
 
 /**
  * Response projection for char
  */
 @javax.annotation.Generated(
-    value = ["com.kobylynskyi.graphql.codegen.GraphQLCodegen"],
+    value = ["net.matsudamper.graphql.codegen.GraphQLCodegen"],
     date = "2020-12-31T23:59:59-0500"
 )
 open class CharResponseProjection : GraphQLResponseProjection {

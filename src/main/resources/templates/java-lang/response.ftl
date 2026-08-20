@@ -2,7 +2,7 @@
 package ${package};
 
 </#if>
-import com.kobylynskyi.graphql.codegen.model.graphql.GraphQLResult;
+import net.matsudamper.graphql.codegen.model.graphql.GraphQLResult;
 import java.util.Map;
 
 <#if javaDoc?has_content>
@@ -14,7 +14,7 @@ import java.util.Map;
 </#if>
 <#if generatedAnnotation && generatedInfo.getGeneratedType()?has_content>
 @${generatedInfo.getGeneratedType()}(
-    value = "com.kobylynskyi.graphql.codegen.GraphQLCodegen",
+    value = "net.matsudamper.graphql.codegen.GraphQLCodegen",
     date = "${generatedInfo.getDateTime()}"
 )
 </#if>
