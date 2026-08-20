@@ -91,6 +91,18 @@ class GraphQLCodegenTest {
     }
 
     @Test
+    void generate_JavaDocForInputFields() throws Exception {
+        generate("src/test/resources/schemas/input.graphqls");
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        assertFileContainsElements(files, "ReproInput.java",
+                "        /**",
+                "         * Repro bar comment",
+                "         */",
+                "        public Builder setReproField(java.util.List<String> reproField) {");
+    }
+
+    @Test
     void generate_CustomMappings() throws Exception {
         mappingConfig.setCustomTypesMapping(singletonMap("DateTime", "java.util.Date"));
 

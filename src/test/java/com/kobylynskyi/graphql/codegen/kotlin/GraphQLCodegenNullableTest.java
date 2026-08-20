@@ -14,6 +14,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.Objects;
 
+import static com.kobylynskyi.graphql.codegen.TestUtils.assertFileContainsElements;
 import static com.kobylynskyi.graphql.codegen.TestUtils.assertSameTrimmedContent;
 import static com.kobylynskyi.graphql.codegen.TestUtils.getFileByName;
 import static java.util.Collections.singletonMap;
@@ -33,6 +34,21 @@ class GraphQLCodegenNullableTest {
     @AfterEach
     void cleanup() {
         Utils.deleteDir(outputBuildDir);
+    }
+
+    @Test
+    void generate_JavaDocForInputFields() throws Exception {
+        mappingConfig.setGenerateBuilder(true);
+        schemaFinder.setIncludePattern("input.graphqls");
+
+        generate();
+
+        File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
+        assertFileContainsElements(files, "ReproInput.kt",
+                "/**",
+                "* Repro bar comment",
+                "*/",
+                "fun setReproField(");
     }
 
     @Test

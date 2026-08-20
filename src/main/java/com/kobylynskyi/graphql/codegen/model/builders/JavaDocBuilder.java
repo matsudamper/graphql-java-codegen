@@ -10,8 +10,10 @@ import graphql.language.Node;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 /**
  * Java doc builder
@@ -35,6 +37,21 @@ public class JavaDocBuilder {
         List<String> javaDocFromDescription = buildFromDescription(extendedDefinition);
         if (javaDocFromDescription.isEmpty()) {
             return buildFromComments(extendedDefinition);
+        }
+        return javaDocFromDescription;
+    }
+
+    /**
+     * Get java doc from description of the node.
+     * If no description is present then return from comments.
+     *
+     * @param node GraphQL node
+     * @return List of java docs
+     */
+    public static List<String> build(Node<?> node) {
+        List<String> javaDocFromDescription = buildFromDescription(node);
+        if (javaDocFromDescription.isEmpty()) {
+            return buildFromComments(node);
         }
         return javaDocFromDescription;
     }
@@ -69,6 +86,22 @@ public class JavaDocBuilder {
     }
 
     /**
+     * Get java doc from description for the given node
+     *
+     * @param node GraphQL node
+     * @return List of java docs
+     */
+    public static List<String> buildFromDescription(Node<?> node) {
+        if (node instanceof AbstractDescribedNode) {
+            Description description = ((AbstractDescribedNode<?>) node).getDescription();
+            if (description != null && Utils.isNotBlank(description.getContent())) {
+                return Collections.singletonList(description.getContent().trim());
+            }
+        }
+        return Collections.emptyList();
+    }
+
+    /**
      * Get java doc from comments for the given definition
      *
      * @param extendedDefinition Extended GraphQL definition
@@ -93,5 +126,20 @@ public class JavaDocBuilder {
                 .map(Comment::getContent).filter(Utils::isNotBlank)
                 .map(String::trim).forEach(comments::add);
         return comments;
+    }
+
+    /**
+     * Get java doc from comments for the given node
+     *
+     * @param node GraphQL node
+     * @return List of java docs
+     */
+    public static List<String> buildFromComments(Node<?> node) {
+        if (node != null && node.getComments() != null) {
+            return node.getComments().stream()
+                    .map(Comment::getContent).filter(Utils::isNotBlank)
+                    .map(String::trim).collect(Collectors.toList());
+        }
+        return Collections.emptyList();
     }
 }
