@@ -25,7 +25,7 @@ class GraphQLCodegenDefaultsTest {
     private final MappingConfig mappingConfig = new MappingConfig();
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/testdefaults");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/testdefaults");
 
     @BeforeEach
     void init() {

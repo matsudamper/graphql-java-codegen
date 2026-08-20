@@ -33,7 +33,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class GraphQLCodegenTest {
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/test1");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/test1");
 
     private MappingConfig mappingConfig;
 

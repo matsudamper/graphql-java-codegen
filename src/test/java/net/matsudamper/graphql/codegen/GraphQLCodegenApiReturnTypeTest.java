@@ -18,7 +18,7 @@ import static java.util.Collections.singletonList;
 class GraphQLCodegenApiReturnTypeTest {
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/test1");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/test1");
 
     private MappingConfig mappingConfig;
 

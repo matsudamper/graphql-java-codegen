@@ -25,7 +25,7 @@ class GraphQLCodegenModelsForRootTypesTest {
     private final MappingConfig mappingConfig = new MappingConfig();
     private final GeneratedInformation staticGeneratedInfo = TestUtils.getStaticGeneratedInfo(mappingConfig);
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/rootmodels");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/rootmodels");
 
     @BeforeEach
     void init() {

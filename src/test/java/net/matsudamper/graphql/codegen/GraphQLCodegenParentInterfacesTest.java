@@ -19,7 +19,7 @@ class GraphQLCodegenParentInterfacesTest {
     private final MappingConfig mappingConfig = new MappingConfig();
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/interfaces");
+    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/interfaces");
 
     @AfterEach
     void cleanup() {
