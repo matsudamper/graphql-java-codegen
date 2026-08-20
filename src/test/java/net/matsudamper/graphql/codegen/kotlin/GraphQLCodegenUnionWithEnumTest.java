@@ -23,7 +23,7 @@ class GraphQLCodegenUnionWithEnumTest {
     private final MappingConfig mappingConfig = new MappingConfig();
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/enumunion");
+    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/enumunion");
 
     @AfterEach
     void cleanup() {

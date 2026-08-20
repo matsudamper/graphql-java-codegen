@@ -19,7 +19,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 class GraphQLCodegenMultiFilesTest {
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/multifiles");
+    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/multifiles");
 
     private GraphQLCodegen generator;
 

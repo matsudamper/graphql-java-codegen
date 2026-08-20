@@ -21,7 +21,7 @@ class GraphQLCodegenRestrictedWordsTest {
     private final MappingConfig mappingConfig = new MappingConfig();
 
     private final File outputBuildDir = new File("build/generated");
-    private final File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/codegen/prot");
+    private final File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/codegen/prot");
 
     @AfterEach
     void cleanup() {

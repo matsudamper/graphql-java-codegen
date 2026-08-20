@@ -41,7 +41,7 @@ class GraphQLCodegenUnionResolverTest {
 
         generate();
 
-        File outputJavaClassesDir = new File("build/generated/com/kobylynskyi/graphql/unionresolver");
+        File outputJavaClassesDir = new File("build/generated/net/matsudamper/graphql/unionresolver");
         File[] files = Objects.requireNonNull(outputJavaClassesDir.listFiles());
         List<String> generatedFileNames = Arrays.stream(files).map(File::getName).sorted().collect(toList());
         List<String> expectedClasses = Arrays.asList("GraphqlJacksonTypeIdResolver.java", "ResultObject.java",
