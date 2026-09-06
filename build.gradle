@@ -22,9 +22,11 @@ dependencies {
     compileOnly "com.graphql-java:graphql-java:20.9"
     compileOnly "com.fasterxml.jackson.core:jackson-databind:2.15.3"
 
+    testImplementation platform("org.junit:junit-bom:5.10.2")
     testImplementation "org.junit.jupiter:junit-jupiter-api:5.10.2"
     testImplementation "org.junit.jupiter:junit-jupiter-params:5.10.2"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.10.2"
+    testRuntimeOnly "org.junit.platform:junit-platform-launcher"
     testImplementation "org.hamcrest:java-hamcrest:2.0.0.0"
 }
 
@@ -38,7 +40,7 @@ task codeCoverageReport(type: JacocoReport) {
     reports {
         html.required = false
         csv.required = false
-        xml.destination = file("${buildDir}/reports/jacoco/report.xml")
+        xml.outputLocation = file("${buildDir}/reports/jacoco/report.xml")
     }
 }
 
@@ -135,5 +137,24 @@ publishing {
 if (project.hasProperty("signing.keyId")) {
     signing {
         sign publishing.publications.mavenJava
+    }
+}
+
+// The build runs on a modern JDK, but the published artifact must stay
+// Java 8 compatible.
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Some dependencies are published as Java 11+ artifacts. Resolve the build
+// classpaths against the JDK the build runs on; the consumable variants keep
+// declaring Java 8 (from targetCompatibility above), so consumers of this
+// artifact are unaffected.
+configurations.configureEach {
+    if (canBeResolved) {
+        attributes {
+            attribute(org.gradle.api.attributes.java.TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+        }
     }
 }

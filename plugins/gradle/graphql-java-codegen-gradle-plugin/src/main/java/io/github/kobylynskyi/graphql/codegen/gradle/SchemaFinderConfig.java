@@ -3,7 +3,10 @@ package io.github.kobylynskyi.graphql.codegen.gradle;
 import com.kobylynskyi.graphql.codegen.supplier.SchemaFinder;
 import org.gradle.api.tasks.Input;
 import org.gradle.api.tasks.InputFiles;
+import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Optional;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 
 import java.util.Collections;
 import java.util.Set;
@@ -36,8 +39,13 @@ public class SchemaFinderConfig {
 
     @Input
     @Optional
-    public Boolean isRecursive() {
+    public Boolean getRecursive() {
         return recursive;
+    }
+
+    @Internal
+    public Boolean isRecursive() {
+        return getRecursive();
     }
 
     public void setRecursive(Boolean recursive) {
@@ -56,6 +64,7 @@ public class SchemaFinderConfig {
 
     @InputFiles
     @Optional
+    @PathSensitive(PathSensitivity.RELATIVE)
     public Set<String> getExcludedFiles() {
         return excludedFiles;
     }

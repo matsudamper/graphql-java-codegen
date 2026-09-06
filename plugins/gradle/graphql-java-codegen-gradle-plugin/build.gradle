@@ -32,8 +32,10 @@ dependencies {
     implementation "com.fasterxml.jackson.core:jackson-databind:2.15.3"
     implementation "com.typesafe:config:1.4.5"
 
+    testImplementation platform('org.junit:junit-bom:5.10.2')
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.10.2'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.10.2'
+    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
 }
 
 gradlePlugin {
@@ -64,4 +66,27 @@ publishing {
             }
         }
     }
+}
+
+// The build runs on a modern JDK, but the published artifact must stay
+// Java 8 compatible.
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Some dependencies are published as Java 11+ artifacts. Resolve the build
+// classpaths against the JDK the build runs on; the consumable variants keep
+// declaring Java 8 (from targetCompatibility above), so consumers of this
+// artifact are unaffected.
+configurations.configureEach {
+    if (canBeResolved) {
+        attributes {
+            attribute(org.gradle.api.attributes.java.TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+        }
+    }
+}
+
+test {
+    useJUnitPlatform()
 }
