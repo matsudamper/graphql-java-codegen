@@ -2,8 +2,7 @@
 
 [![Donate](https://img.shields.io/badge/Donate-green.svg)](https://send.monobank.ua/jar/2bpWyBqBp3)
 
-![Build](https://github.com/kobylynskyi/graphql-java-codegen/workflows/Build/badge.svg)
-[![Discussions](https://img.shields.io/badge/github-discussions-green)](https://github.com/kobylynskyi/graphql-java-codegen/discussions)
+![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 
@@ -20,7 +19,7 @@ Following classes can be generated based on your GraphQL schema:
 
 
 ## Features
-* Generate classes in Java, Kotlin or Scala.
+* Generate classes in Java or Kotlin.
 * Recursive schemas lookup by file name pattern.
 * Generate code based on GraphQL schema or GraphQL Query Introspection Result.
 * Generate POJOs with or without: Builder pattern, immutable fields, `toString()`, `equals()` and `hashCode()`, etc.
@@ -28,8 +27,10 @@ Following classes can be generated based on your GraphQL schema:
 * Custom java package names for model and API classes.
 * Custom prefix/suffix for model, API, type resolver, request, response classes.
 * Custom annotations for generated classes (e.g.: validation annotations for generated model classes or specific type fields, annotations for GraphQL directives, etc.)
+* Custom FreeMarker templates for generated classes.
+* Configurable wrapper for nullable fields of input types (e.g. spring-graphql `ArgumentValue`).
+* Support of unknown fields in generated model classes.
 * Relay support.
-* Ability to define codegen configuration via external json file.
 
 
 **For the full list of codegen configs please refer to: [Codegen Options](docs/codegen-options.md)**
@@ -38,6 +39,9 @@ Following classes can be generated based on your GraphQL schema:
 ## Supported plugins
 
 * Gradle plugin: [graphql-java-codegen-gradle-plugin](plugins/gradle)
+
+The core library is also published as `io.github.kobylynskyi:graphql-java-codegen` and can be used directly via
+`com.kobylynskyi.graphql.codegen.java.JavaGraphQLCodegen` / `com.kobylynskyi.graphql.codegen.kotlin.KotlinGraphQLCodegen`.
 
 
 ## Inspired by
