@@ -571,6 +571,15 @@ public interface GraphQLCodegenConfiguration {
     Boolean isGenerateModelOpenClasses();
 
     /**
+     * Java Bean compliant alias of {@link #isGenerateModelOpenClasses()}.
+     *
+     * @return same value as {@link #isGenerateModelOpenClasses()}
+     */
+    default Boolean getGenerateModelOpenClasses() {
+        return isGenerateModelOpenClasses();
+    }
+
+    /**
      * Specifies whether classes should be generated with constructors setting the
      * default value for nullable fields to null.
      *
@@ -579,11 +588,29 @@ public interface GraphQLCodegenConfiguration {
     Boolean isInitializeNullableTypes();
 
     /**
+     * Java Bean compliant alias of {@link #isInitializeNullableTypes()}.
+     *
+     * @return same value as {@link #isInitializeNullableTypes()}
+     */
+    default Boolean getInitializeNullableTypes() {
+        return isInitializeNullableTypes();
+    }
+
+    /**
      * Specifies whether generate sealed interfaces.
      *
      * @return <b>false</b> generate sealed interfaces class in kotlin
      */
     Boolean isGenerateSealedInterfaces();
+
+    /**
+     * Java Bean compliant alias of {@link #isGenerateSealedInterfaces()}.
+     *
+     * @return same value as {@link #isGenerateSealedInterfaces()}
+     */
+    default Boolean getGenerateSealedInterfaces() {
+        return isGenerateSealedInterfaces();
+    }
 
     /*
      * Specifies whether api classes should support unknown fields during serialization or deserialization.
@@ -593,6 +620,15 @@ public interface GraphQLCodegenConfiguration {
      * @see com.fasterxml.jackson.annotation.JsonAnySetter
      */
     Boolean isSupportUnknownFields();
+
+    /**
+     * Java Bean compliant alias of {@link #isSupportUnknownFields()}.
+     *
+     * @return same value as {@link #isSupportUnknownFields()}
+     */
+    default Boolean getSupportUnknownFields() {
+        return isSupportUnknownFields();
+    }
 
     /**
      * Specifies the name of the property to be included in api classes to support unknown
@@ -623,12 +659,30 @@ public interface GraphQLCodegenConfiguration {
     Boolean isGenerateNoArgsConstructorOnly();
 
     /**
+     * Java Bean compliant alias of {@link #isGenerateNoArgsConstructorOnly()}.
+     *
+     * @return same value as {@link #isGenerateNoArgsConstructorOnly()}
+     */
+    default Boolean getGenerateNoArgsConstructorOnly() {
+        return isGenerateNoArgsConstructorOnly();
+    }
+
+    /**
      * Specifies whether model classes should have public or private fields.
      *
      * @return <b>true</b> if model classes should have public fields and no getters/setters.
      * <b>false</b> if model classes should have private fields and getters/setters.
      */
     Boolean isGenerateModelsWithPublicFields();
+
+    /**
+     * Java Bean compliant alias of {@link #isGenerateModelsWithPublicFields()}.
+     *
+     * @return same value as {@link #isGenerateModelsWithPublicFields()}
+     */
+    default Boolean getGenerateModelsWithPublicFields() {
+        return isGenerateModelsWithPublicFields();
+    }
 
 
 }
