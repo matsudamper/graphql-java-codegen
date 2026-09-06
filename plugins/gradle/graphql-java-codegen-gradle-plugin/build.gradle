@@ -86,3 +86,7 @@ configurations.configureEach {
         }
     }
 }
+
+test {
+    useJUnitPlatform()
+}
