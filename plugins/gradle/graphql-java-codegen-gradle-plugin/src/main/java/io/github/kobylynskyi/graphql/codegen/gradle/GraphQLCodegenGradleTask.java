@@ -24,8 +24,11 @@ import org.gradle.api.tasks.Internal;
 import org.gradle.api.tasks.Nested;
 import org.gradle.api.tasks.Optional;
 import org.gradle.api.tasks.OutputDirectory;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.SourceSet;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 
 import java.io.File;
 import java.io.IOException;
@@ -43,6 +46,7 @@ import java.util.Set;
  *
  * @author kobylynskyi
  */
+@DisableCachingByDefault(because = "Code generation is fast and its inputs rarely repeat across builds")
 public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCodegenConfiguration {
 
     private List<String> graphqlSchemaPaths;
@@ -270,6 +274,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
      * @throws IOException in case some I/O error occurred
      */
     @InputFiles
+    @PathSensitive(PathSensitivity.RELATIVE)
     public List<String> getActualSchemaPaths() throws IOException {
         if (graphqlSchemaPaths != null) {
             return graphqlSchemaPaths;
@@ -310,6 +315,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @InputFiles
     @Optional
+    @PathSensitive(PathSensitivity.RELATIVE)
     public List<String> getGraphqlSchemaPaths() {
         return graphqlSchemaPaths;
     }
@@ -319,6 +325,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     }
 
     @InputFile
+    @PathSensitive(PathSensitivity.RELATIVE)
     @Optional
     public String getGraphqlQueryIntrospectionResultPath() {
         return graphqlQueryIntrospectionResultPath;
@@ -359,6 +366,7 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
     }
 
     @InputDirectory
+    @PathSensitive(PathSensitivity.RELATIVE)
     @Optional
     @Override
     public File getCustomTemplatesRoot() {
@@ -792,9 +800,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getGenerateNoArgsConstructorOnly() {
+        return generateNoArgsConstructorOnly;
+    }
+
+    @Internal
     @Override
     public Boolean isGenerateNoArgsConstructorOnly() {
-        return generateNoArgsConstructorOnly;
+        return getGenerateNoArgsConstructorOnly();
     }
 
     public void setGenerateNoArgsConstructorOnly(Boolean generateNoArgsConstructorOnly) {
@@ -803,9 +816,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getGenerateModelsWithPublicFields() {
+        return generateModelsWithPublicFields;
+    }
+
+    @Internal
     @Override
     public Boolean isGenerateModelsWithPublicFields() {
-        return generateModelsWithPublicFields;
+        return getGenerateModelsWithPublicFields();
     }
 
     public void setGenerateModelsWithPublicFields(Boolean generateModelsWithPublicFields) {
@@ -1036,9 +1054,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getGenerateModelOpenClasses() {
+        return generateModelOpenClasses;
+    }
+
+    @Internal
     @Override
     public Boolean isGenerateModelOpenClasses() {
-        return generateModelOpenClasses;
+        return getGenerateModelOpenClasses();
     }
 
     public void setGenerateModelOpenClasses(Boolean generateModelOpenClasses) {
@@ -1047,9 +1070,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getInitializeNullableTypes() {
+        return initializeNullableTypes;
+    }
+
+    @Internal
     @Override
     public Boolean isInitializeNullableTypes() {
-        return initializeNullableTypes;
+        return getInitializeNullableTypes();
     }
 
     public void setInitializeNullableTypes(Boolean initializeNullableTypes) {
@@ -1058,9 +1086,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getGenerateSealedInterfaces() {
+        return generateSealedInterfaces;
+    }
+
+    @Internal
     @Override
     public Boolean isGenerateSealedInterfaces() {
-        return generateSealedInterfaces;
+        return getGenerateSealedInterfaces();
     }
 
     public void setGenerateSealedInterfaces(Boolean generateSealedInterfaces) {
@@ -1069,9 +1102,14 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
+    public Boolean getSupportUnknownFields() {
+        return supportUnknownFields;
+    }
+
+    @Internal
     @Override
     public Boolean isSupportUnknownFields() {
-        return supportUnknownFields;
+        return getSupportUnknownFields();
     }
 
     public void setSupportUnknownFields(boolean supportUnknownFields) {
@@ -1091,8 +1129,13 @@ public class GraphQLCodegenGradleTask extends DefaultTask implements GraphQLCode
 
     @Input
     @Optional
-    public Boolean isSkip() {
+    public Boolean getSkip() {
         return skip;
+    }
+
+    @Internal
+    public Boolean isSkip() {
+        return getSkip();
     }
 
     public void setSkip(Boolean skip) {
