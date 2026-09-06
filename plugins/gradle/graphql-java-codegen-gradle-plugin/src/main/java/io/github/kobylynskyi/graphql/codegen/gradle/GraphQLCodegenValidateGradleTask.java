@@ -3,7 +3,10 @@ package io.github.kobylynskyi.graphql.codegen.gradle;
 import com.kobylynskyi.graphql.codegen.GraphQLCodegenValidate;
 import org.gradle.api.DefaultTask;
 import org.gradle.api.tasks.Input;
+import org.gradle.api.tasks.PathSensitive;
+import org.gradle.api.tasks.PathSensitivity;
 import org.gradle.api.tasks.TaskAction;
+import org.gradle.work.DisableCachingByDefault;
 
 import java.io.IOException;
 import java.util.List;
@@ -13,6 +16,7 @@ import java.util.List;
  *
  * @author kobylynskyi
  */
+@DisableCachingByDefault(because = "Code generation is fast and its inputs rarely repeat across builds")
 public class GraphQLCodegenValidateGradleTask extends DefaultTask {
 
     private List<String> graphqlSchemaPaths;
