@@ -71,3 +71,7 @@ task graphqlCodegenKotlinService(type: GraphQLCodegenGradleTask) {
     modelNameSuffix = "TO"
     supportUnknownFields = true
 }
+
+test {
+    useJUnitPlatform()
+}

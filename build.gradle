@@ -40,7 +40,7 @@ task codeCoverageReport(type: JacocoReport) {
     reports {
         html.required = false
         csv.required = false
-        xml.destination = file("${buildDir}/reports/jacoco/report.xml")
+        xml.outputLocation = file("${buildDir}/reports/jacoco/report.xml")
     }
 }
 
