@@ -15,12 +15,12 @@ application {
 }
 
 dependencies {
-    implementation "org.springframework.boot:spring-boot-starter-web:2.7.18"
-    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:2.7.18"
+    implementation "org.springframework.boot:spring-boot-starter-web:4.1.1"
+    implementation "org.springframework.boot:spring-boot-starter-data-mongodb:4.1.1"
 
-    implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:11.1.0"
+    implementation "com.graphql-java-kickstart:graphql-spring-boot-starter:15.1.0"
     implementation "com.graphql-java-kickstart:graphiql-spring-boot-starter:11.1.0"
-    implementation "com.graphql-java:graphql-java-extended-scalars:20.2"
+    implementation "com.graphql-java:graphql-java-extended-scalars:24.0"
 
     // use the latest available version:
     // https://search.maven.org/artifact/io.github.kobylynskyi/graphql-java-codegen
@@ -32,8 +32,8 @@ dependencies {
     implementation "org.mapstruct:mapstruct:1.6.3"
     annotationProcessor "org.mapstruct:mapstruct-processor:1.6.3"
 
-    compileOnly "org.projectlombok:lombok:1.18.42"
-    annotationProcessor "org.projectlombok:lombok:1.18.42"
+    compileOnly "org.projectlombok:lombok:1.18.48"
+    annotationProcessor "org.projectlombok:lombok:1.18.48"
 
     testImplementation "io.rest-assured:rest-assured:6.0.1"
     testImplementation platform("org.junit:junit-bom:6.1.3")
