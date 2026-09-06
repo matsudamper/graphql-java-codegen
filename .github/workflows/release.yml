@@ -31,7 +31,7 @@ jobs:
       - name: Setup Java
         uses: actions/setup-java@b6effb05e454b25005698d916606bdc6ffcbf961 # v5.7.0
         with:
-          java-version: 1.8
+          java-version: 17
           distribution: 'adopt'
 
       - name: Gradle cache
