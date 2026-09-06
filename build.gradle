@@ -137,3 +137,22 @@ if (project.hasProperty("signing.keyId")) {
         sign publishing.publications.mavenJava
     }
 }
+
+// The build runs on a modern JDK, but the published artifact must stay
+// Java 8 compatible.
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_8
+    targetCompatibility = JavaVersion.VERSION_1_8
+}
+
+// Some dependencies are published as Java 11+ artifacts. Resolve the build
+// classpaths against the JDK the build runs on; the consumable variants keep
+// declaring Java 8 (from targetCompatibility above), so consumers of this
+// artifact are unaffected.
+configurations.configureEach {
+    if (canBeResolved) {
+        attributes {
+            attribute(org.gradle.api.attributes.java.TargetJvmVersion.TARGET_JVM_VERSION_ATTRIBUTE, 17)
+        }
+    }
+}
