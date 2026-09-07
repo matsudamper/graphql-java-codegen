@@ -4,21 +4,20 @@ on:
   workflow_dispatch:
     inputs:
       release_version:
-        description: 'Release version'
-        default: 'X.X.X'
+        description: 'Release version (e.g. 5.11.0)'
         required: true
       release_branch:
         description: 'Release branch'
         default: 'main'
         required: true
-      publish_library:
-        description: 'Publish library'
-        default: 'Y'
-        required: true
       publish_gradle_plugin:
-        description: 'Publish Gradle Plugin'
+        description: 'Publish Gradle Plugin (Y/N)'
         default: 'Y'
         required: true
+
+permissions:
+  contents: write
+  packages: write
 
 jobs:
   release:
@@ -40,28 +39,12 @@ jobs:
           path: ~/.gradle
           key: gradle
 
-      - name: Set up GPG
-        run: |
-          echo ${{ github.workspace }}
-          # gpg init
-          mkdir ~/.gnupg && echo use-agent >> ~/.gnupg/gpg.conf
-          echo pinentry-mode loopback >> ~/.gnupg/gpg.conf
-          echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
-          echo ${SIGNING_KEY} | awk '{gsub(/\\n/,"\n")}1'| gpg --dearmor > ${{ github.workspace }}/secretKeyRingFile.gpg
-          gpg --import  --pinentry-mode loopback --batch --passphrase '${SIGNING_PASSWORD}' ${{ github.workspace }}/secretKeyRingFile.gpg
-          ls -al ${{ github.workspace }}
-          ls -al ~/.gnupg/
-        env:
-          SIGNING_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-
       - name: Configure Git
         run: |
-          git config --global user.name 'Bogdan Kobylynskyi'
-          git config --global user.email 'kobylynskyi@users.noreply.github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
 
-      - name: Update versions of all Gradle/SBT sub-projects
+      - name: Update versions of all Gradle sub-projects
         run: scripts/update-release-version-in-build-files.sh ${{ github.event.inputs.release_version }}
 
       - name: Update versions in all README files
@@ -90,45 +73,49 @@ jobs:
         if: github.event.inputs.publish_gradle_plugin == 'Y'
         run: ./gradlew -p plugins/gradle/example-client-kotlin build --warning-mode all
 
-
       #
       # BUILD OF RELEASE VERSION COMPLETED
-      # SO WE CAN COMMIT THEM
+      # SO WE CAN COMMIT IT
       #
 
-      - name: Commit release version
-        run: git commit -am "Bump version to ${{ github.event.inputs.release_version }}"
+      - name: Commit and tag release version
+        run: |
+          git commit -am "Bump version to ${{ github.event.inputs.release_version }}"
+          git tag -a "v${{ github.event.inputs.release_version }}" \
+            -m "Release ${{ github.event.inputs.release_version }}"
 
       #
       # VERSIONS ARE IN THE RELEASE STATE AND READY TO PUBLISH
+      # THIS FORK PUBLISHES TO GITHUB PACKAGES OF THIS REPOSITORY
       #
 
-      - name: Release library
-        if: github.event.inputs.publish_library == 'Y'
-        run: |
-          ./gradlew publish \
-                -Dorg.gradle.internal.publish.checksums.insecure=true \
-                -PsonatypeUsername=${{ secrets.OSSRH_USERNAME }} \
-                -PsonatypePassword=${{ secrets.OSSRH_PASSWORD }} \
-                -Psigning.keyId=${{ secrets.OSSRH_GPG_SECRET_KEY_ID }} \
-                -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-                -Psigning.secretKeyRingFile=${{ github.workspace }}/secretKeyRingFile.gpg
+      - name: Publish library to GitHub Packages
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: ./gradlew publish --warning-mode all
 
-      - name: Release Gradle plugin
+      - name: Publish Gradle plugin to GitHub Packages
         if: github.event.inputs.publish_gradle_plugin == 'Y'
-        run: |
-          ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishPlugins \
-              -Dorg.gradle.internal.publish.checksums.insecure=true \
-              -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY}} \
-              -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}
-
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_ACTOR: ${{ github.actor }}
+        run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publish --warning-mode all
 
       #
       # PUBLISH OF RELEASE VERSION COMPLETED
-      # NOW PUSHING THE RELEASE VERSION BACK TO THE REPOSITORY
+      # NOW PUSHING THE RELEASE COMMIT AND TAG BACK TO THE REPOSITORY
       #
 
       - name: Push release version
         run: |
-          git push
-          git push --tags
+          git push origin HEAD:${{ github.event.inputs.release_branch }}
+          git push origin "v${{ github.event.inputs.release_version }}"
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          gh release create "v${{ github.event.inputs.release_version }}" \
+            --title "v${{ github.event.inputs.release_version }}" \
+            --generate-notes

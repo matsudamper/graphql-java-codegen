@@ -1,7 +1,6 @@
 # GraphQL Codegen Gradle plugin #
 
 ![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
-[![Gradle Plugins](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/kobylynskyi/graphql-java-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 * [Plugin Setup](#plugin-setup)
@@ -18,6 +17,31 @@
 
 ### Plugin Setup
 
+Releases of this fork are published to
+[GitHub Packages](https://github.com/matsudamper/graphql-java-codegen/packages) of
+`matsudamper/graphql-java-codegen`, so the repository has to be declared explicitly.
+GitHub Packages always requires authentication, even for public packages: use a personal
+access token with the `read:packages` scope.
+
+`settings.gradle`:
+
+```groovy
+pluginManagement {
+  repositories {
+    maven {
+      url "https://maven.pkg.github.com/matsudamper/graphql-java-codegen"
+      credentials {
+        username = System.getenv("GITHUB_ACTOR")
+        password = System.getenv("GITHUB_TOKEN")
+      }
+    }
+    gradlePluginPortal()
+  }
+}
+```
+
+`build.gradle`:
+
 ```groovy
 plugins {
   id "io.github.kobylynskyi.graphql.codegen" version "5.10.1"
@@ -30,16 +54,23 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 buildscript {
   repositories {
     maven {
-      url "https://plugins.gradle.org/m2/"
+      url "https://maven.pkg.github.com/matsudamper/graphql-java-codegen"
+      credentials {
+        username = System.getenv("GITHUB_ACTOR")
+        password = System.getenv("GITHUB_TOKEN")
+      }
     }
   }
   dependencies {
-    classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:5.10.1"
+    classpath "io.github.kobylynskyi:graphql-java-codegen-gradle-plugin:5.10.1"
   }
 }
 
 apply plugin: "io.github.kobylynskyi.graphql.codegen"
 ```
+
+The core library itself is published to the same repository as
+`io.github.kobylynskyi:graphql-java-codegen`.
 
 #### Snapshot versions
 
