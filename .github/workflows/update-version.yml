@@ -6,20 +6,28 @@ on:
       new_version:
         description: 'New version'
         required: true
+      branch:
+        description: 'Branch to update'
+        default: 'main'
+        required: true
+
+permissions:
+  contents: write
 
 jobs:
   update-version:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
-      - name: Update versions of all Gradle/SBT sub-projects
+      - name: Update versions of all Gradle sub-projects
         run: scripts/update-release-version-in-build-files.sh ${{ github.event.inputs.new_version }}
 
       - name: Commit and push a new version
         run: |
-          git config --global user.name 'Bogdan Kobylynskyi'
-          git config --global user.email 'kobylynskyi@users.noreply.github.com'
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email '41898282+github-actions[bot]@users.noreply.github.com'
           git commit -am "Bump version to ${{ github.event.inputs.new_version }}"
-          git push
-          git push --tags
+          git push origin HEAD:${{ github.event.inputs.branch }}
