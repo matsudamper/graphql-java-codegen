@@ -18,6 +18,8 @@
 
 ### Plugin Setup
 
+`settings.gradle`:
+
 ```groovy
 pluginManagement {
   repositories {
@@ -25,7 +27,11 @@ pluginManagement {
     gradlePluginPortal()
   }
 }
+```
 
+`build.gradle`:
+
+```groovy
 plugins {
   id "net.matsudamper.graphql.codegen" version "5.10.1"
 }
