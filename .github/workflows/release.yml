@@ -81,6 +81,7 @@ jobs:
         run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishToMavenCentral --warning-mode all
 
       - name: Create GitHub Release
+        if: github.event.inputs.publish_library == 'Y' || github.event.inputs.publish_gradle_plugin == 'Y'
         env:
           GH_TOKEN: ${{ github.token }}
         run: gh release create "v${{ github.event.inputs.release_version }}" --target "$(git rev-parse HEAD)" --title "v${{ github.event.inputs.release_version }}" --generate-notes
