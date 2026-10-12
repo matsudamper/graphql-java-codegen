@@ -40,22 +40,6 @@ jobs:
           path: ~/.gradle
           key: gradle
 
-      - name: Set up GPG
-        run: |
-          echo ${{ github.workspace }}
-          # gpg init
-          mkdir ~/.gnupg && echo use-agent >> ~/.gnupg/gpg.conf
-          echo pinentry-mode loopback >> ~/.gnupg/gpg.conf
-          echo allow-loopback-pinentry >> ~/.gnupg/gpg-agent.conf
-          echo RELOADAGENT | gpg-connect-agent
-          echo ${SIGNING_KEY} | awk '{gsub(/\\n/,"\n")}1'| gpg --dearmor > ${{ github.workspace }}/secretKeyRingFile.gpg
-          gpg --import  --pinentry-mode loopback --batch --passphrase '${SIGNING_PASSWORD}' ${{ github.workspace }}/secretKeyRingFile.gpg
-          ls -al ${{ github.workspace }}
-          ls -al ~/.gnupg/
-        env:
-          SIGNING_KEY: ${{ secrets.OSSRH_GPG_SECRET_KEY }}
-          SIGNING_PASSWORD: ${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }}
-
       - name: Configure Git
         run: |
           git config --global user.name 'Bogdan Kobylynskyi'
@@ -105,22 +89,21 @@ jobs:
 
       - name: Release library
         if: github.event.inputs.publish_library == 'Y'
-        run: |
-          ./gradlew publish \
-                -Dorg.gradle.internal.publish.checksums.insecure=true \
-                -PsonatypeUsername=${{ secrets.OSSRH_USERNAME }} \
-                -PsonatypePassword=${{ secrets.OSSRH_PASSWORD }} \
-                -Psigning.keyId=${{ secrets.OSSRH_GPG_SECRET_KEY_ID }} \
-                -Psigning.password=${{ secrets.OSSRH_GPG_SECRET_KEY_PASSWORD }} \
-                -Psigning.secretKeyRingFile=${{ github.workspace }}/secretKeyRingFile.gpg
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+        run: ./gradlew publishToMavenCentral --warning-mode all
 
       - name: Release Gradle plugin
         if: github.event.inputs.publish_gradle_plugin == 'Y'
-        run: |
-          ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishPlugins \
-              -Dorg.gradle.internal.publish.checksums.insecure=true \
-              -Pgradle.publish.key=${{ secrets.GRADLE_PUBLISH_KEY}} \
-              -Pgradle.publish.secret=${{ secrets.GRADLE_PUBLISH_SECRET }}
+        env:
+          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
+          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
+          ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
+        run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishToMavenCentral --warning-mode all
 
 
       #
