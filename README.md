@@ -1,7 +1,5 @@
 # GraphQL Codegen #
 
-[![Donate](https://img.shields.io/badge/Donate-green.svg)](https://send.monobank.ua/jar/2bpWyBqBp3)
-
 ![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
