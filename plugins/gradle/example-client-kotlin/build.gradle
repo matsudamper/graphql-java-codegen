@@ -4,14 +4,11 @@ import io.github.kobylynskyi.graphql.codegen.gradle.GraphQLCodegenGradleTask
 plugins {
     id "java"
     id "org.jetbrains.kotlin.jvm" version "2.4.10"
-    id "net.matsudamper.graphql.codegen" version "5.10.1-SNAPSHOT"
+    id "net.matsudamper.graphql.codegen"
 }
 
-def graphqlCodegenClientKotlinVersion = '5.10.1' // Variable used in the automatic release process
-def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
-
 group = 'io.github.dreamylost'
-version = graphqlCodegenClientKotlinVersion + versionPostfix
+version = providers.gradleProperty("releaseVersion").getOrElse("local")
 
 sourceSets {
     main.kotlin.srcDirs += "$buildDir/generated-server"
@@ -29,7 +26,7 @@ repositories {
 dependencies {
     // use the latest available version:
     // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen
-    implementation "net.matsudamper:graphql-java-codegen:5.10.1-SNAPSHOT"
+    implementation "net.matsudamper:graphql-java-codegen:${providers.gradleProperty("releaseVersion").getOrElse("local")}"
 
     implementation "javax.validation:validation-api:2.0.1.Final"
     implementation "com.squareup.okhttp3:okhttp:5.5.0"

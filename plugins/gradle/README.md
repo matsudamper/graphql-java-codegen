@@ -18,6 +18,9 @@
 
 ### Plugin Setup
 
+Replace `VERSION` with the latest version shown in the badge:
+[![Maven Central](https://img.shields.io/maven-central/v/net.matsudamper/graphql-java-codegen-gradle-plugin?label=maven%20central)](https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin)
+
 `settings.gradle`:
 
 ```groovy
@@ -33,7 +36,7 @@ pluginManagement {
 
 ```groovy
 plugins {
-  id "net.matsudamper.graphql.codegen" version "5.10.1"
+  id "net.matsudamper.graphql.codegen" version "VERSION"
 }
 ```
 
@@ -45,7 +48,7 @@ buildscript {
     mavenCentral()
   }
   dependencies {
-    classpath "net.matsudamper:graphql-java-codegen-gradle-plugin:5.10.1"
+    classpath "net.matsudamper:graphql-java-codegen-gradle-plugin:VERSION"
   }
 }
 

@@ -7,7 +7,7 @@ plugins {
 
     // use the latest available version:
     // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin
-    id "net.matsudamper.graphql.codegen" version "5.10.1-SNAPSHOT"
+    id "net.matsudamper.graphql.codegen"
 }
 
 application {
@@ -24,7 +24,7 @@ dependencies {
 
     // use the latest available version:
     // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen
-    implementation "net.matsudamper:graphql-java-codegen:5.10.1-SNAPSHOT"
+    implementation "net.matsudamper:graphql-java-codegen:${providers.gradleProperty("releaseVersion").getOrElse("local")}"
 
     implementation "org.apache.httpcomponents:httpclient:4.5.14"
     implementation "javax.validation:validation-api:2.0.1.Final"
