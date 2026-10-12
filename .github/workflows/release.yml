@@ -23,6 +23,8 @@ on:
 jobs:
   release:
     runs-on: ubuntu-latest
+    env:
+      ORG_GRADLE_PROJECT_releaseVersion: ${{ github.event.inputs.release_version }}
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -39,22 +41,6 @@ jobs:
         with:
           path: ~/.gradle
           key: gradle
-
-      - name: Configure Git
-        run: |
-          git config --global user.name 'Bogdan Kobylynskyi'
-          git config --global user.email 'kobylynskyi@users.noreply.github.com'
-
-      - name: Update versions of all Gradle/SBT sub-projects
-        run: scripts/update-release-version-in-build-files.sh ${{ github.event.inputs.release_version }}
-
-      - name: Update versions in all README files
-        run: scripts/update-release-version-in-readme.sh ${{ github.event.inputs.release_version }}
-
-      #
-      # VERSIONS UPDATED
-      # NOW WE ARE READY FOR THE FINAL BUILD
-      #
 
       - name: Build library
         run: ./gradlew build publishToMavenLocal --warning-mode all
@@ -74,19 +60,6 @@ jobs:
         if: github.event.inputs.publish_gradle_plugin == 'Y'
         run: ./gradlew -p plugins/gradle/example-client-kotlin build --warning-mode all
 
-
-      #
-      # BUILD OF RELEASE VERSION COMPLETED
-      # SO WE CAN COMMIT THEM
-      #
-
-      - name: Commit release version
-        run: git commit -am "Bump version to ${{ github.event.inputs.release_version }}"
-
-      #
-      # VERSIONS ARE IN THE RELEASE STATE AND READY TO PUBLISH
-      #
-
       - name: Release library
         if: github.event.inputs.publish_library == 'Y'
         env:
@@ -104,14 +77,3 @@ jobs:
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
         run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishToMavenCentral --warning-mode all
-
-
-      #
-      # PUBLISH OF RELEASE VERSION COMPLETED
-      # NOW PUSHING THE RELEASE VERSION BACK TO THE REPOSITORY
-      #
-
-      - name: Push release version
-        run: |
-          git push
-          git push --tags

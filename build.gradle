@@ -6,11 +6,10 @@ plugins {
     id "com.vanniktech.maven.publish" version "0.37.0"
 }
 
-def graphqlCodegenVersion = '5.10.1' // This variable used in the automatic release process
-def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
-
 group = "net.matsudamper"
-version = graphqlCodegenVersion + versionPostfix
+// Pass -PreleaseVersion=x.y.z (or ORG_GRADLE_PROJECT_releaseVersion) to set the version.
+// Local builds default to "local".
+version = providers.gradleProperty("releaseVersion").getOrElse("local")
 
 repositories {
     mavenCentral()
@@ -105,6 +104,12 @@ if (project.hasProperty("mavenCentralUsername")) {
     mavenPublishing {
         publishToMavenCentral(true)
         signAllPublications()
+    }
+    // Reject "local" only when a Maven Central publish is actually requested.
+    gradle.taskGraph.whenReady { graph ->
+        if (version == "local" && graph.allTasks.any { it.name.contains("MavenCentral") }) {
+            throw new GradleException("releaseVersion must be set to publish to Maven Central")
+        }
     }
 }
 

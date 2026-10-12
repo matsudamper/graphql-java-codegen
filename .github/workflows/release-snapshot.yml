@@ -31,9 +31,9 @@ jobs:
       - name: Compute snapshot version
         run: |
           if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
-            echo "VERSION_POSTFIX=-BUILD-$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+            echo "ORG_GRADLE_PROJECT_releaseVersion=BUILD-$(git rev-parse HEAD)" >> "$GITHUB_ENV"
           else
-            echo "VERSION_POSTFIX=-SNAPSHOT-$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_ENV"
+            echo "ORG_GRADLE_PROJECT_releaseVersion=SNAPSHOT-$(date +'%Y%m%d-%H%M%S')" >> "$GITHUB_ENV"
           fi
 
       - name: Publish library snapshot to GitHub Packages
