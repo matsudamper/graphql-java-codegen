@@ -83,7 +83,7 @@ mavenPublishing {
         licenses {
             license {
                 name = "MIT License"
-                url = "https://github.com/matsudamper/graphql-java-codegen/blob/main/LICENSE"
+                url = "https://github.com/matsudamper/graphql-java-codegen/blob/main/LICENSE.md"
                 distribution = "repo"
             }
         }

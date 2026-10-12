@@ -72,7 +72,7 @@ Applying the plugin registers the following tasks:
 ```groovy
 graphqlCodegen {
     // all config options: 
-    // https://github.com/kobylynskyi/graphql-java-codegen/blob/main/docs/codegen-options.md
+    // https://github.com/matsudamper/graphql-java-codegen/blob/main/docs/codegen-options.md
     graphqlSchemas.includePattern = "schema\\.graphqls"
     outputDir = new File("$buildDir/generated")
     packageName = "com.example.graphql.model"
@@ -104,7 +104,7 @@ import io.github.kobylynskyi.graphql.codegen.gradle.GraphQLCodegenGradleTask
 
 tasks.named<GraphQLCodegenGradleTask>("graphqlCodegen") {
     // all config options: 
-    // https://github.com/kobylynskyi/graphql-java-codegen/blob/main/docs/codegen-options.md
+    // https://github.com/matsudamper/graphql-java-codegen/blob/main/docs/codegen-options.md
     graphqlSchemaPaths = listOf("$projectDir/src/main/resources/graphql/schema.graphqls")
     outputDir = File("$buildDir/generated")
     packageName = "com.example.graphql.model"
