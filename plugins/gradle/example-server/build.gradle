@@ -5,8 +5,8 @@ plugins {
 
     //
     // use the latest available version:
-    // https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen
-    id "io.github.kobylynskyi.graphql.codegen" version "5.10.1-SNAPSHOT"
+    // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin
+    id "net.matsudamper.graphql.codegen" version "5.10.1-SNAPSHOT"
 }
 
 application {

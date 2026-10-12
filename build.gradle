@@ -3,14 +3,13 @@ plugins {
     id "idea"
     id "jacoco"
     id "java-library"
-    id "signing"
-    id "maven-publish"
+    id "com.vanniktech.maven.publish" version "0.37.0"
 }
 
 def graphqlCodegenVersion = '5.10.1' // This variable used in the automatic release process
 def versionPostfix = System.getenv("VERSION_POSTFIX") ?: ""
 
-group = "io.github.kobylynskyi"
+group = "net.matsudamper"
 version = graphqlCodegenVersion + versionPostfix
 
 repositories {
@@ -67,58 +66,49 @@ compileJava.options.encoding = "UTF-8"
 compileTestJava.options.encoding = "UTF-8"
 javadoc.options.encoding = "UTF-8"
 
-java {
-    withJavadocJar()
-    withSourcesJar()
-}
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifactId "graphql-java-codegen"
-            from components.java
-            versionMapping {
-                usage('java-api') {
-                    fromResolutionOf('runtimeClasspath')
-                }
-                usage('java-runtime') {
-                    fromResolutionResult()
-                }
+mavenPublishing {
+    coordinates("net.matsudamper", "graphql-java-codegen", version.toString())
+    pom {
+        name = "GraphQL Java CodeGen"
+        description = "Java Code Generator based on GraphQL schema"
+        url = "https://github.com/matsudamper/graphql-java-codegen"
+        organization {
+            name = "net.matsudamper"
+            url = "https://github.com/matsudamper"
+        }
+        issueManagement {
+            system = "GitHub"
+            url = "https://github.com/matsudamper/graphql-java-codegen/issues"
+        }
+        licenses {
+            license {
+                name = "MIT License"
+                url = "https://github.com/matsudamper/graphql-java-codegen/blob/main/LICENSE"
+                distribution = "repo"
             }
-
-            pom {
-                name = "GraphQL Java CodeGen"
-                description = "Java Code Generator based on GraphQL schema"
-                url = "https://github.com/matsudamper/graphql-java-codegen"
-                organization {
-                    name = "io.github.kobylynskyi"
-                    url = "https://github.com/matsudamper"
-                }
-                issueManagement {
-                    system = "GitHub"
-                    url = "https://github.com/matsudamper/graphql-java-codegen/issues"
-                }
-                licenses {
-                    license {
-                        name = "MIT License"
-                        url = "https://github.com/matsudamper/graphql-java-codegen/blob/main/LICENSE"
-                        distribution = "repo"
-                    }
-                }
-                scm {
-                    url = "https://github.com/matsudamper/graphql-java-codegen"
-                    connection = "scm:git:git://github.com/matsudamper/graphql-java-codegen.git"
-                    developerConnection = "scm:git:ssh://git@github.com:matsudamper/graphql-java-codegen.git"
-                }
-                developers {
-                    developer {
-                        id = "matsudamper"
-                        name = "matsudamper"
-                    }
-                }
+        }
+        scm {
+            url = "https://github.com/matsudamper/graphql-java-codegen"
+            connection = "scm:git:git://github.com/matsudamper/graphql-java-codegen.git"
+            developerConnection = "scm:git:ssh://git@github.com:matsudamper/graphql-java-codegen.git"
+        }
+        developers {
+            developer {
+                id = "matsudamper"
+                name = "matsudamper"
             }
         }
     }
+}
+
+if (project.hasProperty("mavenCentralUsername")) {
+    mavenPublishing {
+        publishToMavenCentral(true)
+        signAllPublications()
+    }
+}
+
+publishing {
     repositories {
         def githubPackagesToken = System.getenv("GITHUB_TOKEN")
         if (githubPackagesToken) {
@@ -131,12 +121,6 @@ publishing {
                 }
             }
         }
-    }
-}
-
-if (project.hasProperty("signing.keyId")) {
-    signing {
-        sign publishing.publications.mavenJava
     }
 }
 

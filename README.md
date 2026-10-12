@@ -40,7 +40,7 @@ Following classes can be generated based on your GraphQL schema:
 
 * Gradle plugin: [graphql-java-codegen-gradle-plugin](plugins/gradle)
 
-The core library is also published as `io.github.kobylynskyi:graphql-java-codegen` and can be used directly via
+The core library is also published as `net.matsudamper:graphql-java-codegen` and can be used directly via
 `com.kobylynskyi.graphql.codegen.java.JavaGraphQLCodegen` / `com.kobylynskyi.graphql.codegen.kotlin.KotlinGraphQLCodegen`.
 
 

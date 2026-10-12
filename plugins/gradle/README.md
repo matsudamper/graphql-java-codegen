@@ -1,7 +1,7 @@
 # GraphQL Codegen Gradle plugin #
 
 ![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
-[![Gradle Plugins](https://img.shields.io/maven-metadata/v/https/plugins.gradle.org/m2/io/github/kobylynskyi/graphql-java-codegen-gradle-plugin/maven-metadata.xml.svg?label=gradle)](https://plugins.gradle.org/plugin/io.github.kobylynskyi.graphql.codegen)
+[![Maven Central](https://img.shields.io/maven-central/v/net.matsudamper/graphql-java-codegen-gradle-plugin?label=maven%20central)](https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 * [Plugin Setup](#plugin-setup)
@@ -19,8 +19,15 @@
 ### Plugin Setup
 
 ```groovy
+pluginManagement {
+  repositories {
+    mavenCentral()
+    gradlePluginPortal()
+  }
+}
+
 plugins {
-  id "io.github.kobylynskyi.graphql.codegen" version "5.10.1"
+  id "net.matsudamper.graphql.codegen" version "5.10.1"
 }
 ```
 
@@ -29,16 +36,14 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 ```groovy
 buildscript {
   repositories {
-    maven {
-      url "https://plugins.gradle.org/m2/"
-    }
+    mavenCentral()
   }
   dependencies {
-    classpath "io.github.kobylynskyi.graphql.codegen:graphql-codegen-gradle-plugin:5.10.1"
+    classpath "net.matsudamper:graphql-java-codegen-gradle-plugin:5.10.1"
   }
 }
 
-apply plugin: "io.github.kobylynskyi.graphql.codegen"
+apply plugin: "net.matsudamper.graphql.codegen"
 ```
 
 #### Snapshot versions
