@@ -86,12 +86,15 @@ mavenPublishing {
 }
 
 if (project.hasProperty("mavenCentralUsername")) {
-    if (version == "local") {
-        throw new GradleException("releaseVersion must be set to publish to Maven Central")
-    }
     mavenPublishing {
         publishToMavenCentral(true)
         signAllPublications()
+    }
+    // Reject "local" only when a Maven Central publish is actually requested.
+    gradle.taskGraph.whenReady { graph ->
+        if (version == "local" && graph.allTasks.any { it.name.contains("MavenCentral") }) {
+            throw new GradleException("releaseVersion must be set to publish to Maven Central")
+        }
     }
 }
 
