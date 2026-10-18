@@ -65,20 +65,20 @@ jobs:
       - name: Release library
         if: github.event.inputs.publish_library == 'Y'
         env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_MATSUDAMPER_USERNAME: ${{ secrets.MAVEN_MATSUDAMPER_USERNAME }}
+          MAVEN_MATSUDAMPER_TOKEN: ${{ secrets.MAVEN_MATSUDAMPER_TOKEN }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew publishToMavenCentral --warning-mode all
+        run: ./gradlew publishAllPublicationsToMatsudamperMavenRepository --warning-mode all
 
       - name: Release Gradle plugin
         if: github.event.inputs.publish_gradle_plugin == 'Y'
         env:
-          ORG_GRADLE_PROJECT_mavenCentralUsername: ${{ secrets.MAVEN_CENTRAL_USERNAME }}
-          ORG_GRADLE_PROJECT_mavenCentralPassword: ${{ secrets.MAVEN_CENTRAL_PASSWORD }}
+          MAVEN_MATSUDAMPER_USERNAME: ${{ secrets.MAVEN_MATSUDAMPER_USERNAME }}
+          MAVEN_MATSUDAMPER_TOKEN: ${{ secrets.MAVEN_MATSUDAMPER_TOKEN }}
           ORG_GRADLE_PROJECT_signingInMemoryKey: ${{ secrets.SIGNING_PRIVATE_KEY }}
           ORG_GRADLE_PROJECT_signingInMemoryKeyPassword: ${{ secrets.SIGNING_PASSWORD }}
-        run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishToMavenCentral --warning-mode all
+        run: ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishAllPublicationsToMatsudamperMavenRepository --warning-mode all
 
       - name: Create GitHub Release
         if: github.event.inputs.publish_library == 'Y' || github.event.inputs.publish_gradle_plugin == 'Y'

@@ -6,7 +6,7 @@ plugins {
     id "application"
 
     // use the latest available version:
-    // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin
+    // https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen-gradle-plugin
     id "net.matsudamper.graphql.codegen"
 }
 
@@ -23,7 +23,7 @@ dependencies {
     implementation "com.graphql-java:graphql-java-extended-scalars:24.0"
 
     // use the latest available version:
-    // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen
+    // https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen
     implementation "net.matsudamper:graphql-java-codegen:${providers.gradleProperty("releaseVersion").getOrElse("local")}"
 
     implementation "org.apache.httpcomponents:httpclient:4.5.14"
@@ -102,6 +102,12 @@ task graphqlCodegenStarwarsService(type: GraphQLCodegenGradleTask) {
 
 
 repositories {
+    maven {
+        url "https://maven.matsudamper.net/releases"
+        content {
+            includeGroupAndSubgroups "net.matsudamper"
+        }
+    }
     mavenCentral()
     mavenLocal()
 }

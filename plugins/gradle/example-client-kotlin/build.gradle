@@ -18,6 +18,12 @@ repositories {
     maven {
         url 'https://repo.gradle.org/gradle/libs-releases-local'
     }
+    maven {
+        url "https://maven.matsudamper.net/releases"
+        content {
+            includeGroupAndSubgroups "net.matsudamper"
+        }
+    }
     mavenCentral()
     mavenLocal()
 }
@@ -25,7 +31,7 @@ repositories {
 
 dependencies {
     // use the latest available version:
-    // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen
+    // https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen
     implementation "net.matsudamper:graphql-java-codegen:${providers.gradleProperty("releaseVersion").getOrElse("local")}"
 
     implementation "javax.validation:validation-api:2.0.1.Final"

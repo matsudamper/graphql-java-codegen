@@ -1,7 +1,7 @@
 # GraphQL Codegen Gradle plugin #
 
 ![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/net.matsudamper/graphql-java-codegen-gradle-plugin?label=maven%20central)](https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin)
+[![maven.matsudamper.net](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.matsudamper.net%2Freleases%2Fnet%2Fmatsudamper%2Fgraphql-java-codegen-gradle-plugin%2Fmaven-metadata.xml&label=maven.matsudamper.net)](https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen-gradle-plugin)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 * [Plugin Setup](#plugin-setup)
@@ -19,13 +19,19 @@
 ### Plugin Setup
 
 Replace `VERSION` with the latest version shown in the badge:
-[![Maven Central](https://img.shields.io/maven-central/v/net.matsudamper/graphql-java-codegen-gradle-plugin?label=maven%20central)](https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin)
+[![maven.matsudamper.net](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.matsudamper.net%2Freleases%2Fnet%2Fmatsudamper%2Fgraphql-java-codegen-gradle-plugin%2Fmaven-metadata.xml&label=maven.matsudamper.net)](https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen-gradle-plugin)
 
 `settings.gradle`:
 
 ```groovy
 pluginManagement {
   repositories {
+    maven {
+      url "https://maven.matsudamper.net/releases"
+      content {
+        includeGroupAndSubgroups "net.matsudamper"
+      }
+    }
     mavenCentral()
     gradlePluginPortal()
   }
@@ -45,6 +51,12 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 ```groovy
 buildscript {
   repositories {
+    maven {
+      url "https://maven.matsudamper.net/releases"
+      content {
+        includeGroupAndSubgroups "net.matsudamper"
+      }
+    }
     mavenCentral()
   }
   dependencies {
