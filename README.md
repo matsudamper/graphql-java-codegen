@@ -1,7 +1,7 @@
 # GraphQL Codegen #
 
 ![Build](https://github.com/matsudamper/graphql-java-codegen/workflows/Build/badge.svg)
-[![Maven Central](https://img.shields.io/maven-central/v/net.matsudamper/graphql-java-codegen?label=maven%20central)](https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen)
+[![maven.matsudamper.net](https://img.shields.io/maven-metadata/v?metadataUrl=https%3A%2F%2Fmaven.matsudamper.net%2Freleases%2Fnet%2Fmatsudamper%2Fgraphql-java-codegen%2Fmaven-metadata.xml&label=maven.matsudamper.net)](https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 
 

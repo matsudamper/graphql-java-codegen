@@ -41,11 +41,11 @@ jobs:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           GITHUB_ACTOR: "${{ github.actor }}"
         run: |
-          ./gradlew publishToMavenLocal publish --warning-mode all
+          ./gradlew publishToMavenLocal publishAllPublicationsToGitHubPackagesRepository --warning-mode all
 
       - name: Publish Gradle plugin snapshot to GitHub Packages
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
           GITHUB_ACTOR: "${{ github.actor }}"
         run: |
-          ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publish --warning-mode all
+          ./gradlew -p plugins/gradle/graphql-java-codegen-gradle-plugin publishAllPublicationsToGitHubPackagesRepository --warning-mode all

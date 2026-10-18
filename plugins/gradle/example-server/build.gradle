@@ -5,7 +5,7 @@ plugins {
 
     //
     // use the latest available version:
-    // https://central.sonatype.com/artifact/net.matsudamper/graphql-java-codegen-gradle-plugin
+    // https://maven.matsudamper.net/#/releases/net/matsudamper/graphql-java-codegen-gradle-plugin
     id "net.matsudamper.graphql.codegen"
 }
 
