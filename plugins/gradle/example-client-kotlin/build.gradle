@@ -18,6 +18,7 @@ repositories {
     maven {
         url 'https://repo.gradle.org/gradle/libs-releases-local'
     }
+    maven { url "https://maven.matsudamper.net/releases" }
     mavenCentral()
     mavenLocal()
 }

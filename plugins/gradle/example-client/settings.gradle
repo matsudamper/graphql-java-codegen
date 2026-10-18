@@ -4,6 +4,7 @@ pluginManagement {
     }
     repositories {
         mavenLocal()
+        maven { url "https://maven.matsudamper.net/releases" }
         mavenCentral()
         gradlePluginPortal()
     }
