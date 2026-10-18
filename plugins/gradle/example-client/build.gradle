@@ -102,7 +102,12 @@ task graphqlCodegenStarwarsService(type: GraphQLCodegenGradleTask) {
 
 
 repositories {
-    maven { url "https://maven.matsudamper.net/releases" }
+    maven {
+        url "https://maven.matsudamper.net/releases"
+        content {
+            includeGroupAndSubgroups "net.matsudamper"
+        }
+    }
     mavenCentral()
     mavenLocal()
 }

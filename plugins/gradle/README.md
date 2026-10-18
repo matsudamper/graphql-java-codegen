@@ -26,7 +26,12 @@ Replace `VERSION` with the latest version shown in the badge:
 ```groovy
 pluginManagement {
   repositories {
-    maven { url "https://maven.matsudamper.net/releases" }
+    maven {
+      url "https://maven.matsudamper.net/releases"
+      content {
+        includeGroupAndSubgroups "net.matsudamper"
+      }
+    }
     mavenCentral()
     gradlePluginPortal()
   }
@@ -46,7 +51,12 @@ Using [legacy plugin application](https://docs.gradle.org/current/userguide/plug
 ```groovy
 buildscript {
   repositories {
-    maven { url "https://maven.matsudamper.net/releases" }
+    maven {
+      url "https://maven.matsudamper.net/releases"
+      content {
+        includeGroupAndSubgroups "net.matsudamper"
+      }
+    }
     mavenCentral()
   }
   dependencies {
